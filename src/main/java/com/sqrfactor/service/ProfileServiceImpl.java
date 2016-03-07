@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.stereotype.Service;
+
 import com.sqrfactor.bean.Profile;
 
 /**
@@ -13,6 +15,7 @@ import com.sqrfactor.bean.Profile;
  * @author Angad Gill
  *
  */
+@Service("userService")
 public class ProfileServiceImpl implements ProfileService {
 	private static final AtomicLong counter = new AtomicLong();
 	private static List<Profile> profiles;

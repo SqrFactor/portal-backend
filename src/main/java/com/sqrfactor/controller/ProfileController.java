@@ -2,6 +2,7 @@ package com.sqrfactor.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.bean.Profile;
 import com.sqrfactor.service.ProfileService;
-import com.sqrfactor.service.ProfileServiceImpl;
 
 @RestController
 public class ProfileController {
 
-	private ProfileService profileService = new ProfileServiceImpl();
+	@Autowired
+	private ProfileService profileService;
 
 	public ProfileController() {
 
