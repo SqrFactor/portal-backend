@@ -2,7 +2,7 @@ package com.sqrfactor.service;
 
 import java.util.List;
 
-import com.sqrfactor.bean.Profile;
+import com.sqrfactor.model.Profile;
 
 public interface ProfileService {
 

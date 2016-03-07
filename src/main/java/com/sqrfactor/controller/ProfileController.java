@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sqrfactor.bean.Profile;
+import com.sqrfactor.model.Profile;
 import com.sqrfactor.service.ProfileService;
 
 @RestController
@@ -79,11 +79,6 @@ public class ProfileController {
 		if (currentProfile == null) {
 			return new ResponseEntity<Profile>(HttpStatus.NOT_FOUND);
 		}
-
-		currentProfile.setFirstName(profile.getFirstName());
-		currentProfile.setLastName(profile.getLastName());
-		currentProfile.setCollegeName(profile.getCollegeName());
-		currentProfile.setDateOfBirth(profile.getDateOfBirth());
 
 		profileService.updateProfile(currentProfile);
 		return new ResponseEntity<Profile>(currentProfile, HttpStatus.OK);

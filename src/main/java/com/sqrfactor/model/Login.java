@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.sqrfactor.bean;
+package com.sqrfactor.model;
 
 /**
  * @author Angad Gill

@@ -1,4 +1,4 @@
-package com.sqrfactor;
+package com.sqrfactor.filter;
  
 import java.io.IOException;
  
