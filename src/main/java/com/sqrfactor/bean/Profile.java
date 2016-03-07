@@ -17,6 +17,10 @@ public class Profile {
 	String collegeName;
 	Date dateOfBirth;
 	
+	public Profile(){
+		
+	}
+	
 	public Profile(int id, String firstName, String lastName, String collegeName, Date dateOfBirth) {
 		super();
 		this.id = id;
