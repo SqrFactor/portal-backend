@@ -1,7 +1,5 @@
 package com.sqrfactor.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -13,86 +11,108 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.bean.Profile;
+import com.sqrfactor.service.ProfileService;
+import com.sqrfactor.service.ProfileServiceImpl;
 
 @RestController
 public class ProfileController {
 
-	private List<Profile> listOfProfiles = new ArrayList<Profile>();
-	
-	public ProfileController() {
-		Profile firstProfile = new Profile(0, "Angad", "Gill", "CEC", new Date());
-		Profile secondProfile = new Profile(1, "Agnim", "Gupta", "SIT", new Date());
+	private ProfileService profileService = new ProfileServiceImpl();
 
-		listOfProfiles.add(firstProfile);
-		listOfProfiles.add(secondProfile);
+	public ProfileController() {
+
 	}
-	
+
 	/**
 	 * Get all the profiles
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/profile/", method = RequestMethod.GET)
-	public ResponseEntity<List<Profile>> getAllProfiles(){
-		if(listOfProfiles.isEmpty()){
+	public ResponseEntity<List<Profile>> getAllProfiles() {
+		List<Profile> profiles = profileService.findAllProfiles();
+		if (profiles.isEmpty()) {
 			return new ResponseEntity<List<Profile>>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<List<Profile>>(listOfProfiles, HttpStatus.OK);
+		return new ResponseEntity<List<Profile>>(profiles, HttpStatus.OK);
 	}
 
 	/**
 	 * Get a Profile by Id
+	 * 
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/profile/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<Profile> getProfileById(@PathVariable int id){
-		System.out.println(id);
-		Profile currentProfile = listOfProfiles.get(id);
-		System.out.println(currentProfile.getId());
-		if(currentProfile == null){
+	public ResponseEntity<Profile> getProfileById(@PathVariable int id) {
+		Profile profile = profileService.findById(id);
+		if (profile == null) {
 			return new ResponseEntity<Profile>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Profile>(currentProfile, HttpStatus.OK);
+		return new ResponseEntity<Profile>(profile, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Create Profile
+	 * 
 	 * @param profile
 	 */
 	@RequestMapping(value = "/profile/", method = RequestMethod.POST)
-	public ResponseEntity<Profile> createProfile(@RequestBody Profile profile){
-		listOfProfiles.add(profile);
+	public ResponseEntity<Profile> createProfile(@RequestBody Profile profile) {
+		profileService.saveProfile(profile);
+
 		return new ResponseEntity<Profile>(profile, HttpStatus.CREATED);
 	}
-	
+
 	/**
 	 * Update Profile
+	 * 
 	 * @param id
 	 * @param profile
 	 * @return
 	 */
 	@RequestMapping(value = "/profile/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Profile> updateProfile(@PathVariable("id")int id, @RequestBody Profile profile){
-		Profile currentProfile = listOfProfiles.get(id);
-		if(currentProfile == null){
+	public ResponseEntity<Profile> updateProfile(@PathVariable("id") int id, @RequestBody Profile profile) {
+		Profile currentProfile = profileService.findById(id);
+
+		if (currentProfile == null) {
 			return new ResponseEntity<Profile>(HttpStatus.NOT_FOUND);
 		}
-		listOfProfiles.add(id, profile);
-		return new ResponseEntity<Profile>(profile, HttpStatus.OK);
+
+		currentProfile.setFirstName(profile.getFirstName());
+		currentProfile.setLastName(profile.getLastName());
+		currentProfile.setCollegeName(profile.getCollegeName());
+		currentProfile.setDateOfBirth(profile.getDateOfBirth());
+
+		profileService.updateProfile(currentProfile);
+		return new ResponseEntity<Profile>(currentProfile, HttpStatus.OK);
 	}
-	
+
 	/**
-	 * Delete Profile
+	 * Delete Profile by id
+	 * 
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/profile/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Profile> deleteProfile(@PathVariable("id") int id){
-		Profile currentProfile = listOfProfiles.get(id);
-		if(currentProfile == null){
+	public ResponseEntity<Profile> deleteProfile(@PathVariable("id") int id) {
+		Profile profile = profileService.findById(id);
+		if (profile == null) {
 			return new ResponseEntity<Profile>(HttpStatus.NOT_FOUND);
 		}
-		listOfProfiles.remove(id);
+
+		profileService.deleteProfileById(id);
+		return new ResponseEntity<Profile>(HttpStatus.NO_CONTENT);
+	}
+
+	/**
+	 * Delete all profiles
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/profile/", method = RequestMethod.DELETE)
+	public ResponseEntity<Profile> deleteAllProfiles() {
+		profileService.deleteAllProfiles();
 		return new ResponseEntity<Profile>(HttpStatus.NO_CONTENT);
 	}
 }

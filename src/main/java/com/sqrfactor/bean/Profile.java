@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Profile {
 
-	int id;
+	long id;
 	String firstName;
 	String lastName;
 	String collegeName;
@@ -21,7 +21,7 @@ public class Profile {
 		
 	}
 	
-	public Profile(int id, String firstName, String lastName, String collegeName, Date dateOfBirth) {
+	public Profile(long id, String firstName, String lastName, String collegeName, Date dateOfBirth) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -30,11 +30,11 @@ public class Profile {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
