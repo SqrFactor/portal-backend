@@ -23,7 +23,6 @@ public class ProfileDaoImpl extends AbstractDao<Long, Profile> implements Profil
 	}
 
 	public void saveProfile(Profile profile) {
-		profile.setDateOfBirth(new Date());
 		persist(profile);
 	}
 

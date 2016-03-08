@@ -1,18 +1,12 @@
 package com.sqrfactor.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Type;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author Angad Gill
@@ -38,16 +32,14 @@ public class Profile {
 	@Column(name = "collegeName", nullable = false)
 	String collegeName;
 	
-	@NotNull
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "dateOfBirth", nullable = false)
-	Date dateOfBirth;
+	String dateOfBirth;
 	
 	public Profile(){
 		
 	}
 	
-	public Profile(long id, String firstName, String lastName, String collegeName, Date dateOfBirth) {
+	public Profile(long id, String firstName, String lastName, String collegeName, String dateOfBirth) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -88,11 +80,11 @@ public class Profile {
 		this.collegeName = collegeName;
 	}
 
-	public Date getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 	
