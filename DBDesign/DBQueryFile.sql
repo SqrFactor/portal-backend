@@ -438,6 +438,11 @@ userType        varchar(20)  NOT NULL,
 PRIMARY KEY (userTypeId)
 );
 
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('101', 'Student');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('102', 'Professional');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('103', 'Teacher');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('104', 'Admin');
+
 Create table user_details(
 userId       int(16) AUTO_INCREMENT  NOT NULL,
 firstName    varchar(100)  NOT NULL,
