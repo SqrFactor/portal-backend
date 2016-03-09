@@ -1,44 +1,66 @@
 package com.sqrfactor.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
 /**
  * @author Angad Gill
  *
  */
+@Entity
+@Table(name = "user_login")
 public class Login {
 
-	private int id;
-	private String username;
-	private String password;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int userId;
 	
-	public Login(int id, String username, String password){
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
+	@Size(min = 3, max = 50)
+	@Column(name = "userName", nullable = false)
+	private String userName;
+	
+	@Size(min = 3, max = 50)
+	@Column(name = "userPassword", nullable = false)
+	private String userPassword;
+	
+	public Login(){
 		
 	}
-
-	public int getId() {
-		return id;
+	
+	public Login(int userId, String userName, String userPassword){
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.userPassword = userPassword;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public String getUsername() {
-		return username;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public String getPassword() {
-		return password;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public String getUserPassword() {
+		return userPassword;
 	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
 }
