@@ -50,7 +50,7 @@ public class User {
 	String yearGrad;
 	
 	@Column(name = "userTypeId", nullable = false)
-	int userTypeId;
+	String userTypeId;
 	
 	@Column(name = "isVerified")
 	boolean isVerified; 
@@ -60,7 +60,7 @@ public class User {
 
 	public User(long userId, String firstName, String lastName, String dob,
 			String contactNo,String emailId,String colCode, String highGrad,
-			String yearGrad, int userTypeId, boolean isVerified) {
+			String yearGrad, String userTypeId, boolean isVerified) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -147,11 +147,11 @@ public class User {
 		this.yearGrad = yearGrad;
 	}
 
-	public int getUserTypeId() {
+	public String getUserTypeId() {
 		return userTypeId;
 	}
 
-	public void setUserTypeId(int userTypeId) {
+	public void setUserTypeId(String userTypeId) {
 		this.userTypeId = userTypeId;
 	}
 

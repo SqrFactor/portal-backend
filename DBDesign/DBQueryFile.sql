@@ -433,15 +433,15 @@ Insert into mstr_college_list values ('WB07','Amity School of Architecture and P
 
 
 Create table mstr_user_type(
-userTypeId      int(3)  NOT NULL,
+userTypeId      varchar(20)  NOT NULL,
 userType        varchar(20)  NOT NULL,
 PRIMARY KEY (userTypeId)
 );
 
-INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('101', 'Student');
-INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('102', 'Professional');
-INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('103', 'Teacher');
-INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('104', 'Admin');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('S101', 'Student');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('P101', 'Professional');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('T101', 'Teacher');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('A101', 'Admin');
 
 Create table user_details(
 userId       int(16) AUTO_INCREMENT  NOT NULL,
@@ -453,7 +453,7 @@ dob          varchar(20) NOT NULL,
 colCode      varchar(20),
 highGrad     varchar(100),
 yearGrad     varchar(20),
-userTypeId   int(3)  NOT NULL,
+userTypeId   varchar(20)  NOT NULL,
 isVerified   tinyint(1),
 PRIMARY KEY (userId),
 FOREIGN KEY (colCode) REFERENCES mstr_college_list(colCode),
