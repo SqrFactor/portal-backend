@@ -1,4 +1,4 @@
-package com.sqrfactor.service;
+package com.sqrfactor.service.impl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sqrfactor.dao.ProfileDao;
 import com.sqrfactor.model.Profile;
+import com.sqrfactor.service.ProfileService;
 
 /**
  * 

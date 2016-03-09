@@ -1,4 +1,4 @@
-package com.sqrfactor.dao;
+package com.sqrfactor.dao.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -8,6 +8,8 @@ import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import com.sqrfactor.dao.AbstractDao;
+import com.sqrfactor.dao.ProfileDao;
 import com.sqrfactor.model.Profile;
 
 /**
