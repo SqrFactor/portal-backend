@@ -14,6 +14,8 @@ import com.sqrfactor.model.User;
 public interface UserService {
 
 	User findById(long userId);
+	
+	User findByEmailId(String emailId);
 
 	void saveUser(User user);
 

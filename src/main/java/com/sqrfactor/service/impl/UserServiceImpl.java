@@ -37,6 +37,13 @@ public class UserServiceImpl implements UserService {
 	public User findById(long userId) {
 		return userDao.findById(userId);
 	}
+	
+	/**
+	 * Find User by emaiId
+	 */
+	public User findByEmailId(String emailId) {
+		return userDao.findByEmailId(emailId);
+	}
 
 	/**
 	 * Save Users

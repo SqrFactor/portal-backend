@@ -46,4 +46,10 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		criteria.add(Restrictions.eq("userId", userId));
 		return (User) criteria.uniqueResult();
 	}
+	
+	public User findByEmailId(String emailId){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("emailId", emailId));
+		return (User) criteria.uniqueResult();
+	}
 }

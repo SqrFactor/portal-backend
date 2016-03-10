@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.User;
@@ -111,4 +112,30 @@ public class UserController {
 		userService.deleteAllUsers();
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
+	
+	/**
+	 * Verify User
+	 * 
+	 * @param id
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping(value = "/user/verify", method = RequestMethod.PUT)
+	public ResponseEntity<User> updateUser(@RequestParam("emailId") String emailId) {
+		
+		User currentUser = userService.findByEmailId(emailId);
+
+		if (currentUser == null) {
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
+		
+		if(!currentUser.isVerified()){
+			//Update the verfied flag
+			currentUser.setVerified(true);
+			userService.updateUser(currentUser);	
+		}
+		
+		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+	}
+
 }
