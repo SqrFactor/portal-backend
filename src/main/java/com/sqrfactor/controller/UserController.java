@@ -61,6 +61,11 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/", method = RequestMethod.POST)
 	public ResponseEntity<User> createUser(@RequestBody User user) {
+		//Return error if user already exists
+		if(userService.findByEmailId(user.getEmailId()) != null){
+			return new ResponseEntity<User>(user, HttpStatus.CONFLICT);	
+		}
+		
 		userService.saveUser(user);
 
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);

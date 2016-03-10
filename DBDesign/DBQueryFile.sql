@@ -445,16 +445,16 @@ INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('A1
 
 Create table user_details(
 userId       int(16) AUTO_INCREMENT  NOT NULL,
-firstName    varchar(100)  NOT NULL,
+firstName    varchar(100)  ,
 lastName     varchar(100),
-contactNo    varchar(20)  NOT NULL,
-emailId      varchar(100)  NOT NULL,
-dob          varchar(20) NOT NULL,
+contactNo    varchar(20)  ,
+emailId      varchar(100) UNIQUE NOT NULL,
+dob          varchar(20) ,
 colCode      varchar(20),
 highGrad     varchar(100),
 yearGrad     varchar(20),
-userTypeId   varchar(20)  NOT NULL,
-isVerified   tinyint(1),
+userTypeId   varchar(20)  ,
+isVerified   tinyint(1) DEFAULT 0,
 PRIMARY KEY (userId),
 FOREIGN KEY (colCode) REFERENCES mstr_college_list(colCode),
 FOREIGN KEY (userTypeId) REFERENCES mstr_user_type(userTypeId)
