@@ -1,54 +1,121 @@
+/**
+ * 
+ */
 package com.sqrfactor.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.Login;
+import com.sqrfactor.service.LoginService;
 
 /**
- * 
  * @author Angad Gill
  *
  */
 @RestController
 public class LoginController {
 
-	public LoginController(){
-		
-	}
+	@Autowired
+	private LoginService loginService;
 	
-	@RequestMapping(value = "/login/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public Login getLoginById(@PathVariable int id){
-		List<Login> listOfProfiles = createLoginList();
-		for (Login login : listOfProfiles){
-			if(login.getId() == id){
-				return login;
-			}
+	public LoginController() {
+
+	}
+
+	/**
+	 * Get all the logins
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/login/", method = RequestMethod.GET)
+	public ResponseEntity<List<Login>> getAllLogins() {
+		List<Login> logins = loginService.findAllLogins();
+		if (logins.isEmpty()) {
+			return new ResponseEntity<List<Login>>(HttpStatus.NOT_FOUND);
 		}
-		return null;
+		return new ResponseEntity<List<Login>>(logins, HttpStatus.OK);
 	}
-	
-	// Utiliy method to create login list.  
-	 public List<Login> createLoginList()  
-	 {  
-		 Login angadLogin = new Login(1, "angad.cec@gmail.com", "Angad");
-		 Login agnimLogin = new Login(2, "agnimgupta11@gmail.com", "Agnim");
-		 Login akshayLogin = new Login(3, "aksh.loomba@gmail.com", "Akshay");
-		 Login venkatLogin = new Login(4, "venkatsudhir92@hotmail.com", "Venkat");
-		 
-		  List<Login> listOflogins = new ArrayList<Login>();
-		  listOflogins.add(angadLogin);
-		  listOflogins.add(agnimLogin);
-		  listOflogins.add(akshayLogin);
-		  listOflogins.add(venkatLogin);
-		  
-		 return listOflogins;  
-	 }
-	
+
+	/**
+	 * Get a Login by Id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/login/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<Login> getLoginById(@PathVariable int id) {
+		Login login = loginService.findById(id);
+		if (login == null) {
+			return new ResponseEntity<Login>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Login>(login, HttpStatus.OK);
+	}
+
+	/**
+	 * Create Login
+	 * 
+	 * @param login
+	 */
+	@RequestMapping(value = "/login/", method = RequestMethod.POST)
+	public ResponseEntity<Login> createLogin(@RequestBody Login login) {
+		loginService.saveLogin(login);
+
+		return new ResponseEntity<Login>(login, HttpStatus.CREATED);
+	}
+
+	/**
+	 * Update Login
+	 * 
+	 * @param id
+	 * @param login
+	 * @return
+	 */
+	@RequestMapping(value = "/login/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Login> updateLogin(@PathVariable("id") int id, @RequestBody Login login) {
+		Login currentLogin = loginService.findById(id);
+
+		if (currentLogin == null) {
+			return new ResponseEntity<Login>(HttpStatus.NOT_FOUND);
+		}
+
+		loginService.updateLogin(currentLogin);
+		return new ResponseEntity<Login>(currentLogin, HttpStatus.OK);
+	}
+
+	/**
+	 * Delete Login by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/login/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Login> deleteLogin(@PathVariable("id") int id) {
+		Login login = loginService.findById(id);
+		if (login == null) {
+			return new ResponseEntity<Login>(HttpStatus.NOT_FOUND);
+		}
+
+		loginService.deleteLoginById(id);
+		return new ResponseEntity<Login>(HttpStatus.NO_CONTENT);
+	}
+
+	/**
+	 * Delete all logins
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/login/", method = RequestMethod.DELETE)
+	public ResponseEntity<Login> deleteAllLogins() {
+		loginService.deleteAllLogins();
+		return new ResponseEntity<Login>(HttpStatus.NO_CONTENT);
+	}
 }
