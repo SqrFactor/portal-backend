@@ -16,7 +16,6 @@ import javax.persistence.Table;
 public class College {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "colCode", nullable = false)
 	private String colCode;
 	
