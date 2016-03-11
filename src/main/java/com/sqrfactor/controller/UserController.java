@@ -1,6 +1,7 @@
 package com.sqrfactor.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysql.jdbc.StringUtils;
+import com.sqrfactor.email.EmailSender;
 import com.sqrfactor.model.User;
 import com.sqrfactor.service.UserService;
 
@@ -61,11 +64,11 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/", method = RequestMethod.POST)
 	public ResponseEntity<User> createUser(@RequestBody User user) {
-		//Return error if user already exists
-		if(userService.findByEmailId(user.getEmailId()) != null){
-			return new ResponseEntity<User>(user, HttpStatus.CONFLICT);	
+		// Return error if user already exists
+		if (userService.findByEmailId(user.getEmailId()) != null) {
+			return new ResponseEntity<User>(user, HttpStatus.CONFLICT);
 		}
-		
+
 		userService.saveUser(user);
 
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
@@ -117,7 +120,7 @@ public class UserController {
 		userService.deleteAllUsers();
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	/**
 	 * Verify User
 	 * 
@@ -127,20 +130,45 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/user/verify", method = RequestMethod.PUT)
 	public ResponseEntity<User> updateUser(@RequestParam("emailId") String emailId) {
-		
+
 		User currentUser = userService.findByEmailId(emailId);
 
 		if (currentUser == null) {
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
-		
-		if(!currentUser.isVerified()){
-			//Update the verfied flag
+
+		if (!currentUser.isVerified()) {
+			// Update the verfied flag
 			currentUser.setVerified(true);
-			userService.updateUser(currentUser);	
+			userService.updateUser(currentUser);
 		}
-		
+
 		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
 	}
 
+	/**
+	 * Signup User
+	 * 
+	 * @param user
+	 */
+	@RequestMapping(value = "/user/signup", method = RequestMethod.POST)
+	public ResponseEntity<User> signupUser(@RequestParam("emailId") String emailId) {
+		
+		User user = userService.findByEmailId(emailId);
+		// Return error if user already exists
+		if (user != null) {
+			return new ResponseEntity<User>(user, HttpStatus.CONFLICT);
+		}
+		
+		//Create a new user
+		user = new User();
+		user.setEmailId(emailId);
+		userService.saveUser(user);
+
+		// Send Email
+		EmailSender emailSender = new EmailSender(emailId);
+		emailSender.send();
+
+		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+	}
 }
