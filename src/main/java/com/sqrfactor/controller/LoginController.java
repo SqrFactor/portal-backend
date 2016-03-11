@@ -4,6 +4,7 @@
 package com.sqrfactor.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysql.jdbc.StringUtils;
 import com.sqrfactor.model.Login;
 import com.sqrfactor.service.LoginService;
 
@@ -26,7 +28,7 @@ public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
-	
+
 	public LoginController() {
 
 	}
@@ -117,5 +119,32 @@ public class LoginController {
 	public ResponseEntity<Login> deleteAllLogins() {
 		loginService.deleteAllLogins();
 		return new ResponseEntity<Login>(HttpStatus.NO_CONTENT);
+	}
+
+	/**
+	 * Authenticate login
+	 * 
+	 * @param login
+	 */
+	@RequestMapping(value = "/login/authenticate/", method = RequestMethod.POST)
+	public ResponseEntity<Login> authenticateLogin(@RequestBody Map<String, String> loginMap) {
+		if (!loginMap.containsKey("username") || !loginMap.containsKey("password")) {
+			return new ResponseEntity<Login>(HttpStatus.BAD_REQUEST);
+		}
+
+		String username = loginMap.get("username");
+		String password = loginMap.get("password");
+
+		if (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password)) {
+			return new ResponseEntity<Login>(HttpStatus.BAD_REQUEST);
+		}
+
+		Login login = loginService.findByUsername(username);
+
+		if (login != null && login.getUserPassword().equals(password)) {
+			return new ResponseEntity<Login>(login, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Login>(HttpStatus.BAD_REQUEST);
 	}
 }

@@ -11,7 +11,7 @@ import com.sqrfactor.model.Login;
 public interface LoginDao {
 
 	Login findById(long userId);
-
+	
 	void saveLogin(Login login);
 
 	void deleteLoginById(long id);
@@ -19,4 +19,7 @@ public interface LoginDao {
 	List<Login> findAllLogins();
 
 	Login findLoginById(long id);
+
+	Login findLoginByUsername(String userName);
+
 }

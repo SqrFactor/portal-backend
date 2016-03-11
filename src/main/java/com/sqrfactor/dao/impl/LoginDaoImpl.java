@@ -21,7 +21,7 @@ public class LoginDaoImpl extends AbstractDao<Long, Login> implements LoginDao {
 	public Login findById(long id) {
 		return getByKey(id);
 	}
-
+	
 	public void saveLogin(Login login) {
 		persist(login);
 	}
@@ -44,4 +44,10 @@ public class LoginDaoImpl extends AbstractDao<Long, Login> implements LoginDao {
 		return (Login) criteria.uniqueResult();
 	}
 
+	public Login findLoginByUsername(String userName){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("userName", userName));
+		return (Login) criteria.uniqueResult();
+	}
+	
 }

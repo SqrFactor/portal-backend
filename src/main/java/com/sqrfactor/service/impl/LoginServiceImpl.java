@@ -37,6 +37,13 @@ public class LoginServiceImpl implements LoginService {
 	public Login findById(long userId) {
 		return loginDao.findById(userId);
 	}
+	
+	/**
+	 * Find login by username
+	 */
+	public Login findByUsername(String userName){
+		return loginDao.findLoginByUsername(userName);
+	}
 
 	/**
 	 * Save Logins
