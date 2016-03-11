@@ -88,9 +88,9 @@ public class UserController {
 		if (currentUser == null) {
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
-
-		userService.updateUser(currentUser);
-		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+		user.setUserId(id);
+		userService.updateUser(user);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 	/**

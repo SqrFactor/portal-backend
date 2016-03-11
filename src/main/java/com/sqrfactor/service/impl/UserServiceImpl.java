@@ -57,17 +57,18 @@ public class UserServiceImpl implements UserService {
 	 */
 	public void updateUser(User user) {
 		User entity = userDao.findById(user.getUserId());
+		
 		if (entity != null) {
 			entity.setFirstName(user.getFirstName());
 			entity.setLastName(user.getLastName());
 			entity.setDob(user.getDob());
 			entity.setContactNo(user.getContactNo());
-			entity.setEmailId(user.getEmailId());
+			//entity.setEmailId(user.getEmailId());
 			entity.setColCode(user.getColCode());
 			entity.setHighGrad(user.getHighGrad());
 			entity.setYearGrad(user.getYearGrad());
 			entity.setUserTypeId(user.getUserTypeId());
-			entity.setVerified(user.isVerified());
+			//entity.setVerified(user.isVerified());
 		}
 	}
 

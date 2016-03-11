@@ -88,9 +88,9 @@ public class LoginController {
 		if (currentLogin == null) {
 			return new ResponseEntity<Login>(HttpStatus.NOT_FOUND);
 		}
-
-		loginService.updateLogin(currentLogin);
-		return new ResponseEntity<Login>(currentLogin, HttpStatus.OK);
+		login.setUserId(id);
+		loginService.updateLogin(login);
+		return new ResponseEntity<Login>(login, HttpStatus.OK);
 	}
 
 	/**
