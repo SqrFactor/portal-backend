@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sqrfactor.service.impl;
 
 import java.util.List;
