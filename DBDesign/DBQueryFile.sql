@@ -467,3 +467,36 @@ userPassword varchar(100) NOT NULL,
 PRIMARY KEY (userId),
 FOREIGN KEY (userId) REFERENCES user_details(userId)
 );
+
+/**-------------------Feed Tables Start-------------------**/
+Create Table feed_action_list (
+feedActionId   int(3) AUTO_INCREMENT NOT NULL,
+feedAction     varchar(100) NOT NULL,
+PRIMARY KEY (feedActionId)
+);
+
+Insert into feed_action_list (`feedAction`) values ('Like');
+
+Create Table feed_type_list (
+feedTypeId   int(3) AUTO_INCREMENT NOT NULL,
+feedType     varchar(100) NOT NULL,
+PRIMARY KEY (feedTypeId)
+);
+
+Insert into feed_type_list (`feedType`) values ('ArchitectDesign');
+
+Create table feed_details(
+feedId       int(16) AUTO_INCREMENT NOT NULL,
+userId       int(16), 
+feedTypeId     int(3),
+feedText	varchar(500),
+feedPath	varchar(500),
+feedActionId	int(3),
+feedRefId 		int(16),
+PRIMARY KEY (feedId),
+FOREIGN KEY (userId) REFERENCES user_details(userId),
+FOREIGN KEY (feedTypeId) REFERENCES feed_type_list(feedTypeId)
+);
+
+/**-------------------Feed Tables End-------------------**/
+
