@@ -21,56 +21,64 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping(value = "/uploadservice")
-//Max uploaded file size (here it is 20 MB)
+// Max uploaded file size (here it is 20 MB)
 @MultipartConfig(fileSizeThreshold = 20971520)
-public class UploadService{
+public class UploadService {
 
-    @RequestMapping(value = "/upload")
-    public String uploadFile(
-            @RequestParam("uploadedFile") MultipartFile uploadedFileRef) {
-    // Get name of uploaded file.
-    String fileName = uploadedFileRef.getOriginalFilename();
+	@RequestMapping(value = "/upload")
+	public boolean uploadFile(@RequestParam("uploadedFile") MultipartFile uploadedFileRef,
+			@RequestParam("filePath") String filePath, @RequestParam("fileName") String fileName) {
 
-    // Path where the uploaded file will be stored.
-    String path = fileName;
+		// Get name of uploaded file.
+		// String fileName = uploadedFileRef.getOriginalFilename();
+		final String dir = System.getProperty("user.dir");
 
-    // This buffer will store the data read from 'uploadedFileRef'
-    byte[] buffer = new byte[1000];
+		// Path where the uploaded file will be stored.
+		String outputDirPath = dir + filePath;
+		String outputFilePath = outputDirPath + fileName;
 
-    // Now create the output file on the server.
-    File outputFile = new File(path);
+		// This buffer will store the data read from 'uploadedFileRef'
+		byte[] buffer = new byte[1000];
 
-    FileInputStream reader = null;
-    FileOutputStream writer = null;
-    int totalBytes = 0;
-    try {
-        outputFile.createNewFile();
+		// Now create the output file on the server.
+		File outputDir = new File(outputDirPath);
+		File outputFile = new File(outputFilePath);
 
-        // Create the input stream to uploaded file to read data from it.
-        reader = (FileInputStream) uploadedFileRef.getInputStream();
+		FileInputStream reader = null;
+		FileOutputStream writer = null;
+		int totalBytes = 0;
+		try {
+			// Create dir if doesnt exists
+			outputDir.mkdirs();
+			outputFile.createNewFile();
 
-        // Create writer for 'outputFile' to write data read from
-        // 'uploadedFileRef'
-        writer = new FileOutputStream(outputFile);
-        System.out.println(outputFile.getAbsolutePath());
-        // Iteratively read data from 'uploadedFileRef' and write to
-        // 'outputFile';            
-        int bytesRead = 0;
-        while ((bytesRead = reader.read(buffer)) != -1) {
-            writer.write(buffer);
-            totalBytes += bytesRead;
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }finally{
-        try {
-            reader.close();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+			// Create the input stream to uploaded file to read data from it.
+			reader = (FileInputStream) uploadedFileRef.getInputStream();
 
-        return "File uploaded successfully! Total Bytes Read="+totalBytes;
-    }
+			// Create writer for 'outputFile' to write data read from
+			// 'uploadedFileRef'
+			writer = new FileOutputStream(outputFile);
+			System.out.println(outputFile.getAbsolutePath());
+			// Iteratively read data from 'uploadedFileRef' and write to
+			// 'outputFile';
+			int bytesRead = 0;
+			while ((bytesRead = reader.read(buffer)) != -1) {
+				writer.write(buffer);
+				totalBytes += bytesRead;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+
+		//return "File uploaded successfully! Total Bytes Read=" + totalBytes;
+		return true;
+	}
 }
