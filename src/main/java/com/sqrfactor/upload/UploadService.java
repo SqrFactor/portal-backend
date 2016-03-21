@@ -31,17 +31,21 @@ public class UploadService {
 
 		// Get name of uploaded file.
 		// String fileName = uploadedFileRef.getOriginalFilename();
-		final String dir = System.getProperty("user.dir");
 
 		// Path where the uploaded file will be stored.
-		String outputDirPath = dir + filePath;
+		//String outputDirPath = dir + filePath;
+		String outputDirPath = filePath;
+		File outputDir = new File(outputDirPath);
+		if(!outputDir.exists()){
+			outputDir.mkdirs();
+		}
+		
 		String outputFilePath = outputDirPath + fileName;
 
 		// This buffer will store the data read from 'uploadedFileRef'
 		byte[] buffer = new byte[1000];
 
 		// Now create the output file on the server.
-		File outputDir = new File(outputDirPath);
 		File outputFile = new File(outputFilePath);
 
 		FileInputStream reader = null;
@@ -49,7 +53,6 @@ public class UploadService {
 		int totalBytes = 0;
 		try {
 			// Create dir if doesnt exists
-			outputDir.mkdirs();
 			outputFile.createNewFile();
 
 			// Create the input stream to uploaded file to read data from it.
