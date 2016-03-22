@@ -5,7 +5,7 @@ package com.sqrfactor.email;
 
 import java.io.IOException;
 
-import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
@@ -20,8 +20,12 @@ import com.amazonaws.services.simpleemail.model.SendEmailRequest;
  *
  */
 public class AWSEmailSender {
-	private static String AWS_ACCESS_KEY_ID = "AKIAJKYRVSNOONQXGMAA";
-	private static String AWS_SECRET_KEY = "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";
+	/**
+	 * 
+	 */
+	public AWSEmailSender() {
+		// TODO Auto-generated constructor stub
+	}
 
 	static final String FROM = "angadgill@sqrfactor.in"; // Replace with your
 															// "From" address.
@@ -37,6 +41,11 @@ public class AWSEmailSender {
 	static final String SUBJECT = "Amazon SES test (AWS SDK for Java)";
 
 	public static void main(String[] args) throws IOException {
+		AWSEmailSender awsEmailSender = new AWSEmailSender();
+		awsEmailSender.send();
+	}
+
+	public void send() {
 
 		// Construct an object to contain the recipient address.
 		Destination destination = new Destination().withToAddresses(new String[] { TO });
@@ -65,10 +74,14 @@ public class AWSEmailSender {
 			// AWS_ACCESS_KEY_ID and AWS_SECRET_KEY.
 			// For more information, see
 			// http://docs.aws.amazon.com/AWSSdkDocsJava/latest/DeveloperGuide/credentials.html
-		
-			//AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient(awsCredentials);
-			AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient();
-			
+
+			// AmazonSimpleEmailServiceClient client = new
+			// AmazonSimpleEmailServiceClient(awsCredentials);
+			AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient(new PropertiesCredentials(
+					AWSEmailSender.class.getClassLoader().getResourceAsStream("\\AwsCredentials.properties")));
+			// AmazonSimpleEmailServiceClient client = new
+			// AmazonSimpleEmailServiceClient();
+
 			// Choose the AWS region of the Amazon SES endpoint you want to
 			// connect to. Note that your sandbox
 			// status, sending limits, and Amazon SES identity-related settings
@@ -86,9 +99,10 @@ public class AWSEmailSender {
 			client.sendEmail(request);
 			System.out.println("Email sent!");
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			System.out.println("The email was not sent.");
 			System.out.println("Error message: " + ex.getMessage());
 		}
-	}
 
+	}
 }

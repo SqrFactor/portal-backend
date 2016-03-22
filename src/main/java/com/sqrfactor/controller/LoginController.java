@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.jdbc.StringUtils;
+import com.sqrfactor.email.EmailSender;
 import com.sqrfactor.model.Login;
+import com.sqrfactor.model.User;
 import com.sqrfactor.service.LoginService;
 
 /**
@@ -147,4 +150,25 @@ public class LoginController {
 
 		return new ResponseEntity<Login>(HttpStatus.BAD_REQUEST);
 	}
+	
+	/**
+	 * Forgot Password
+	 * 
+	 * @param userName
+	 */
+	@RequestMapping(value = "/login/forgotpassword", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> forgotPassword(@RequestParam("username") String userName) {
+		
+		Login login = loginService.findByUsername(userName);
+		// Return error if login does not exists
+		if (login == null) {
+			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
+		}
+		
+		EmailSender emailSender = new EmailSender(userName);
+		emailSender.send();
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+
 }
