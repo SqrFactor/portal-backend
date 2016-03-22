@@ -26,7 +26,7 @@ public class UploadService {
 
 	@RequestMapping(value = "/upload")
 	public boolean uploadFile(@RequestParam("uploadedFile") MultipartFile uploadedFileRef,
-			@RequestParam("filePath") String filePath, @RequestParam("fileName") String fileName) {
+			@RequestParam("filePath") String filePath, @RequestParam("fileName") String fileName,@RequestParam("fileType")String fileType) {
 
 		FileInputStream reader = null;
 		// Create the input stream to uploaded file to read data from it.
@@ -41,7 +41,7 @@ public class UploadService {
 		String destinationFileName = fileName;
 		String destinationFilePath = filePath;
 		
-		boolean uploaded = s3Upload.upload(reader, destinationFilePath, destinationFileName);
+		boolean uploaded = s3Upload.upload(reader, destinationFilePath, destinationFileName, fileType);
 		
 		if (!uploaded) {
 			System.out.println("File Could not be uploaded");

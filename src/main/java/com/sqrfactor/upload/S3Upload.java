@@ -2,6 +2,8 @@ package com.sqrfactor.upload;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -16,7 +18,18 @@ import com.amazonaws.services.s3.model.PutObjectResult;
 
 public class S3Upload {
 
-	public Boolean upload(FileInputStream stream, String destinationFilePath, String destinationFileName) {
+	private Map<String, String> allowedFileTypes = new HashMap<>();
+	
+	public S3Upload() {
+		allowedFileTypes = populateFileTypes();
+	}
+
+	public Boolean upload(FileInputStream stream, String destinationFilePath, String destinationFileName,
+			String fileType) {
+		if(!allowedFileTypes.containsKey(fileType)){
+			System.out.println("File Type not supported");
+			return false;
+		}
 		String keyName = destinationFileName;
 
 		String existingBucketName = "sqrfactor" + destinationFilePath;
@@ -34,7 +47,7 @@ public class S3Upload {
 		acl.grantPermission(GroupGrantee.AllUsers, Permission.Read);
 
 		ObjectMetadata objectMetadata = new ObjectMetadata();
-		objectMetadata.setContentType("image/jpeg");
+		objectMetadata.setContentType(allowedFileTypes.get(fileType));
 		PutObjectRequest putObjectRequest = new PutObjectRequest(amazonFileUploadLocationOriginal, keyName, stream,
 				objectMetadata);
 		putObjectRequest.getRequestClientOptions().setReadLimit(10000000);
@@ -54,5 +67,12 @@ public class S3Upload {
 		String filePath = "E://Office Party - Big Brewsky - 12 march 2016//IMG_0376.JPG";
 
 		// s3Upload.upload(filePath, fileName);
+	}
+	
+	private Map<String, String> populateFileTypes(){
+		Map<String, String> map = new HashMap<>();
+		map.put("jpg", "image/jpeg");
+		map.put("pdf", "application/pdf");
+		return map;
 	}
 }
