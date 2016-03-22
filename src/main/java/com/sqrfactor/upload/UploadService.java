@@ -5,7 +5,6 @@ package com.sqrfactor.upload;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -29,59 +28,25 @@ public class UploadService {
 	public boolean uploadFile(@RequestParam("uploadedFile") MultipartFile uploadedFileRef,
 			@RequestParam("filePath") String filePath, @RequestParam("fileName") String fileName) {
 
-		// Get name of uploaded file.
-		// String fileName = uploadedFileRef.getOriginalFilename();
-
-		// Path where the uploaded file will be stored.
-		//String outputDirPath = dir + filePath;
-		String outputDirPath = filePath;
-		File outputDir = new File(outputDirPath);
-		if(!outputDir.exists()){
-			outputDir.mkdirs();
-		}
-		
-		String outputFilePath = outputDirPath + fileName;
-
-		// This buffer will store the data read from 'uploadedFileRef'
-		byte[] buffer = new byte[1000];
-
-		// Now create the output file on the server.
-		File outputFile = new File(outputFilePath);
-
 		FileInputStream reader = null;
-		FileOutputStream writer = null;
-		int totalBytes = 0;
+		// Create the input stream to uploaded file to read data from it.
 		try {
-			// Create dir if doesnt exists
-			outputFile.createNewFile();
-
-			// Create the input stream to uploaded file to read data from it.
 			reader = (FileInputStream) uploadedFileRef.getInputStream();
-
-			// Create writer for 'outputFile' to write data read from
-			// 'uploadedFileRef'
-			writer = new FileOutputStream(outputFile);
-			System.out.println(outputFile.getAbsolutePath());
-			// Iteratively read data from 'uploadedFileRef' and write to
-			// 'outputFile';
-			int bytesRead = 0;
-			while ((bytesRead = reader.read(buffer)) != -1) {
-				writer.write(buffer);
-				totalBytes += bytesRead;
-			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			try {
-				reader.close();
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
-			}
 		}
 
-		//return "File uploaded successfully! Total Bytes Read=" + totalBytes;
+		S3Upload s3Upload = new S3Upload();
+		String destinationFileName = fileName;
+		String destinationFilePath = filePath;
+		
+		boolean uploaded = s3Upload.upload(reader, destinationFilePath, destinationFileName);
+		
+		if (!uploaded) {
+			System.out.println("File Could not be uploaded");
+		}
+
 		return true;
 	}
 }
