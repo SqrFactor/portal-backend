@@ -50,4 +50,19 @@ public class FeedDaoImpl extends AbstractDao<Long, Feed> implements FeedDao {
 		criteria.add(Restrictions.eq("feedId", feedId));
 		return (Feed) criteria.uniqueResult();
 	}
+	
+	@Override
+	public List<Feed> findByUserId(long userId){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("userId", userId));
+		return (List<Feed>) criteria.list();
+	}
+	
+	@Override
+	public List<Feed> findByFeedRefId(int feedRefId){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("feedRefId", feedRefId));
+		return (List<Feed>) criteria.list();
+	}
+	
 }

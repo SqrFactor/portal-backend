@@ -38,6 +38,21 @@ public class FeedServiceImpl implements FeedService {
 	public Feed findById(long feedId) {
 		return feedDao.findById(feedId);
 	}
+	
+	/**
+	 * Find Feed by user id
+	 */
+	public List<Feed> findByUserId(int userId) {
+		return feedDao.findByUserId(userId);
+	}
+	
+	/**
+	 * Find Feed by feed ref id
+	 */
+	public List<Feed> findByFeedRefId(int feedRefId) {
+		return feedDao.findByFeedRefId(feedRefId);
+	}
+	
 
 	/**
 	 * Save Feeds

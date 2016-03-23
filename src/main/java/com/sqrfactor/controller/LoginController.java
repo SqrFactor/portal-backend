@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.jdbc.StringUtils;
 import com.sqrfactor.email.Email;
+import com.sqrfactor.email.impl.AWSEmailImpl;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
 import com.sqrfactor.model.Login;
 import com.sqrfactor.model.User;
@@ -166,7 +167,7 @@ public class LoginController {
 			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
 		}
 		
-		Email email = new BigRockEmailImpl();
+		Email email = new AWSEmailImpl();
 		email.sendForgotPasswordMail(userName);
 		
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);

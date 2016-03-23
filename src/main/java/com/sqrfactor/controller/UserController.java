@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.email.Email;
+import com.sqrfactor.email.impl.AWSEmailImpl;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
 import com.sqrfactor.model.User;
 import com.sqrfactor.service.UserService;
@@ -165,7 +166,7 @@ public class UserController {
 		userService.saveUser(user);
 
 		// Send Email
-		Email email = new BigRockEmailImpl();
+		Email email = new AWSEmailImpl();
 		email.sendVerificationMail(emailId);
 
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);

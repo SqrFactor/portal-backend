@@ -63,6 +63,17 @@ public class Feed {
 		this.feedActionId = feedActionId;
 		this.feedRefId = feedRefId;
 	}
+	
+	public Feed(Feed feed){
+		super();
+		this.feedId = feed.getFeedId();
+		this.userId = feed.getUserId();
+		this.feedTypeId = feed.getFeedTypeId();
+		this.feedText = feed.getFeedText();
+		this.feedPath = feed.getFeedPath();
+		this.feedActionId = feed.getFeedActionId();
+		this.feedRefId = feed.getFeedRefId();
+	}
 
 	/**
 	 * @return the feedId

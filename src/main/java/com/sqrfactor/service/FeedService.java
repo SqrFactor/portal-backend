@@ -15,11 +15,15 @@ public interface FeedService {
 	
 	Feed findById(long feedId);
 	
+	List<Feed> findByUserId(int userId);
+	
+	List<Feed> findByFeedRefId(int feedRefId);
+	
 	void saveFeed(Feed feed);
 
 	void updateFeed(Feed feed);
 
-	void deleteFeedById(long userId);
+	void deleteFeedById(long feedId);
 
 	List<Feed> findAllFeeds();
 

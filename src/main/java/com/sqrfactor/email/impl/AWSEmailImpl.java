@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.email.impl;
 
+import org.apache.log4j.Logger;
+
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
@@ -20,7 +22,10 @@ import com.sqrfactor.email.Email;
  */
 public class AWSEmailImpl extends Email {
 
-	private String fromEmail = "angadgill@sqrfactor.in";
+	private static final Logger logger = Logger.getLogger(AWSEmailImpl.class);
+
+
+	private String fromEmail = "no-reply@sqrfactor.in";
 
 	@Override
 	protected boolean send(String recipientEmail, String subject, String body) {
@@ -58,5 +63,12 @@ public class AWSEmailImpl extends Email {
 			return false;
 		}
 		return true;
+	}
+	
+	public static void main(String args[]){
+		AWSEmailImpl awsEmailImpl = new AWSEmailImpl();
+		awsEmailImpl.send("angad.cec@gmail.com", "Hello", "Hi This is a test mail.");
+		logger.info("Mail Sent");
+			
 	}
 }
