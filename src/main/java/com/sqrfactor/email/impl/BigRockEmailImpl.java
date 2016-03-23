@@ -1,4 +1,7 @@
-package com.sqrfactor.email;
+/**
+ * 
+ */
+package com.sqrfactor.email.impl;
 
 import java.util.Properties;
 
@@ -10,26 +13,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.sqrfactor.email.Email;
+
 /**
  * @author Angad Gill
  *
  */
-public class EmailSender {
+public class BigRockEmailImpl extends Email{
+	private String userName = "create@sqrfactor.in";
+	private String password = "sqrfactor@129";
+	
+	private String fromEmail = "no-reply@sqrfactor.in";
 
-	private String subject;
-	private String link;
-	private String body;
-	private String recipientEmail;
-
-	public EmailSender(String recipientEmail) {
-		this.recipientEmail = recipientEmail;
-
-		subject = "Verify your email address";
-		link = "http://ec2-54-175-44-164.compute-1.amazonaws.com:8080/portal/user/verify?emailId=" + recipientEmail;
-		body = "Please click on the link to verify your email" + "n\n " + link;
-	}
-
-	public boolean send() {
+	protected boolean send(String recipientEmail, String subject, String body) {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "cp-23.webhostbox.net");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -39,14 +35,13 @@ public class EmailSender {
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("create@sqrfactor.in", "sqrfactor@129");
+				return new PasswordAuthentication(userName, password);
 			}
 		});
 
 		try {
-
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("no-reply@sqrfactor.in"));
+			message.setFrom(new InternetAddress(fromEmail));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
 			message.setSubject(subject);
 			message.setText(body);
@@ -56,7 +51,6 @@ public class EmailSender {
 			return true;
 		} catch (MessagingException e) {
 			return false;
-			// throw new RuntimeException(e);
 		}
 	}
 }

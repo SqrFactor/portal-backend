@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mysql.jdbc.StringUtils;
-import com.sqrfactor.email.EmailSender;
+import com.sqrfactor.email.Email;
+import com.sqrfactor.email.impl.BigRockEmailImpl;
 import com.sqrfactor.model.Login;
 import com.sqrfactor.model.User;
 import com.sqrfactor.service.LoginService;
@@ -165,8 +166,8 @@ public class LoginController {
 			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
 		}
 		
-		EmailSender emailSender = new EmailSender(userName);
-		emailSender.send();
+		Email email = new BigRockEmailImpl();
+		email.sendForgotPasswordMail(userName);
 		
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}

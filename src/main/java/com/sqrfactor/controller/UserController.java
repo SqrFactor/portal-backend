@@ -1,7 +1,6 @@
 package com.sqrfactor.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mysql.jdbc.StringUtils;
-import com.sqrfactor.email.EmailSender;
+import com.sqrfactor.email.Email;
+import com.sqrfactor.email.impl.BigRockEmailImpl;
 import com.sqrfactor.model.User;
 import com.sqrfactor.service.UserService;
 
@@ -166,8 +165,8 @@ public class UserController {
 		userService.saveUser(user);
 
 		// Send Email
-		EmailSender emailSender = new EmailSender(emailId);
-		emailSender.send();
+		Email email = new BigRockEmailImpl();
+		email.sendVerificationMail(emailId);
 
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
