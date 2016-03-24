@@ -493,6 +493,8 @@ feedText	varchar(500),
 feedPath	varchar(500),
 feedActionId	int(3),
 feedRefId 		int(16),
+createdAt		TIMESTAMP,
+modifiedAt		TIMESTAMP,
 PRIMARY KEY (feedId),
 FOREIGN KEY (userId) REFERENCES user_details(userId),
 FOREIGN KEY (feedTypeId) REFERENCES feed_type_list(feedTypeId)
