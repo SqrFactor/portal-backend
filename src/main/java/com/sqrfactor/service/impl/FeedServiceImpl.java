@@ -3,6 +3,7 @@
  */
 package com.sqrfactor.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -58,6 +59,9 @@ public class FeedServiceImpl implements FeedService {
 	 * Save Feeds
 	 */
 	public void saveFeed(Feed feed) {
+		Date now = new Date();
+		feed.setCreatedAt(now);
+		feed.setModifiedAt(now);
 		feedDao.saveFeed(feed);
 	}
 
@@ -65,7 +69,7 @@ public class FeedServiceImpl implements FeedService {
 	 * Update Feed
 	 */
 	public void updateFeed(Feed feed) {
-		Feed entity = feedDao.findById(feed.getUserId());
+		Feed entity = feedDao.findById(feed.getFeedId());
 
 		if (entity != null) {
 			entity.setUserId(feed.getUserId());
@@ -74,6 +78,8 @@ public class FeedServiceImpl implements FeedService {
 			entity.setFeedPath(feed.getFeedPath());
 			entity.setFeedActionId(feed.getFeedActionId());
 			entity.setFeedRefId(feed.getFeedRefId());
+			Date now = new Date();
+			entity.setModifiedAt(now);
 		}
 	}
 

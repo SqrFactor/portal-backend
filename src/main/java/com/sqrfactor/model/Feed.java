@@ -3,12 +3,16 @@
  */
 package com.sqrfactor.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * @author Angad Gill
@@ -41,6 +45,14 @@ public class Feed {
 	@Column(name = "feedRefId")
 	private int feedRefId;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdAt", nullable = false)
+    private Date createdAt;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "modifiedAt", nullable = false)
+    private Date modifiedAt;
+	
 	public Feed(){}
 
 	/**
@@ -53,7 +65,7 @@ public class Feed {
 	 * @param feedRefId
 	 */
 	public Feed(int feedId, int userId, int feedTypeId, String feedText, String feedPath, int feedActionId,
-			int feedRefId) {
+			int feedRefId, Date createdAt, Date modifiedAt) {
 		super();
 		this.feedId = feedId;
 		this.userId = userId;
@@ -62,6 +74,8 @@ public class Feed {
 		this.feedPath = feedPath;
 		this.feedActionId = feedActionId;
 		this.feedRefId = feedRefId;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
 	}
 	
 	public Feed(Feed feed){
@@ -73,6 +87,8 @@ public class Feed {
 		this.feedPath = feed.getFeedPath();
 		this.feedActionId = feed.getFeedActionId();
 		this.feedRefId = feed.getFeedRefId();
+		this.createdAt = feed.getCreatedAt();
+		this.modifiedAt = feed.getModifiedAt();
 	}
 
 	/**
@@ -171,5 +187,33 @@ public class Feed {
 	 */
 	public void setFeedRefId(int feedRefId) {
 		this.feedRefId = feedRefId;
+	}
+	
+	/**
+	 * @return the createdAt
+	 */
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	/**
+	 * @param createdAt the createdAt to set
+	 */
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	/**
+	 * @return the modifiedAt
+	 */
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	/**
+	 * @param modifiedAt the modifiedAt to set
+	 */
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 }
