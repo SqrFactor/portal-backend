@@ -5,6 +5,9 @@ package com.sqrfactor.service.impl;
 
 import java.util.List;
 
+import org.apache.shiro.crypto.RandomNumberGenerator;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +52,25 @@ public class LoginServiceImpl implements LoginService {
 	 * Save Logins
 	 */
 	public void saveLogin(Login login) {
+		//String userId = // generate a uuid  
+		  //       login.setUserId(userId);           
+		         if(login.getUserPassword() != null) {  
+		             // We'll use a Random Number Generator to generate salts. This is much more secure  
+		             // than using a username as a salt or not having a salt at all.  
+		             RandomNumberGenerator rng = new SecureRandomNumberGenerator();  
+		             Object salt = rng.nextBytes();  
+		             //hash the plain-text password with the random salt and multiple  
+		             //iterations and then Base64-encode the value (requires less space than Hex)  
+		             final int SHIRO_CREDENTIAL_HASH_INTERATION = 1024;  
+		             String hashedPasswordBase64 = new Sha512Hash(login.getUserPassword(), salt,  
+		                     SHIRO_CREDENTIAL_HASH_INTERATION).toBase64();  
+		             login.setUserPassword(hashedPasswordBase64);  
+		             login.setPasswordSalt(salt.toString());              
+		         } else {  
+		        	 System.out.println("password is null");
+		             //throw new Exception("password is null");  
+		         }  
+		         //userDAO.createUser(userBean);  
 		loginDao.saveLogin(login);
 	}
 

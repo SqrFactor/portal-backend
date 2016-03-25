@@ -28,15 +28,19 @@ public class Login {
 	@Column(name = "userPassword", nullable = false)
 	private String userPassword;
 	
+	@Column(name = "passwordSalt", nullable = false)
+	private String passwordSalt;
+	
 	public Login(){
 		
 	}
 	
-	public Login(int userId, String userName, String userPassword){
+	public Login(int userId, String userName, String userPassword, String passwordSalt){
 		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
+		this.passwordSalt = passwordSalt;
 	}
 
 	public int getUserId() {
@@ -61,6 +65,20 @@ public class Login {
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+
+	/**
+	 * @return the passwordSalt
+	 */
+	public String getPasswordSalt() {
+		return passwordSalt;
+	}
+
+	/**
+	 * @param passwordSalt the passwordSalt to set
+	 */
+	public void setPasswordSalt(String passwordSalt) {
+		this.passwordSalt = passwordSalt;
 	}
 
 }

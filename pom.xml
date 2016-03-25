@@ -152,13 +152,27 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<!-- Log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
+
+		<!-- Shiro -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+
 
 
 	</dependencies>
