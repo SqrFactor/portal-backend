@@ -86,4 +86,8 @@ public class UserServiceImpl implements UserService {
 		// TODO
 		// profiles.clear();
 	}
+	
+	public List<User> searchByEmailOrName(String searchQuery){
+		return userDao.searchByEmailOrName(searchQuery);
+	}
 }

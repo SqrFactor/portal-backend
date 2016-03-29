@@ -26,4 +26,6 @@ public interface UserService {
 	List<User> findAllUsers();
 
 	void deleteAllUsers();
+	
+	List<User> searchByEmailOrName(String searchQuery);
 }

@@ -21,4 +21,6 @@ public interface UserDao {
 	List<User> findAllUsers();
 
 	User findUserById(long id);
+	
+	List<User> searchByEmailOrName(String searchQuery);
 }

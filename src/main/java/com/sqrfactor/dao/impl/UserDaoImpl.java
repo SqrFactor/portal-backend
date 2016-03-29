@@ -3,10 +3,14 @@
  */
 package com.sqrfactor.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -51,5 +55,26 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("emailId", emailId));
 		return (User) criteria.uniqueResult();
+	}
+	
+	public List<User> searchByEmailOrName(String searchQuery){
+		List<User> users = new ArrayList<>();
+		Criteria criteria = createEntityCriteria();
+		
+		Query q = getSession().createQuery("from User c where :fullName = concat(c.firstName, ' ', c.lastName)");
+	    q.setString("fullName", searchQuery);
+	    users.addAll((List<User>)q.list());
+		
+		Criterion emailId = Restrictions.like("emailId", "%" + searchQuery + "%");
+		Criterion firstName = Restrictions.like("firstName", "%" + searchQuery + "%");
+		Criterion lastName = Restrictions.like("lastName","%" + searchQuery + "%");
+		 
+		
+		Disjunction orExp = Restrictions.or(emailId, firstName, lastName);
+		criteria.add( orExp );
+		
+		users.addAll((List<User>)criteria.list());
+		
+		return users;
 	}
 }
