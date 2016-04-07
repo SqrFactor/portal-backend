@@ -33,7 +33,7 @@ public class FeedDaoImpl extends AbstractDao<Long, Feed> implements FeedDao {
 
 	@Override
 	public void deleteFeedById(long feedId) {
-		Query query = getSession().createSQLQuery("delete from feed_details where id = :id");
+		Query query = getSession().createSQLQuery("delete from feed_details where feedId = :feedId");
 		query.setLong("feedId", feedId);
 		query.executeUpdate();
 	}

@@ -503,3 +503,16 @@ FOREIGN KEY (feedTypeId) REFERENCES feed_type_list(feedTypeId)
 
 /**-------------------Feed Tables End-------------------**/
 
+/**-------------------Connection Tables Start-------------------**/
+
+Create table connection_details(
+connectionId       int(16) AUTO_INCREMENT NOT NULL,
+sourceId       	   int(16), 
+destinationId      int(16), 
+PRIMARY KEY (connectionId),
+FOREIGN KEY (sourceId) REFERENCES user_details(userId),
+FOREIGN KEY (destinationId) REFERENCES user_details(userId)
+);
+
+/**-------------------Connection Tables End-------------------**/
+

@@ -34,7 +34,7 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 	}
 
 	public void deleteUserById(long userId) {
-		Query query = getSession().createSQLQuery("delete from user_details where id = :id");
+		Query query = getSession().createSQLQuery("delete from user_details where userId = :userId");
 		query.setLong("userId", userId);
 		query.executeUpdate();
 	}

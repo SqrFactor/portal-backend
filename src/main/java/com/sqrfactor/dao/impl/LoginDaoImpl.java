@@ -27,7 +27,7 @@ public class LoginDaoImpl extends AbstractDao<Long, Login> implements LoginDao {
 	}
 
 	public void deleteLoginById(long userId) {
-		Query query = getSession().createSQLQuery("delete from login_details where id = :id");
+		Query query = getSession().createSQLQuery("delete from login_details where userId = :userId");
 		query.setLong("userId", userId);
 		query.executeUpdate();
 	}
