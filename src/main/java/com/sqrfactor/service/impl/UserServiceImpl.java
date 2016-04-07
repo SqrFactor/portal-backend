@@ -61,13 +61,14 @@ public class UserServiceImpl implements UserService {
 		if (entity != null) {
 			entity.setFirstName(user.getFirstName());
 			entity.setLastName(user.getLastName());
-			entity.setDob(user.getDob());
+			entity.setDateOfBirth(user.getDateOfBirth());
 			entity.setContactNo(user.getContactNo());
 			//entity.setEmailId(user.getEmailId());
 			entity.setColCode(user.getColCode());
 			entity.setHighGrad(user.getHighGrad());
 			entity.setYearGrad(user.getYearGrad());
 			entity.setUserTypeId(user.getUserTypeId());
+			entity.setProfilePicPath(user.getProfilePicPath());
 			//entity.setVerified(user.isVerified());
 		}
 	}
@@ -89,5 +90,13 @@ public class UserServiceImpl implements UserService {
 	
 	public List<User> searchByEmailOrName(String searchQuery){
 		return userDao.searchByEmailOrName(searchQuery);
+	}
+	
+	public void verifyUser(long userId){
+		User entity = userDao.findById(userId);
+		
+		if (entity != null) {
+			entity.setVerified(true);
+		}
 	}
 }

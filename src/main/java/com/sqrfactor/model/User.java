@@ -38,8 +38,8 @@ public class User {
 	@Column(name = "emailId", nullable = false)
 	String emailId;
 	
-	@Column(name = "dob")
-	String dob;
+	@Column(name = "dateOfBirth")
+	String dateOfBirth;
 	
 	@Column(name = "colCode")
 	String colCode;
@@ -56,24 +56,28 @@ public class User {
 	@Column(name = "isVerified")
 	boolean isVerified; 
 	
+	@Column(name = "profilePicPath")
+	String profilePicPath;
+	
 	public User() {
 	}
 
-	public User(long userId, String firstName, String lastName, String dob,
+	public User(long userId, String firstName, String lastName, String dateOfBirth,
 			String contactNo,String emailId,String colCode, String highGrad,
-			String yearGrad, String userTypeId, boolean isVerified) {
+			String yearGrad, String userTypeId, boolean isVerified, String profilePicPath) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.contactNo = contactNo;
 		this.emailId = emailId;
-		this.dob = dob;
+		this.dateOfBirth = dateOfBirth;
 		this.colCode = colCode;
 		this.highGrad = highGrad;
 		this.yearGrad = yearGrad;
 		this.userTypeId = userTypeId;
 		this.isVerified = isVerified;
+		this.profilePicPath  = profilePicPath;
 	}
 
 	public long getUserId() {
@@ -116,12 +120,18 @@ public class User {
 		this.emailId = emailId;
 	}
 
-	public String getDob() {
-		return dob;
+	/**
+	 * @return the dateOfBirth
+	 */
+	public String getDateOfBirth() {
+		return dateOfBirth;
 	}
 
-	public void setDob(String dob) {
-		this.dob = dob;
+	/**
+	 * @param dateOfBirth the dateOfBirth to set
+	 */
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
 	public String getColCode() {
@@ -163,5 +173,21 @@ public class User {
 	public void setVerified(boolean isVerified) {
 		this.isVerified = isVerified;
 	}
+
+	/**
+	 * @return the profilePicPath
+	 */
+	public String getProfilePicPath() {
+		return profilePicPath;
+	}
+
+	/**
+	 * @param profilePicPath the profilePicPath to set
+	 */
+	public void setProfilePicPath(String profilePicPath) {
+		this.profilePicPath = profilePicPath;
+	}
+	
+	
 	
 }

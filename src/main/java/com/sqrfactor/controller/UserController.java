@@ -138,9 +138,7 @@ public class UserController {
 		}
 
 		if (!currentUser.isVerified()) {
-			// Update the verfied flag
-			currentUser.setVerified(true);
-			userService.updateUser(currentUser);
+			userService.verifyUser(currentUser.getUserId());
 		}
 
 		return new ResponseEntity<User>(currentUser, HttpStatus.OK);

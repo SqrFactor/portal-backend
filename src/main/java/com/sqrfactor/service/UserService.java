@@ -28,4 +28,6 @@ public interface UserService {
 	void deleteAllUsers();
 	
 	List<User> searchByEmailOrName(String searchQuery);
+
+	void verifyUser(long userId);
 }
