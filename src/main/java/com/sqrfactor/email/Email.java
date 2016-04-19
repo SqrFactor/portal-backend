@@ -7,7 +7,7 @@ public abstract class Email{
 	public boolean sendVerificationMail(String recipientEmail){
 
 		String subject = "Verify your email address";
-		String link = "http://ec2-54-210-175-152.compute-1.amazonaws.com:8080/index.html#/verify?emailId=" + recipientEmail;
+		String link = "http://ec2-54-210-175-152.compute-1.amazonaws.com:8080/portal-frontend/index.html#/verify?emailId=" + recipientEmail;
 		String body = "Please click on the link to verify your email" + "n\n " + link;
 		
 		if(send(recipientEmail, subject, body)){

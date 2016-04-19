@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.User;
@@ -30,8 +31,8 @@ public class SearchController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/search/{searchQuery}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<List<User>> searchByEmailOrUser(@PathVariable String searchQuery) {
+	@RequestMapping(value = "/search", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<User>> searchByEmailOrUser(@RequestParam("q") String searchQuery) {
 
 		List<User> users = userService.searchByEmailOrName(searchQuery);
 

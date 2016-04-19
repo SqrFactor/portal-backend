@@ -164,7 +164,7 @@ public class UserController {
 		userService.saveUser(user);
 
 		// Send Email
-		Email email = new AWSEmailImpl();
+		Email email = new BigRockEmailImpl();
 		email.sendVerificationMail(emailId);
 
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);

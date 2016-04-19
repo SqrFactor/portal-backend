@@ -167,7 +167,7 @@ public class LoginController {
 			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
 		}
 		
-		Email email = new AWSEmailImpl();
+		Email email = new BigRockEmailImpl();
 		email.sendForgotPasswordMail(userName);
 		
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
