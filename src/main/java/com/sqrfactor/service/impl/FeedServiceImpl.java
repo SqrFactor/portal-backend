@@ -43,7 +43,7 @@ public class FeedServiceImpl implements FeedService {
 	/**
 	 * Find Feed by user id
 	 */
-	public List<Feed> findByUserId(int userId) {
+	public List<Feed> findByUserId(long userId) {
 		return feedDao.findByUserId(userId);
 	}
 	
