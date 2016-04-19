@@ -18,7 +18,7 @@ public class Login {
 
 	@Id
 	@Column(name = "userId")
-	private int userId;
+	private long userId;
 	
 	@Size(min = 3, max = 50)
 	@Column(name = "userName", nullable = false)
@@ -32,18 +32,18 @@ public class Login {
 		
 	}
 	
-	public Login(int userId, String userName, String userPassword){
+	public Login(long userId, String userName, String userPassword){
 		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
 	}
 
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
