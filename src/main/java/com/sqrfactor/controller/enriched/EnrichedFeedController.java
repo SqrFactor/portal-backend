@@ -123,7 +123,12 @@ public class EnrichedFeedController {
 		List<Feed> feeds = feedService.findByUserId(userId);
 		for (Feed feed : feeds) {
 			User user = userService.findById(feed.getUserId());
-
+			
+			//Remove Comments from feed
+			if(feed.getFeedRefId() != 0){
+				continue;
+			}
+			
 			if (user == null) {
 				continue;
 			}
