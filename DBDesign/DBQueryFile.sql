@@ -450,16 +450,29 @@ lastName     varchar(100),
 contactNo    varchar(20)  ,
 emailId      varchar(100) UNIQUE NOT NULL,
 dateOfBirth          varchar(20) ,
-colCode      varchar(20),
-highGrad     varchar(100),
-yearGrad     varchar(20),
 userTypeId   varchar(20)  ,
 isVerified   tinyint(1) DEFAULT 0,
 profilePicPath	 varchar(500),	
 PRIMARY KEY (userId),
-FOREIGN KEY (colCode) REFERENCES mstr_college_list(colCode),
 FOREIGN KEY (userTypeId) REFERENCES mstr_user_type(userTypeId)
 ); 
+
+
+/**-------------------Education Tables Start-------------------**/
+
+Create table education_details(
+id       int(16) AUTO_INCREMENT  NOT NULL,
+userId       int(16) NOT NULL,
+educationName varchar(100) NOT NULL,
+educationFromYear varchar(20) NOT NULL,
+educationToYear varchar(20) NOT NULL,
+colCode varchar(20) NOT NULL,
+PRIMARY KEY (id),
+FOREIGN KEY (userId) REFERENCES user_details(userId),
+FOREIGN KEY (colCode) REFERENCES mstr_college_list(colCode)
+);
+
+/**-------------------Education Tables End-------------------**/
 
 Create table user_login(
 userId       int(16),
@@ -515,4 +528,6 @@ FOREIGN KEY (destinationId) REFERENCES user_details(userId)
 );
 
 /**-------------------Connection Tables End-------------------**/
+
+
 

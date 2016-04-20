@@ -40,16 +40,7 @@ public class User {
 	
 	@Column(name = "dateOfBirth")
 	String dateOfBirth;
-	
-	@Column(name = "colCode")
-	String colCode;
-
-	@Column(name = "highGrad")
-	String highGrad;
-	
-	@Column(name = "yearGrad")
-	String yearGrad;
-	
+		
 	@Column(name = "userTypeId", nullable = false)
 	String userTypeId;
 	
@@ -63,8 +54,7 @@ public class User {
 	}
 
 	public User(long userId, String firstName, String lastName, String dateOfBirth,
-			String contactNo,String emailId,String colCode, String highGrad,
-			String yearGrad, String userTypeId, boolean isVerified, String profilePicPath) {
+			String contactNo,String emailId, String userTypeId, boolean isVerified, String profilePicPath) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -72,9 +62,6 @@ public class User {
 		this.contactNo = contactNo;
 		this.emailId = emailId;
 		this.dateOfBirth = dateOfBirth;
-		this.colCode = colCode;
-		this.highGrad = highGrad;
-		this.yearGrad = yearGrad;
 		this.userTypeId = userTypeId;
 		this.isVerified = isVerified;
 		this.profilePicPath  = profilePicPath;
@@ -132,30 +119,6 @@ public class User {
 	 */
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
-	}
-
-	public String getColCode() {
-		return colCode;
-	}
-
-	public void setColCode(String colCode) {
-		this.colCode = colCode;
-	}
-
-	public String getHighGrad() {
-		return highGrad;
-	}
-
-	public void setHighGrad(String highGrad) {
-		this.highGrad = highGrad;
-	}
-
-	public String getYearGrad() {
-		return yearGrad;
-	}
-
-	public void setYearGrad(String yearGrad) {
-		this.yearGrad = yearGrad;
 	}
 
 	public String getUserTypeId() {

@@ -64,9 +64,6 @@ public class UserServiceImpl implements UserService {
 			entity.setDateOfBirth(user.getDateOfBirth());
 			entity.setContactNo(user.getContactNo());
 			//entity.setEmailId(user.getEmailId());
-			entity.setColCode(user.getColCode());
-			entity.setHighGrad(user.getHighGrad());
-			entity.setYearGrad(user.getYearGrad());
 			entity.setUserTypeId(user.getUserTypeId());
 			entity.setProfilePicPath(user.getProfilePicPath());
 			//entity.setVerified(user.isVerified());
