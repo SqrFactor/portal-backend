@@ -449,7 +449,7 @@ firstName    varchar(100)  ,
 lastName     varchar(100),
 contactNo    varchar(20)  ,
 emailId      varchar(100) UNIQUE NOT NULL,
-dateOfBirth          varchar(20) ,
+dateOfBirth          varchar(100) ,
 userTypeId   varchar(20)  ,
 isVerified   tinyint(1) DEFAULT 0,
 profilePicPath	 varchar(500),	
@@ -489,7 +489,7 @@ feedAction     varchar(100) NOT NULL,
 PRIMARY KEY (feedActionId)
 );
 
-Insert into feed_action_list (`feedAction`) values ('Like');
+Insert into feed_action_list (`feedAction`) values ('Comment');
 
 Create Table feed_type_list (
 feedTypeId   int(3) AUTO_INCREMENT NOT NULL,

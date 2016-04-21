@@ -76,15 +76,19 @@ public class EnrichedFeedController {
 
 			String firstName = "";
 			String lastName = "";
+			String profilePicPath = "";
 			if (user.getFirstName() != null) {
 				firstName = user.getFirstName();
 			}
 			if (user.getLastName() != null) {
 				lastName = user.getLastName();
 			}
+			if(user.getProfilePicPath() != null){
+				profilePicPath = user.getProfilePicPath();
+			}
 
 			String name = firstName + " " + lastName;
-			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name);
+			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath);
 			enrichedFeeds.add(enrichedFeed);
 		}
 		if (enrichedFeeds.isEmpty()) {
@@ -135,15 +139,19 @@ public class EnrichedFeedController {
 
 			String firstName = "";
 			String lastName = "";
+			String profilePicPath = "";
 			if (user.getFirstName() != null) {
 				firstName = user.getFirstName();
 			}
 			if (user.getLastName() != null) {
 				lastName = user.getLastName();
 			}
+			if(user.getProfilePicPath() != null){
+				profilePicPath = user.getProfilePicPath();
+			}
 
 			String name = firstName + " " + lastName;
-			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name);
+			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath);
 			enrichedFeeds.add(enrichedFeed);
 		}
 		return enrichedFeeds;
