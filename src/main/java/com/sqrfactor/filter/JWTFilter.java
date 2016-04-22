@@ -31,7 +31,10 @@ public class JWTFilter extends GenericFilterBean {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		
 		//Do not validate Authorization param if Path equals below
-		if(!request.getPathInfo().equals("/login/authenticate")){
+		if(!request.getPathInfo().equals("/login/authenticate") 
+				&& !request.getPathInfo().equals("/user/signup")
+				&& !request.getPathInfo().equals("/user/verify")
+				&& !request.getPathInfo().equals("/user/register")){
 			final String authHeader = request.getHeader("Authorization");
 			if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 				throw new ServletException("Missing or invalid Authorization header.");

@@ -4,10 +4,10 @@ public abstract class Email{
 	
 	protected abstract boolean send(String recipientEmail, String subject, String body);
 	
-	public boolean sendVerificationMail(String recipientEmail){
+	public boolean sendVerificationMail(String recipientEmail, String verificationKey){
 
 		String subject = "Verify your email address";
-		String link = "http://ec2-54-210-175-152.compute-1.amazonaws.com:8080/portal-frontend/index.html#/verify?emailId=" + recipientEmail;
+		String link = "http://ec2-54-210-175-152.compute-1.amazonaws.com:8080/portal-frontend/index.html#/verify?emailId=" + recipientEmail + "&verificationKey=" + verificationKey;
 		String body = "Please click on the link to verify your email" + "n\n " + link;
 		
 		if(send(recipientEmail, subject, body)){
