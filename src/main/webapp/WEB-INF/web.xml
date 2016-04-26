@@ -31,6 +31,19 @@
   <servlet-mapping>  
   	<servlet-name>springrest</servlet-name>  
   	<url-pattern>/*</url-pattern>  
-  </servlet-mapping>  
-   
+  </servlet-mapping>
+  <!-- 
+  <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>SSLSecured</web-resource-name>
+            <url-pattern>/login/authenticate</url-pattern>
+			<url-pattern>/user/verify</url-pattern>
+			<url-pattern>/user/signup</url-pattern>
+			<url-pattern>/user/register</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    -->
 </web-app>

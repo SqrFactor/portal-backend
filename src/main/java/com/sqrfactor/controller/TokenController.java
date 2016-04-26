@@ -3,7 +3,6 @@
  */
 package com.sqrfactor.controller;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,7 @@ import com.sqrfactor.model.Login;
 import com.sqrfactor.model.User;
 import com.sqrfactor.service.LoginService;
 import com.sqrfactor.service.UserService;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.sqrfactor.utils.AuthUtils;
 
 /**
  * @author Angad Gill
@@ -32,8 +29,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 @RestController
 public class TokenController {
-	
-	private String secretKey = "SQRFACTOR@Bhive";
 	
 	@Autowired
 	private LoginService loginService;
@@ -62,11 +57,7 @@ public class TokenController {
 		Login login = loginService.findByUsername(username);
 
 		if (login != null && login.getUserPassword().equals(password)) {
-			String token = Jwts.builder().setSubject(login.getUserName())
-					//Return Role in future
-					.claim("userId", login.getUserId())
-					.setIssuedAt(new Date())
-					.signWith(SignatureAlgorithm.HS256, secretKey).compact();
+			String token = AuthUtils.createToken(login.getUserName(), login.getUserId()); 
 			LoginResponse response = new LoginResponse(login.getUserId(), login.getUserName(), token);
 			
 			return new ResponseEntity<LoginResponse>(response, HttpStatus.OK);
@@ -170,11 +161,7 @@ public class TokenController {
 		Login login = loginService.findByUsername(username);
 
 		if (login != null && login.getUserPassword().equals(password)) {
-			String token = Jwts.builder().setSubject(login.getUserName())
-					//Return Role in future
-					.claim("userId", login.getUserId())
-					.setIssuedAt(new Date())
-					.signWith(SignatureAlgorithm.HS256, secretKey).compact();
+			String token = AuthUtils.createToken(login.getUserName(), login.getUserId()); 
 			LoginResponse response = new LoginResponse(login.getUserId(), login.getUserName(), token);
 			
 			return new ResponseEntity<LoginResponse>(response, HttpStatus.OK);
