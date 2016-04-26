@@ -529,5 +529,33 @@ FOREIGN KEY (destinationId) REFERENCES user_details(userId)
 
 /**-------------------Connection Tables End-------------------**/
 
+/**-------------------Notification Tables Start-------------------**/
 
+
+Create Table notification_type_list (
+typeId     int(20)  NOT NULL,
+typeName     varchar(500) NOT NULL,
+PRIMARY KEY (typeId)
+);  
+
+Insert into notification_type_list values ('1','ConnectionAdded');
+Insert into notification_type_list values ('2','Comment');
+Insert into notification_type_list values ('3','Like');
+Insert into notification_type_list values ('4','Share');
+
+Create table notification_details(
+notificationId     int(16) AUTO_INCREMENT NOT NULL,
+sourceUserId       	   int(16), 
+destinationUserId      int(16),
+notificationTypeId		int(10),
+feedRefId				int(16),
+isRead					tinyint(1) DEFAULT 0,
+createdAt				TIMESTAMP,
+PRIMARY KEY (notificationId),
+FOREIGN KEY (notificationTypeId) REFERENCES notification_type_list(typeId),
+FOREIGN KEY (sourceUserId) REFERENCES user_details(userId),
+FOREIGN KEY (destinationUserId) REFERENCES user_details(userId)
+);
+
+/**-------------------Notification Tables End-------------------**/
 
