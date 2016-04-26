@@ -49,6 +49,18 @@ public class Notification {
 	public Notification() {
 	}
 
+	public Notification(Notification notification){
+		super();
+		this.notificationId = notification.notificationId;
+		this.sourceUserId = notification.sourceUserId;
+		this.destinationUserId = notification.destinationUserId;
+		this.notificationTypeId = notification.notificationTypeId;
+		this.feedRefId = notification.feedRefId;
+		this.isRead = notification.isRead;
+		this.createdAt = notification.createdAt;
+
+	}
+	
 	/**
 	 * @param notificationId
 	 * @param sourceUserId
@@ -69,6 +81,8 @@ public class Notification {
 		this.isRead = isRead;
 		this.createdAt = createdAt;
 	}
+	
+
 
 	/**
 	 * @return the notificationId
