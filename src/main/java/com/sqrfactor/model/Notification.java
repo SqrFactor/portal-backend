@@ -19,37 +19,37 @@ import javax.persistence.TemporalType;
  *
  */
 @Entity
-@Table(name="notification_details")
+@Table(name = "notification_details")
 public class Notification {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="notificationId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "notificationId")
 	private long notificationId;
-	
-	@Column(name="sourceUserId")
+
+	@Column(name = "sourceUserId")
 	private long sourceUserId;
-	
-	@Column(name="destinationUserId")
+
+	@Column(name = "destinationUserId")
 	private long destinationUserId;
-	
-	@Column(name="notificationTypeId")
+
+	@Column(name = "notificationTypeId")
 	private long notificationTypeId;
-	
-	@Column(name="feedRefId", nullable=true)
+
+	@Column(name = "feedRefId", nullable = true)
 	private long feedRefId;
-	
-	@Column(name="isRead")
+
+	@Column(name = "isRead")
 	private boolean isRead;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="createdAt", nullable=false)
+	@Column(name = "createdAt", nullable = false)
 	private Date createdAt;
-	
+
 	public Notification() {
 	}
 
-	public Notification(Notification notification){
+	public Notification(Notification notification) {
 		super();
 		this.notificationId = notification.notificationId;
 		this.sourceUserId = notification.sourceUserId;
@@ -60,7 +60,7 @@ public class Notification {
 		this.createdAt = notification.createdAt;
 
 	}
-	
+
 	/**
 	 * @param notificationId
 	 * @param sourceUserId
@@ -81,8 +81,6 @@ public class Notification {
 		this.isRead = isRead;
 		this.createdAt = createdAt;
 	}
-	
-
 
 	/**
 	 * @return the notificationId
@@ -92,7 +90,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param notificationId the notificationId to set
+	 * @param notificationId
+	 *            the notificationId to set
 	 */
 	public void setNotificationId(long notificationId) {
 		this.notificationId = notificationId;
@@ -106,7 +105,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param sourceUserId the sourceUserId to set
+	 * @param sourceUserId
+	 *            the sourceUserId to set
 	 */
 	public void setSourceUserId(long sourceUserId) {
 		this.sourceUserId = sourceUserId;
@@ -120,7 +120,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param destinationUserId the destinationUserId to set
+	 * @param destinationUserId
+	 *            the destinationUserId to set
 	 */
 	public void setDestinationUserId(long destinationUserId) {
 		this.destinationUserId = destinationUserId;
@@ -134,7 +135,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param notificationTypeId the notificationTypeId to set
+	 * @param notificationTypeId
+	 *            the notificationTypeId to set
 	 */
 	public void setNotificationTypeId(long notificationTypeId) {
 		this.notificationTypeId = notificationTypeId;
@@ -148,7 +150,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param feedRefId the feedRefId to set
+	 * @param feedRefId
+	 *            the feedRefId to set
 	 */
 	public void setFeedRefId(long feedRefId) {
 		this.feedRefId = feedRefId;
@@ -162,7 +165,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param isRead the isRead to set
+	 * @param isRead
+	 *            the isRead to set
 	 */
 	public void setRead(boolean isRead) {
 		this.isRead = isRead;
@@ -176,7 +180,8 @@ public class Notification {
 	}
 
 	/**
-	 * @param createdAt the createdAt to set
+	 * @param createdAt
+	 *            the createdAt to set
 	 */
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;

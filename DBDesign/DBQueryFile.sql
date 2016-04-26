@@ -558,4 +558,19 @@ FOREIGN KEY (destinationUserId) REFERENCES user_details(userId)
 );
 
 /**-------------------Notification Tables End-------------------**/
+/**-------------------Message Tables Start-------------------**/
+
+Create table message_details(
+messageId              int(16) AUTO_INCREMENT NOT NULL,
+senderUserId       	   int(16) NOT NULL, 
+recipientUserId        int(16) NOT NULL,
+messageText					varchar(100) NOT NULL,
+isRead				   tinyint(1) DEFAULT 0,
+createdAt			   TIMESTAMP,
+PRIMARY KEY (messageId),
+FOREIGN KEY (senderUserId) REFERENCES user_details(userId),
+FOREIGN KEY (recipientUserId) REFERENCES user_details(userId)
+);
+
+/**-------------------Message Tables End-------------------**/
 
