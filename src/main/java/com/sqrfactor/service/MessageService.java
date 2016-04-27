@@ -24,5 +24,7 @@ public interface MessageService {
 	List<Message> findAllMessages();
 	
 	List<Message> findMessagesByRecipientUserId(long sourceUserId);
+	
+	List<Message> findMessagesBetweenUserIds(long userId1, long userId2);
 
 }

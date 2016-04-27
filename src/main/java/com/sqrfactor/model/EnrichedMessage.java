@@ -11,11 +11,15 @@ public class EnrichedMessage extends Message {
 
 	private String senderUserName;
 	private String recipientUserName;
+	private String senderProfilePicPath;
+	private String recipientProfilePicPath;
 	
-	public EnrichedMessage(Message message, String senderUserName, String recipientUserName){
+	public EnrichedMessage(Message message, String senderUserName, String recipientUserName, String senderProfilePicPath, String recipientProfilePicPath){
 		super(message);
 		this.senderUserName = senderUserName;
 		this.recipientUserName = recipientUserName;
+		this.senderProfilePicPath = senderProfilePicPath;
+		this.recipientProfilePicPath = recipientProfilePicPath;
 	}
 
 	/**
@@ -45,5 +49,34 @@ public class EnrichedMessage extends Message {
 	public void setRecipientUserName(String recipientUserName) {
 		this.recipientUserName = recipientUserName;
 	}
+
+	/**
+	 * @return the senderProfilePicPath
+	 */
+	public String getSenderProfilePicPath() {
+		return senderProfilePicPath;
+	}
+
+	/**
+	 * @param senderProfilePicPath the senderProfilePicPath to set
+	 */
+	public void setSenderProfilePicPath(String senderProfilePicPath) {
+		this.senderProfilePicPath = senderProfilePicPath;
+	}
+
+	/**
+	 * @return the recipientProfilePicPath
+	 */
+	public String getRecipientProfilePicPath() {
+		return recipientProfilePicPath;
+	}
+
+	/**
+	 * @param recipientProfilePicPath the recipientProfilePicPath to set
+	 */
+	public void setRecipientProfilePicPath(String recipientProfilePicPath) {
+		this.recipientProfilePicPath = recipientProfilePicPath;
+	}
+	
 	
 }
