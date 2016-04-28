@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.EnrichedMessage;
+import com.sqrfactor.model.EnrichedUserMessage;
 import com.sqrfactor.model.Message;
 import com.sqrfactor.model.User;
+import com.sqrfactor.service.ConnectionService;
 import com.sqrfactor.service.MessageService;
 import com.sqrfactor.service.UserService;
 
@@ -33,6 +36,9 @@ public class EnrichedMessageController {
 
 	@Autowired
 	private MessageService messageService;
+	
+	@Autowired
+	private ConnectionService connectionService;
 
 	/**
 	 * Get all messages by sourceId
@@ -89,6 +95,59 @@ public class EnrichedMessageController {
 		}
 		
 		return new ResponseEntity<List<EnrichedMessage>>(enrichedMessages, HttpStatus.OK);
+	}
+	
+	/**
+	 * Get all messages by sourceId
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/message/enriched/usermessage/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<EnrichedUserMessage>> getUserMessagesByUserId(@PathVariable("userId") long userId) {
+		
+		List<EnrichedUserMessage> enrichedUserMessages = new ArrayList<>();
+		List<Connection> connections = connectionService.findConnectionsBySourceId(userId);
+		
+		if (connections.isEmpty()) {
+			return new ResponseEntity<List<EnrichedUserMessage>>(HttpStatus.NOT_FOUND);
+		}
+		
+		for(Connection connection: connections){
+			String userName;
+			String profilePicPath;
+			
+			User user = userService.findById(connection.getDestinationId());
+			
+			if(user == null){
+				continue;
+			}
+			
+			userName = getName(user.getUserId());
+			profilePicPath = getProfilePic(user.getUserId());
+			
+			List<Message> messages = messageService.findMessagesBetweenUserIds(userId, connection.getDestinationId());
+			
+			if(messages.isEmpty()){
+				continue;
+			}
+			
+			List<EnrichedMessage> enrichedMessages = new ArrayList<>();
+			for(Message message : messages){
+				
+				String senderUserName = getName(message.getSenderUserId());
+				String recipientUserName = getName(message.getRecipientUserId());
+				String senderProfilePicPath = getProfilePic(message.getSenderUserId());
+				String recipientProfilePicPath = getProfilePic(message.getRecipientUserId());
+				
+				final EnrichedMessage enrichedMessage = new EnrichedMessage(message, senderUserName, recipientUserName,
+						senderProfilePicPath, recipientProfilePicPath);
+				enrichedMessages.add(enrichedMessage);
+			}
+			EnrichedUserMessage enrichedUserMessage = new EnrichedUserMessage(user.getUserId(), userName, profilePicPath, enrichedMessages);
+			enrichedUserMessages.add(enrichedUserMessage);
+		}
+				
+		return new ResponseEntity<List<EnrichedUserMessage>>(enrichedUserMessages, HttpStatus.OK);
 	}
 	
 	private String getName(long userId){

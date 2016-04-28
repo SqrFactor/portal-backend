@@ -14,6 +14,13 @@ public class EnrichedMessage extends Message {
 	private String senderProfilePicPath;
 	private String recipientProfilePicPath;
 	
+	public EnrichedMessage(EnrichedMessage enrichedMessage){
+		this.senderUserName = enrichedMessage.getSenderUserName();
+		this.recipientUserName = enrichedMessage.getRecipientUserName();
+		this.senderProfilePicPath = enrichedMessage.getSenderProfilePicPath();
+		this.recipientProfilePicPath = enrichedMessage.getRecipientProfilePicPath();
+	}
+	
 	public EnrichedMessage(Message message, String senderUserName, String recipientUserName, String senderProfilePicPath, String recipientProfilePicPath){
 		super(message);
 		this.senderUserName = senderUserName;
