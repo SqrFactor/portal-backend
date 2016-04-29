@@ -90,8 +90,6 @@ public class FeedController {
 				long notificationSource = sourceFeed.getUserId();
 				
 				long notificationDestination = feed.getUserId();
-				notification.setSourceUserId(notificationSource);
-				notification.setDestinationUserId(notificationDestination);
 				
 				int notificationTypeId = 0; 
 				for(FeedAction action : EnumUtils.FeedAction.values()){
@@ -104,9 +102,13 @@ public class FeedController {
 					} 
 				}
 				
+				notification.setSourceUserId(notificationSource);
+				notification.setDestinationUserId(notificationDestination);
 				notification.setNotificationTypeId(notificationTypeId);
 				notification.setFeedRefId(feed.getFeedId());
-				notificationService.saveNotification(notification);
+				if(notificationSource != notificationDestination){
+					notificationService.saveNotification(notification);	
+				}
 			}
 		}
 		
