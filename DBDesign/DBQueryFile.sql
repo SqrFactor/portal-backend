@@ -490,6 +490,8 @@ PRIMARY KEY (feedActionId)
 );
 
 Insert into feed_action_list (`feedAction`) values ('Comment');
+Insert into feed_action_list (`feedAction`) values ('Like');
+Insert into feed_action_list (`feedAction`) values ('Share');
 
 Create Table feed_type_list (
 feedTypeId   int(3) AUTO_INCREMENT NOT NULL,
