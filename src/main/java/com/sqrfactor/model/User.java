@@ -47,6 +47,9 @@ public class User {
 	@Column(name = "isVerified")
 	boolean isVerified; 
 	
+	@Column(name = "about")
+	String about;
+	
 	@Column(name = "profilePicPath")
 	String profilePicPath;
 	
@@ -54,7 +57,7 @@ public class User {
 	}
 
 	public User(long userId, String firstName, String lastName, String dateOfBirth,
-			String contactNo,String emailId, String userTypeId, boolean isVerified, String profilePicPath) {
+			String contactNo,String emailId, String userTypeId, boolean isVerified, String about, String profilePicPath) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -64,6 +67,7 @@ public class User {
 		this.dateOfBirth = dateOfBirth;
 		this.userTypeId = userTypeId;
 		this.isVerified = isVerified;
+		this.about = about;
 		this.profilePicPath  = profilePicPath;
 	}
 
@@ -136,6 +140,14 @@ public class User {
 	public void setVerified(boolean isVerified) {
 		this.isVerified = isVerified;
 	}
+	
+	public String getAbout(){
+		return about;
+	}
+	
+	public void setAbout(String about){
+		this.about = about;
+	}
 
 	/**
 	 * @return the profilePicPath
@@ -150,7 +162,5 @@ public class User {
 	public void setProfilePicPath(String profilePicPath) {
 		this.profilePicPath = profilePicPath;
 	}
-	
-	
 	
 }

@@ -452,6 +452,7 @@ emailId      varchar(100) UNIQUE NOT NULL,
 dateOfBirth          varchar(100) ,
 userTypeId   varchar(20)  ,
 isVerified   tinyint(1) DEFAULT 0,
+about		 varchar(200),
 profilePicPath	 varchar(500),	
 PRIMARY KEY (userId),
 FOREIGN KEY (userTypeId) REFERENCES mstr_user_type(userTypeId)
