@@ -148,6 +148,13 @@ public class FeedController {
 		}
 
 		feedService.deleteFeedById(id);
+		
+		//Fetch Actions if any
+		List<Feed> feedActionList = feedService.findByFeedRefId(id);
+		for(Feed feedAction : feedActionList){
+			feedService.deleteFeedById(feedAction.getFeedId());
+		}
+		
 		return new ResponseEntity<Feed>(HttpStatus.NO_CONTENT);
 	}
 
