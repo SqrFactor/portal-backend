@@ -17,11 +17,14 @@ public abstract class Email{
 		}
 	}
 	
-	public boolean sendForgotPasswordMail(String recipientEmail){
+	public boolean sendForgotPasswordMail(String recipientEmail, String newPassword){
 
 		String subject = "Forgot Password";
-		String link = "http://ec2-54-175-44-164.compute-1.amazonaws.com:8080/portal/user/forgotpassword";
-		String body = "Please click on the link to verify your email" + "n\n " + link;
+		String link = "http://ec2-54-175-44-164.compute-1.amazonaws.com:8080/portal/index.html";
+		String body = "Please click on the link to login with your new password" + "n\n " + link
+				+"\n"
+				+"New Password : " + newPassword;
+				;
 		
 		if(send(recipientEmail, subject, body)){
 			return true;
