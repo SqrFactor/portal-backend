@@ -73,6 +73,7 @@ public class S3Upload {
 		Map<String, String> map = new HashMap<>();
 		map.put("jpg", "image/jpeg");
 		map.put("pdf", "application/pdf");
+		map.put("mp4", "video/mp4");
 		return map;
 	}
 }
