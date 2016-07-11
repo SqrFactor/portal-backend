@@ -5,12 +5,14 @@ public class EnrichedFeed extends Feed{
 	private String name;
 	private String profilePicPath;
 	
+	private long refUserId;
 	private String refName;
 	private String refProfilePicPath;
-	public EnrichedFeed(Feed feed, String name, String profilePicPath, String refName, String refProfilePicPath) {
+	public EnrichedFeed(Feed feed, String name, String profilePicPath, long refUserId, String refName, String refProfilePicPath) {
 		super(feed);
 		this.name = name;
 		this.profilePicPath = profilePicPath;
+		this.refUserId = refUserId;
 		this.refName = refName;
 		this.refProfilePicPath = refProfilePicPath;
 	}
@@ -43,6 +45,20 @@ public class EnrichedFeed extends Feed{
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * @return the refUserId
+	 */
+	public long getRefUserId() {
+		return refUserId;
+	}
+
+	/**
+	 * @param refUserId the refUserId to set
+	 */
+	public void setRefUserId(long refUserId) {
+		this.refUserId = refUserId;
 	}
 
 	/**

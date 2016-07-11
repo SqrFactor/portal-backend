@@ -77,6 +77,7 @@ public class EnrichedFeedController {
 			String name = getName(user);
 			String profilePicPath = getProfilePicPath(user);
 			
+			long refUserId = 0;
 			String refName = "";
 			String refProfilePicPath = "";
 			
@@ -86,12 +87,13 @@ public class EnrichedFeedController {
 				
 				if(refUser != null){
 				
+					refUserId = refUser.getUserId();
 					refName = getName(refUser);
 					refProfilePicPath = getProfilePicPath(refUser);
 				}
 			}
 			
-			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath, refName, refProfilePicPath);
+			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath, refUserId, refName, refProfilePicPath);
 			enrichedFeeds.add(enrichedFeed);
 		}
 		if (enrichedFeeds.isEmpty()) {
@@ -143,6 +145,7 @@ public class EnrichedFeedController {
 			String name = getName(user);
 			String profilePicPath = getProfilePicPath(user);
 			
+			long refUserId = 0;
 			String refName = "";
 			String refProfilePicPath = "";
 			
@@ -151,13 +154,13 @@ public class EnrichedFeedController {
 				User refUser = userService.findById(refFeed.getUserId());
 				
 				if(refUser != null){
-				
+					refUserId = refUser.getUserId();
 					refName = getName(refUser);
 					refProfilePicPath = getProfilePicPath(refUser);
 				}
 			}
 			
-			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath, refName, refProfilePicPath);
+			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath, refUserId, refName, refProfilePicPath);
 			enrichedFeeds.add(enrichedFeed);
 		}
 		return enrichedFeeds;
