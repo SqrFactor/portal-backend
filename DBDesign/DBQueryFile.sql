@@ -458,6 +458,15 @@ PRIMARY KEY (userId),
 FOREIGN KEY (userTypeId) REFERENCES mstr_user_type(userTypeId)
 ); 
 
+Create table verification_details(
+verificationId		int(16) AUTO_INCREMENT NOT NULL,
+verificationUserId	int(16) NOT NULL,
+emailCode		varchar(20),
+phoneCode		varchar(20),
+PRIMARY KEY (verificationId),
+FOREIGN KEY (verificationUserId) REFERENCES user_details(userId)
+);
+
 
 /**-------------------Education Tables Start-------------------**/
 

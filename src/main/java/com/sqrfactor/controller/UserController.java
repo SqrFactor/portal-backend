@@ -12,17 +12,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amazonaws.util.StringUtils;
 import com.sqrfactor.email.Email;
 import com.sqrfactor.email.impl.AWSEmailImpl;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
 import com.sqrfactor.model.User;
+import com.sqrfactor.model.Verification;
 import com.sqrfactor.service.UserService;
+import com.sqrfactor.service.VerificationService;
+import com.sqrfactor.util.RandomGenerator;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private VerificationService verificationService;
 
 	public UserController() {
 
@@ -129,16 +136,28 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/user/verify", method = RequestMethod.PUT)
-	public ResponseEntity<User> updateUser(@RequestParam("emailId") String emailId) {
+	public ResponseEntity<User> updateUser(@RequestParam("emailId") String emailId, @RequestParam("verificationCode") String verificationCode) {
 
 		User currentUser = userService.findByEmailId(emailId);
 
 		if (currentUser == null) {
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
-
+		
 		if (!currentUser.isVerified()) {
-			userService.verifyUser(currentUser.getUserId());
+			//Confirm the verification Code
+			Verification verification = verificationService.findByUserId(currentUser.getUserId());
+			
+			if (verification == null) {
+				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			}
+			
+			//verify user if code matches
+			if(!StringUtils.isNullOrEmpty(verificationCode) && verification.getEmailCode().equals(verificationCode)){
+				userService.verifyUser(currentUser.getUserId());	
+			}else{
+				return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+			}
 		}
 
 		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
@@ -162,10 +181,21 @@ public class UserController {
 		user = new User();
 		user.setEmailId(emailId);
 		userService.saveUser(user);
+		
+		Verification verification = verificationService.findByUserId(user.getUserId());
+		if(verification == null){
+			verification = new Verification();
+			verification.setVerificationUserId(user.getUserId());
+			verification.setEmailCode(RandomGenerator.nextRandom());
+			verificationService.saveVerification(verification);	
+		}else{
+			verification.setEmailCode(RandomGenerator.nextRandom());
+			verificationService.updateVerification(verification);
+		}
 
 		// Send Email
-		Email email = new BigRockEmailImpl();
-		email.sendVerificationMail(emailId);
+		Email email = new BigRockEmailImpl();		
+		email.sendVerificationMail(emailId, verification.getEmailCode());
 
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
