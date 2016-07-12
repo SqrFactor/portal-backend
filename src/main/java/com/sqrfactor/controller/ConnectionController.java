@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.constants.EnumUtils;
@@ -194,4 +195,19 @@ public class ConnectionController {
 		return new ResponseEntity<Connection>(HttpStatus.NO_CONTENT);
 	}
 	
+	/**
+	 * Check if connected
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/connection/isconnected", method = RequestMethod.GET)
+	public ResponseEntity<String> isConnected(@RequestParam("sourceId") long sourceId, @RequestParam("destinationId") long destinationId) {
+		Connection connection = connectionService.findConBySrcAndDestId(sourceId, destinationId);
+		
+		if(connection != null){
+			return new ResponseEntity<String>("true", HttpStatus.OK);
+		}else{
+			return new ResponseEntity<String>("false", HttpStatus.OK);
+		}
+	}
 }
