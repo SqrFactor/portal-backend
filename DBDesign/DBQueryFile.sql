@@ -448,7 +448,8 @@ Create table user_details(
 userId       int(16) AUTO_INCREMENT  NOT NULL,
 firstName    varchar(100)  ,
 lastName     varchar(100),
-contactNo    varchar(20)  ,
+gender		 varchar(10),
+contactNo    varchar(20),
 emailId      varchar(100) UNIQUE NOT NULL,
 dateOfBirth          varchar(100) ,
 userTypeId   varchar(20)  ,
@@ -588,14 +589,14 @@ FOREIGN KEY (recipientUserId) REFERENCES user_details(userId)
 /**-------------------Message Tables End-------------------**/
 
 /**-------------------Add Admin Account Start-------------------**/
-Insert into user_details values (1, 'SqrFactor India', '', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.png');
+Insert into user_details values (1, 'SqrFactor India', '', 'Other', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.png');
 Insert into user_login values (1, 'create@sqrfactor.in', '1234');
 
 /**-------------------Add Admin Account End-------------------**/
 
 /**-------------------Add College Accounts Start--------------**/
 
-Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', '' , 'AP02@sqrfactor.in', '2016-6-26', 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\ap02.jpeg');
+Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', 'Other', '' , 'AP02@sqrfactor.in', '2016-6-26', 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\ap02.jpeg');
 Insert into user_login values (2, 'AP02@sqrfactor.in', '1234');
 
 /**-------------------Add College Accounts Start--------------**/
