@@ -16,8 +16,10 @@ import com.amazonaws.util.StringUtils;
 import com.sqrfactor.email.Email;
 import com.sqrfactor.email.impl.AWSEmailImpl;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
+import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.User;
 import com.sqrfactor.model.Verification;
+import com.sqrfactor.service.ConnectionService;
 import com.sqrfactor.service.UserService;
 import com.sqrfactor.service.VerificationService;
 import com.sqrfactor.util.RandomGenerator;
@@ -30,6 +32,9 @@ public class UserController {
 	
 	@Autowired
 	private VerificationService verificationService;
+	
+	@Autowired
+	private ConnectionService connectionService;
 
 	public UserController() {
 
@@ -77,7 +82,7 @@ public class UserController {
 		}
 
 		userService.saveUser(user);
-
+		
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 
@@ -154,7 +159,9 @@ public class UserController {
 			
 			//verify user if code matches
 			if(!StringUtils.isNullOrEmpty(verificationCode) && verification.getEmailCode().equals(verificationCode)){
-				userService.verifyUser(currentUser.getUserId());	
+				userService.verifyUser(currentUser.getUserId());
+				addConnectionToAdminAccount(currentUser);
+				
 			}else{
 				return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 			}
@@ -196,7 +203,24 @@ public class UserController {
 		// Send Email
 		Email email = new BigRockEmailImpl();		
 		email.sendVerificationMail(emailId, verification.getEmailCode());
-
+		
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+	}
+	
+	/**
+	 * 
+	 * @param user
+	 */
+	private void addConnectionToAdminAccount(User user){
+	
+		//Add Connection to Admin Account
+		Connection connection = new Connection();
+		
+		connection.setSourceId(user.getUserId());
+		User adminUser = userService.findByEmailId("create@sqrfactor.in");
+		if(adminUser!= null){
+			connection.setDestinationId(adminUser.getUserId());
+			connectionService.saveConnection(connection);	
+		}
 	}
 }

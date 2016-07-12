@@ -442,6 +442,7 @@ INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('S1
 INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('P101', 'Professional');
 INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('T101', 'Teacher');
 INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('A101', 'Admin');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('C101', 'College');
 
 Create table user_details(
 userId       int(16) AUTO_INCREMENT  NOT NULL,
@@ -461,8 +462,8 @@ FOREIGN KEY (userTypeId) REFERENCES mstr_user_type(userTypeId)
 Create table verification_details(
 verificationId		int(16) AUTO_INCREMENT NOT NULL,
 verificationUserId	int(16) NOT NULL,
-emailCode		varchar(20),
-phoneCode		varchar(20),
+emailCode		varchar(100),
+phoneCode		varchar(100),
 PRIMARY KEY (verificationId),
 FOREIGN KEY (verificationUserId) REFERENCES user_details(userId)
 );
@@ -586,3 +587,15 @@ FOREIGN KEY (recipientUserId) REFERENCES user_details(userId)
 
 /**-------------------Message Tables End-------------------**/
 
+/**-------------------Add Admin Account Start-------------------**/
+Insert into user_details values (1, 'SqrFactor India', '', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.png');
+Insert into user_login values (1, 'create@sqrfactor.in', '1234');
+
+/**-------------------Add Admin Account End-------------------**/
+
+/**-------------------Add College Accounts Start--------------**/
+
+Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', '' , 'AP02@sqrfactor.in', '2016-6-26', 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\ap02.jpeg');
+Insert into user_login values (2, 'AP02@sqrfactor.in', '1234');
+
+/**-------------------Add College Accounts Start--------------**/

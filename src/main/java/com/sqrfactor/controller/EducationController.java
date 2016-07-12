@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.Education;
+import com.sqrfactor.model.User;
+import com.sqrfactor.service.ConnectionService;
 import com.sqrfactor.service.EducationService;
+import com.sqrfactor.service.UserService;
 
 /**
  * @author Angad Gill
@@ -26,6 +30,12 @@ public class EducationController {
 
 	@Autowired
 	private EducationService educationService;
+	
+	@Autowired
+	private ConnectionService connectionService;
+	
+	@Autowired
+	private UserService userService;
 
 	public EducationController() {
 
@@ -69,7 +79,16 @@ public class EducationController {
 	public ResponseEntity<Education> createEducation(@RequestBody Education education) {
 
 		educationService.saveEducation(education);
-
+		//Add Connection to college
+		Connection connection = new Connection();
+		connection.setSourceId(education.getUserId());
+		
+		User user = userService.findByEmailId(education.getColCode() + "@sqrfactor.in");
+		if(user != null){
+			connection.setDestinationId(user.getUserId());
+			connectionService.saveConnection(connection);	
+		}
+		
 		return new ResponseEntity<Education>(education, HttpStatus.CREATED);
 	}
 
@@ -106,6 +125,16 @@ public class EducationController {
 		}
 
 		educationService.deleteEducationById(id);
+		
+		//Remove Connection to college
+		User user = userService.findByEmailId(education.getColCode() + "@sqrfactor.in");
+		if(user != null){
+			Connection connection = connectionService.findConBySrcAndDestId(education.getUserId(), user.getUserId());
+			if(connection != null){
+				connectionService.deleteConnectionById(connection.getConnectionId());	
+			}
+		}
+		
 		return new ResponseEntity<Education>(HttpStatus.NO_CONTENT);
 	}
 
