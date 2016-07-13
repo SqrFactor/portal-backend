@@ -24,7 +24,7 @@ public class S3Upload {
 		allowedFileTypes = populateFileTypes();
 	}
 
-	public Boolean upload(FileInputStream stream, String destinationFilePath, String destinationFileName,
+	public Boolean upload(FileInputStream stream, long fileSize, String destinationFilePath, String destinationFileName,
 			String fileType) {
 		if(!allowedFileTypes.containsKey(fileType)){
 			System.out.println("File Type not supported");
@@ -48,6 +48,7 @@ public class S3Upload {
 
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		objectMetadata.setContentType(allowedFileTypes.get(fileType));
+		objectMetadata.setContentLength(fileSize);
 		PutObjectRequest putObjectRequest = new PutObjectRequest(amazonFileUploadLocationOriginal, keyName, stream,
 				objectMetadata);
 		putObjectRequest.getRequestClientOptions().setReadLimit(10000000);

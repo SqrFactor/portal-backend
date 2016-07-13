@@ -41,7 +41,7 @@ public class UploadService {
 		String destinationFileName = fileName;
 		String destinationFilePath = filePath;
 		
-		boolean uploaded = s3Upload.upload(reader, destinationFilePath, destinationFileName, fileType);
+		boolean uploaded = s3Upload.upload(reader, uploadedFileRef.getSize(), destinationFilePath, destinationFileName, fileType);
 		
 		if (!uploaded) {
 			System.out.println("File Could not be uploaded");
