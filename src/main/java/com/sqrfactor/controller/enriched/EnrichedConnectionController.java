@@ -56,11 +56,38 @@ public class EnrichedConnectionController {
 				continue;
 			}
 			
-			EnrichedConnection enrichedConnection = new EnrichedConnection(connection, sourceUser.getUserTypeId(), destinationUser.getUserTypeId());
+			String destinationName = getName(destinationUser);
+			String destinationProfilePicPath = getProfilePicPath(destinationUser);
+			
+			EnrichedConnection enrichedConnection = new EnrichedConnection(connection, sourceUser.getUserTypeId(),
+					destinationUser.getUserTypeId(), destinationName, destinationProfilePicPath);
 			enrichedConnections.add(enrichedConnection);
 		
 		}
 		
 		return new ResponseEntity<List<EnrichedConnection>>(enrichedConnections, HttpStatus.OK);
+	}
+	
+	private String getName(User user){
+		String firstName = "";
+		String lastName = "";
+		if (user.getFirstName() != null) {
+			firstName = user.getFirstName();
+		}
+		if (user.getLastName() != null) {
+			lastName = user.getLastName();
+		}
+		String name = firstName + " " + lastName;
+		
+		return name;
+	}
+	
+	private String getProfilePicPath(User user){
+		String profilePicPath = "";
+		
+		if(user.getProfilePicPath() != null){
+			profilePicPath = user.getProfilePicPath();
+		}
+		return profilePicPath;
 	}
 }

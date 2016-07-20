@@ -596,7 +596,7 @@ Insert into user_login values (1, 'create@sqrfactor.in', '1234');
 
 /**-------------------Add College Accounts Start--------------**/
 
-Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', 'Other', '' , 'AP02@sqrfactor.in', '2016-6-26', 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\ap02.jpeg');
+Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', 'Other', '' , 'AP02@sqrfactor.in', '2016-6-26', 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\AP02.jpg');
 Insert into user_login values (2, 'AP02@sqrfactor.in', '1234');
 
 /**-------------------Add College Accounts Start--------------**/
