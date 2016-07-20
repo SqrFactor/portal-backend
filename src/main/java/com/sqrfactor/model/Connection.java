@@ -31,6 +31,13 @@ public class Connection {
 		
 	}
 	
+	public Connection(Connection connection){
+		super();
+		this.connectionId = connection.getConnectionId();
+		this.sourceId = connection.getSourceId();
+		this.destinationId = connection.getDestinationId();
+	}
+	
 	public Connection(long sourceId, long destinationId){
 		super();
 		this.sourceId = sourceId;
