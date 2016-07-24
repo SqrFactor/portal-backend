@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.Message;
-import com.sqrfactor.model.Message;
-import com.sqrfactor.model.Message;
 import com.sqrfactor.service.MessageService;
+import com.sqrfactor.util.Constants;
 
 /**
  * @author Angad Gill
@@ -25,6 +24,9 @@ public class MessageController {
 
 	@Autowired
 	private MessageService messageService;
+	
+	@Autowired
+	private WebsocketServer websocketServer;
 
 	public MessageController() {
 	}
@@ -67,6 +69,9 @@ public class MessageController {
 	public ResponseEntity<Message> createMessage(@RequestBody Message message) {
 
 		messageService.saveMessage(message);
+		
+		//Notify User
+		websocketServer.sendMessageToUser(message.getRecipientUserId(), Constants.MESSAGE);
 
 		return new ResponseEntity<Message>(message, HttpStatus.CREATED);
 	}
