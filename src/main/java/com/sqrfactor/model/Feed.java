@@ -45,6 +45,18 @@ public class Feed {
 	@Column(name = "feedRefId")
 	private int feedRefId;
 	
+	@Column(name = "placeName")
+	private String placeName;
+	
+	@Column(name = "placeAddress")
+	private String placeAddress;
+	
+	@Column(name = "placeLat")
+	private double placeLat;
+	
+	@Column(name = "placeLng")
+	private double placeLng;
+	
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "createdAt", nullable = false)
     private Date createdAt;
@@ -55,17 +67,8 @@ public class Feed {
 	
 	public Feed(){}
 
-	/**
-	 * @param feedId
-	 * @param userId
-	 * @param feedTypeId
-	 * @param feedText
-	 * @param feedPath
-	 * @param feedActionId
-	 * @param feedRefId
-	 */
 	public Feed(int feedId, int userId, int feedTypeId, String feedText, String feedPath, int feedActionId,
-			int feedRefId, Date createdAt, Date modifiedAt) {
+			int feedRefId, String placeName, String placeAddress, double placeLat, double placeLng, Date createdAt, Date modifiedAt) {
 		super();
 		this.feedId = feedId;
 		this.userId = userId;
@@ -74,6 +77,10 @@ public class Feed {
 		this.feedPath = feedPath;
 		this.feedActionId = feedActionId;
 		this.feedRefId = feedRefId;
+		this.placeName = placeName;
+		this.placeAddress = placeAddress;
+		this.placeLat = placeLat;
+		this.placeLng = placeLng;
 		this.createdAt = createdAt;
 		this.modifiedAt = modifiedAt;
 	}
@@ -87,6 +94,10 @@ public class Feed {
 		this.feedPath = feed.getFeedPath();
 		this.feedActionId = feed.getFeedActionId();
 		this.feedRefId = feed.getFeedRefId();
+		this.placeName = feed.getPlaceName();
+		this.placeAddress = feed.getPlaceAddress();
+		this.placeLat = feed.getPlaceLat();
+		this.placeLng = feed.getPlaceLng();
 		this.createdAt = feed.getCreatedAt();
 		this.modifiedAt = feed.getModifiedAt();
 	}
@@ -189,6 +200,62 @@ public class Feed {
 		this.feedRefId = feedRefId;
 	}
 	
+	/**
+	 * @return the placeName
+	 */
+	public String getPlaceName() {
+		return placeName;
+	}
+
+	/**
+	 * @param placeName the placeName to set
+	 */
+	public void setPlaceName(String placeName) {
+		this.placeName = placeName;
+	}
+	
+	/**
+	 * @return the placeAddress
+	 */
+	public String getPlaceAddress() {
+		return placeAddress;
+	}
+
+	/**
+	 * @param placeAddress the placeAddress to set
+	 */
+	public void setPlaceAddress(String placeAddress) {
+		this.placeAddress = placeAddress;
+	}
+
+	/**
+	 * @return the placeLat
+	 */
+	public double getPlaceLat() {
+		return placeLat;
+	}
+
+	/**
+	 * @param placeLat the placeLat to set
+	 */
+	public void setPlaceLat(double placeLat) {
+		this.placeLat = placeLat;
+	}
+
+	/**
+	 * @return the placeLng
+	 */
+	public double getPlaceLng() {
+		return placeLng;
+	}
+
+	/**
+	 * @param placeLng the placeLng to set
+	 */
+	public void setPlaceLng(double placeLng) {
+		this.placeLng = placeLng;
+	}
+
 	/**
 	 * @return the createdAt
 	 */

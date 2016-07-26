@@ -78,6 +78,10 @@ public class FeedServiceImpl implements FeedService {
 			entity.setFeedPath(feed.getFeedPath());
 			entity.setFeedActionId(feed.getFeedActionId());
 			entity.setFeedRefId(feed.getFeedRefId());
+			entity.setPlaceName(feed.getPlaceName());
+			entity.setPlaceAddress(feed.getPlaceAddress());
+			entity.setPlaceLat(feed.getPlaceLat());
+			entity.setPlaceLng(feed.getPlaceLng());
 			Date now = new Date();
 			entity.setModifiedAt(now);
 		}

@@ -13,7 +13,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Component;
 
-import com.sqrfactor.util.cache.SessionMemcached;
+import com.sqrfactor.util.cache.SessionMap;
 
 /**
  * 
@@ -24,7 +24,8 @@ import com.sqrfactor.util.cache.SessionMemcached;
 @ServerEndpoint("/websocket")
 public class WebsocketServer {
 
-	private static SessionMemcached sessionMemcached = new SessionMemcached();
+	//private static SessionMemcached sessionMemcached = new SessionMemcached();
+	private static SessionMap sessionMap = new SessionMap();
 
 	private static Set<Session> sessions = Collections.synchronizedSet(new HashSet<Session>());
 
@@ -43,7 +44,7 @@ public class WebsocketServer {
 		}
 
 		String userId = session.getRequestParameterMap().get("userId").get(0);
-		sessionMemcached.addSessionId(userId, session.getId());
+		sessionMap.addSessionId(userId, session.getId());
 		sessions.add(session);
 	}
 
@@ -74,14 +75,14 @@ public class WebsocketServer {
 	public void onClose(Session session) {
 		System.out.println("Session " + session.getId() + " has ended");
 		String userId = session.getRequestParameterMap().get("userId").get(0);
-		sessionMemcached.removeSessionId(userId, session.getId());
+		sessionMap.removeSessionId(userId, session.getId());
 		sessions.remove(session);
 	}
 
 	public void sendMessageToUser(long userId, String message) {
 		for (Session session : sessions) {
 			if(session.isOpen())
-			for (String sessionId : sessionMemcached.listSessions(Long.toString(userId))) {
+			for (String sessionId : sessionMap.listSessions(Long.toString(userId))) {
 				if (session.getId().equals(sessionId)) {
 					try {
 						session.getBasicRemote().sendText(message);
