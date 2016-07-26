@@ -25,7 +25,7 @@ public class SessionMemcached {
 		if (sessions == null) {
 			sessions = Collections.synchronizedSet(new HashSet<String>());
 			sessions.add(sessionId);
-			memcached.add(userId, sessions);
+			memcached.set(userId, sessions);
 		} else {
 			sessions.add(sessionId);
 			memcached.replace(userId, sessions);

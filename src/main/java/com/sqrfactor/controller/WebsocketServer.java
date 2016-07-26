@@ -80,6 +80,7 @@ public class WebsocketServer {
 
 	public void sendMessageToUser(long userId, String message) {
 		for (Session session : sessions) {
+			if(session.isOpen())
 			for (String sessionId : sessionMemcached.listSessions(Long.toString(userId))) {
 				if (session.getId().equals(sessionId)) {
 					try {

@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sqrfactor.controller.WebsocketServer;
 import com.sqrfactor.dao.NotificationDao;
 import com.sqrfactor.model.Notification;
 import com.sqrfactor.service.NotificationService;
+import com.sqrfactor.util.Constants;
 
 /**
  * @author Angad Gill
@@ -23,7 +25,10 @@ public class NotificationServiceImpl implements NotificationService {
 
 	@Autowired
 	private NotificationDao notificationDao;
-
+	
+	@Autowired 
+	WebsocketServer websocketServer;
+	
 	@Override
 	public Notification findById(long notificationId) {
 		return notificationDao.findById(notificationId);
@@ -32,6 +37,7 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void saveNotification(Notification notification) {
 		notificationDao.saveNotification(notification);
+		websocketServer.sendMessageToUser(notification.getSourceUserId(), Constants.NOTIFICATION);	
 	}
 
 	@Override

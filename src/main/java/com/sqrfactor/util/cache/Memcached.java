@@ -30,13 +30,12 @@ class Memcached {
 		}
 	}
 
-	public void add(String key, Object value) {
-		mcc.add(key, EXPIRATION_TIME, value);
+	public void set(String key, Object value) {
+		mcc.set(key, EXPIRATION_TIME, value);
 	}
 
 	public void replace(String key, Object value) {
 		mcc.replace(key, EXPIRATION_TIME, value);
-		
 	}
 	
 	public void remove(String key) {
