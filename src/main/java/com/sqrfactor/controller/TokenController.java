@@ -17,10 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mysql.jdbc.StringUtils;
 import com.sqrfactor.email.Email;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
+import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.Login;
 import com.sqrfactor.model.User;
+import com.sqrfactor.model.Verification;
+import com.sqrfactor.service.ConnectionService;
 import com.sqrfactor.service.LoginService;
 import com.sqrfactor.service.UserService;
+import com.sqrfactor.service.VerificationService;
+import com.sqrfactor.util.RandomGenerator;
 import com.sqrfactor.utils.AuthUtils;
 
 /**
@@ -35,6 +40,12 @@ public class TokenController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private VerificationService verificationService;
+	
+	@Autowired
+	private ConnectionService connectionService;
 	
 	/**
 	 * Authenticate login
@@ -85,12 +96,21 @@ public class TokenController {
 		user.setEmailId(emailId);
 		userService.saveUser(user);
 		
-		//Use encryptedKey in future which is user specific
-		String verificationKey = "12345";
-		// Send Email
-		Email email = new BigRockEmailImpl();
-		email.sendVerificationMail(emailId, verificationKey);
+		Verification verification = verificationService.findByUserId(user.getUserId());
+		if(verification == null){
+			verification = new Verification();
+			verification.setVerificationUserId(user.getUserId());
+			verification.setEmailCode(RandomGenerator.nextRandom());
+			verificationService.saveVerification(verification);	
+		}else{
+			verification.setEmailCode(RandomGenerator.nextRandom());
+			verificationService.updateVerification(verification);
+		}
 
+		// Send Email
+		Email email = new BigRockEmailImpl();		
+		email.sendVerificationMail(emailId, verification.getEmailCode());
+		
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 	
@@ -102,23 +122,32 @@ public class TokenController {
 	 * @return
 	 */
 	@RequestMapping(value = "/user/verify", method = RequestMethod.PUT)
-	public ResponseEntity<User> updateUser(@RequestParam("emailId") String emailId, 
-			@RequestParam("verificationKey")String verificationKey) {
+	public ResponseEntity<User> updateUser(@RequestParam("emailId") String emailId, @RequestParam("verificationCode") String verificationCode) {
 
 		User currentUser = userService.findByEmailId(emailId);
 
 		if (currentUser == null) {
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
-
-		if(verificationKey.equals("1234")){
-			return new ResponseEntity<User>(currentUser, HttpStatus.BAD_REQUEST);
-		}
 		
 		if (!currentUser.isVerified()) {
-			userService.verifyUser(currentUser.getUserId());
+			//Confirm the verification Code
+			Verification verification = verificationService.findByUserId(currentUser.getUserId());
+			
+			if (verification == null) {
+				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			}
+			
+			//verify user if code matches
+			if(!StringUtils.isNullOrEmpty(verificationCode) && verification.getEmailCode().equals(verificationCode)){
+				userService.verifyUser(currentUser.getUserId());
+				addConnectionToAdminAccount(currentUser);
+				
+			}else{
+				return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+			}
 		}
-		
+
 		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
 	}
 	
@@ -169,6 +198,34 @@ public class TokenController {
 
 		return new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
 	}
+	
+	/**
+	 * Forgot Password
+	 * 
+	 * @param userName
+	 */
+	@RequestMapping(value = "/login/forgotpassword", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> forgotPassword(@RequestParam("username") String userName) {
+		
+		Login login = loginService.findByUsername(userName);
+		// Return error if login does not exists
+		if (login == null) {
+			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
+		}
+		
+		String newPassword = RandomGenerator.nextRandom();
+		
+		//Save New Password
+		login.setUserPassword(newPassword);
+		loginService.updateLogin(login);
+		
+		//Send Email
+		Email email = new BigRockEmailImpl();
+		email.sendForgotPasswordMail(userName, newPassword);
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+
 
 	
 	@SuppressWarnings("unused")
@@ -183,4 +240,21 @@ public class TokenController {
         	this.token = token;
         }
     }
+	
+	/**
+	 * 
+	 * @param user
+	 */
+	private void addConnectionToAdminAccount(User user){
+	
+		//Add Connection to Admin Account
+		Connection connection = new Connection();
+		
+		connection.setSourceId(user.getUserId());
+		User adminUser = userService.findByEmailId("create@sqrfactor.in");
+		if(adminUser!= null){
+			connection.setDestinationId(adminUser.getUserId());
+			connectionService.saveConnection(connection);	
+		}
+	}
 }

@@ -126,33 +126,6 @@ public class LoginController {
 	}
 
 	/**
-	 * Forgot Password
-	 * 
-	 * @param userName
-	 */
-	@RequestMapping(value = "/login/forgotpassword", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> forgotPassword(@RequestParam("username") String userName) {
-		
-		Login login = loginService.findByUsername(userName);
-		// Return error if login does not exists
-		if (login == null) {
-			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
-		}
-		
-		String newPassword = RandomGenerator.nextRandom();
-		
-		//Save New Password
-		login.setUserPassword(newPassword);
-		loginService.updateLogin(login);
-		
-		//Send Email
-		Email email = new BigRockEmailImpl();
-		email.sendForgotPasswordMail(userName, newPassword);
-		
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-	}
-
-	/**
 	 * Change Password 
 	 * 
 	 * @param userName
