@@ -4,7 +4,9 @@
 package com.sqrfactor.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -168,7 +170,7 @@ public class LoginController {
 		String oldpassword = loginMap.get("oldpassword");
 		String newpassword = loginMap.get("newpassword");
 		
-		if (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(oldpassword) || StringUtils.isNullOrEmpty(newpassword)) {
+		if (StringUtils.isBlank(username) || StringUtils.isBlank(oldpassword) || StringUtils.isBlank(newpassword)) {
 			return new ResponseEntity<Login>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -188,5 +190,4 @@ public class LoginController {
 	
 		return new ResponseEntity<Login>(login, HttpStatus.OK);
 	}
-
 }
