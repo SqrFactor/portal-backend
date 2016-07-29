@@ -29,6 +29,10 @@ public class User {
 	@Size(min = 3, max = 50)
 	@Column(name = "lastName")
 	String lastName;
+	
+	@Size(min = 1, max = 10)
+	@Column(name = "gender")
+	String gender;
 
 	@Size(min = 9, max = 12)
 	@Column(name = "contactNo", nullable = false)
@@ -47,23 +51,28 @@ public class User {
 	@Column(name = "isVerified")
 	boolean isVerified; 
 	
+	@Column(name = "about")
+	String about;
+	
 	@Column(name = "profilePicPath")
 	String profilePicPath;
 	
 	public User() {
 	}
 
-	public User(long userId, String firstName, String lastName, String dateOfBirth,
-			String contactNo,String emailId, String userTypeId, boolean isVerified, String profilePicPath) {
+	public User(long userId, String firstName, String lastName, String gender, String dateOfBirth,
+			String contactNo,String emailId, String userTypeId, boolean isVerified, String about, String profilePicPath) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.gender = gender;
 		this.contactNo = contactNo;
 		this.emailId = emailId;
 		this.dateOfBirth = dateOfBirth;
 		this.userTypeId = userTypeId;
 		this.isVerified = isVerified;
+		this.about = about;
 		this.profilePicPath  = profilePicPath;
 	}
 
@@ -89,6 +98,20 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 	public String getContactNo() {
@@ -136,6 +159,14 @@ public class User {
 	public void setVerified(boolean isVerified) {
 		this.isVerified = isVerified;
 	}
+	
+	public String getAbout(){
+		return about;
+	}
+	
+	public void setAbout(String about){
+		this.about = about;
+	}
 
 	/**
 	 * @return the profilePicPath
@@ -150,7 +181,5 @@ public class User {
 	public void setProfilePicPath(String profilePicPath) {
 		this.profilePicPath = profilePicPath;
 	}
-	
-	
 	
 }

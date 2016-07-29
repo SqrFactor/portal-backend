@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sqrfactor.constants.EnumUtils;
+import com.sqrfactor.constants.EnumUtils.FeedAction;
+import com.sqrfactor.constants.EnumUtils.NotificationType;
 import com.sqrfactor.model.Feed;
+import com.sqrfactor.model.Notification;
 import com.sqrfactor.service.FeedService;
+import com.sqrfactor.service.NotificationService;
 
 /**
  * @author Angad Gill
@@ -26,6 +31,9 @@ public class FeedController {
 
 	@Autowired
 	private FeedService feedService;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	public FeedController(){}
 	
@@ -70,7 +78,40 @@ public class FeedController {
 		}
 
 		feedService.saveFeed(feed);
-
+		
+		//---Add Notification if feedRef is not null---
+		if(feed.getFeedRefId() != 0){
+			
+			Notification notification = new Notification();
+			
+			//find original feed and fetch the user id
+			Feed sourceFeed = feedService.findById(feed.getFeedRefId());
+			if(sourceFeed != null){
+				long notificationSource = sourceFeed.getUserId();
+				
+				long notificationDestination = feed.getUserId();
+				
+				int notificationTypeId = 0; 
+				for(FeedAction action : EnumUtils.FeedAction.values()){
+					if(action.getActionCode() == feed.getFeedActionId()){
+						for(NotificationType type : EnumUtils.NotificationType.values()){
+							if(type.name().equals(action.name())){
+								notificationTypeId = type.getNotificationCode();
+							}
+						}
+					} 
+				}
+				
+				notification.setSourceUserId(notificationSource);
+				notification.setDestinationUserId(notificationDestination);
+				notification.setNotificationTypeId(notificationTypeId);
+				notification.setFeedRefId(feed.getFeedId());
+				if(notificationSource != notificationDestination){
+					notificationService.saveNotification(notification);	
+				}
+			}
+		}
+		
 		return new ResponseEntity<Feed>(feed, HttpStatus.CREATED);
 	}
 
@@ -107,6 +148,13 @@ public class FeedController {
 		}
 
 		feedService.deleteFeedById(id);
+		
+		//Fetch Actions if any
+		List<Feed> feedActionList = feedService.findByFeedRefId(id);
+		for(Feed feedAction : feedActionList){
+			feedService.deleteFeedById(feedAction.getFeedId());
+		}
+		
 		return new ResponseEntity<Feed>(HttpStatus.NO_CONTENT);
 	}
 

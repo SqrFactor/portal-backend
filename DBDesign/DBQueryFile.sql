@@ -442,20 +442,32 @@ INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('S1
 INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('P101', 'Professional');
 INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('T101', 'Teacher');
 INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('A101', 'Admin');
+INSERT INTO `sqr_factor`.`mstr_user_type` (`userTypeId`, `userType`) VALUES ('C101', 'College');
 
 Create table user_details(
 userId       int(16) AUTO_INCREMENT  NOT NULL,
 firstName    varchar(100)  ,
 lastName     varchar(100),
-contactNo    varchar(20)  ,
+gender		 varchar(10),
+contactNo    varchar(20),
 emailId      varchar(100) UNIQUE NOT NULL,
 dateOfBirth          varchar(100) ,
 userTypeId   varchar(20)  ,
 isVerified   tinyint(1) DEFAULT 0,
+about		 varchar(200),
 profilePicPath	 varchar(500),	
 PRIMARY KEY (userId),
 FOREIGN KEY (userTypeId) REFERENCES mstr_user_type(userTypeId)
 ); 
+
+Create table verification_details(
+verificationId		int(16) AUTO_INCREMENT NOT NULL,
+verificationUserId	int(16) NOT NULL,
+emailCode		varchar(100),
+phoneCode		varchar(100),
+PRIMARY KEY (verificationId),
+FOREIGN KEY (verificationUserId) REFERENCES user_details(userId)
+);
 
 
 /**-------------------Education Tables Start-------------------**/
@@ -490,6 +502,8 @@ PRIMARY KEY (feedActionId)
 );
 
 Insert into feed_action_list (`feedAction`) values ('Comment');
+Insert into feed_action_list (`feedAction`) values ('Like');
+Insert into feed_action_list (`feedAction`) values ('Share');
 
 Create Table feed_type_list (
 feedTypeId   int(3) AUTO_INCREMENT NOT NULL,
@@ -507,6 +521,10 @@ feedText	varchar(500),
 feedPath	varchar(500),
 feedActionId	int(3),
 feedRefId 		int(16),
+placeName 		VARCHAR(250),
+placeAddress 	VARCHAR(250),
+placeLat 		DECIMAL(10,8),
+placeLng 		DECIMAL(11,8),
 createdAt		TIMESTAMP,
 modifiedAt		TIMESTAMP,
 PRIMARY KEY (feedId),
@@ -529,5 +547,60 @@ FOREIGN KEY (destinationId) REFERENCES user_details(userId)
 
 /**-------------------Connection Tables End-------------------**/
 
+/**-------------------Notification Tables Start-------------------**/
 
 
+Create Table notification_type_list (
+typeId     int(20)  NOT NULL,
+typeName     varchar(500) NOT NULL,
+PRIMARY KEY (typeId)
+);  
+
+Insert into notification_type_list values ('1','ConnectionAdded');
+Insert into notification_type_list values ('2','Comment');
+Insert into notification_type_list values ('3','Like');
+Insert into notification_type_list values ('4','Share');
+
+Create table notification_details(
+notificationId     int(16) AUTO_INCREMENT NOT NULL,
+sourceUserId       	   int(16), 
+destinationUserId      int(16),
+notificationTypeId		int(10),
+feedRefId				int(16),
+isRead					tinyint(1) DEFAULT 0,
+createdAt				TIMESTAMP,
+PRIMARY KEY (notificationId),
+FOREIGN KEY (notificationTypeId) REFERENCES notification_type_list(typeId),
+FOREIGN KEY (sourceUserId) REFERENCES user_details(userId),
+FOREIGN KEY (destinationUserId) REFERENCES user_details(userId)
+);
+
+/**-------------------Notification Tables End-------------------**/
+/**-------------------Message Tables Start-------------------**/
+
+Create table message_details(
+messageId              int(16) AUTO_INCREMENT NOT NULL,
+senderUserId       	   int(16) NOT NULL, 
+recipientUserId        int(16) NOT NULL,
+messageText					varchar(100) NOT NULL,
+isRead				   tinyint(1) DEFAULT 0,
+createdAt			   TIMESTAMP,
+PRIMARY KEY (messageId),
+FOREIGN KEY (senderUserId) REFERENCES user_details(userId),
+FOREIGN KEY (recipientUserId) REFERENCES user_details(userId)
+);
+
+/**-------------------Message Tables End-------------------**/
+
+/**-------------------Add Admin Account Start-------------------**/
+Insert into user_details values (1, 'SqrFactor India', '', 'other', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.png');
+Insert into user_login values (1, 'create@sqrfactor.in', '1234');
+
+/**-------------------Add Admin Account End-------------------**/
+
+/**-------------------Add College Accounts Start--------------**/
+
+Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', 'other', '' , 'AP02@sqrfactor.in', '2016-6-26', 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\AP02.jpg');
+Insert into user_login values (2, 'AP02@sqrfactor.in', '1234');
+
+/**-------------------Add College Accounts Start--------------**/

@@ -19,6 +19,7 @@ import com.sqrfactor.email.Email;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
 import com.sqrfactor.model.Login;
 import com.sqrfactor.service.LoginService;
+import com.sqrfactor.util.RandomGenerator;
 
 /**
  * @author Angad Gill
@@ -136,10 +137,56 @@ public class LoginController {
 			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
 		}
 		
+		String newPassword = RandomGenerator.nextRandom();
+		
+		//Save New Password
+		login.setUserPassword(newPassword);
+		loginService.updateLogin(login);
+		
+		//Send Email
 		Email email = new BigRockEmailImpl();
-		email.sendForgotPasswordMail(userName);
+		email.sendForgotPasswordMail(userName, newPassword);
 		
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+
+	/**
+	 * Change Password 
+	 * 
+	 * @param userName
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(value = "/login/changepassword", method = RequestMethod.PUT)
+	public ResponseEntity<Login> changePassword(@RequestBody Map<String, String> loginMap) {
+
+		if (!loginMap.containsKey("username") || !loginMap.containsKey("oldpassword") || !loginMap.containsKey("newpassword")) {
+			return new ResponseEntity<Login>(HttpStatus.BAD_REQUEST);
+		}
+
+		String username = loginMap.get("username");
+		String oldpassword = loginMap.get("oldpassword");
+		String newpassword = loginMap.get("newpassword");
+		
+		if (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(oldpassword) || StringUtils.isNullOrEmpty(newpassword)) {
+			return new ResponseEntity<Login>(HttpStatus.BAD_REQUEST);
+		}
+
+		Login login = loginService.findByUsername(username);
+		
+		if (login == null) {
+			return new ResponseEntity<Login>(HttpStatus.NOT_FOUND);
+		}
+		
+		//if old password doesnt match
+		if(!login.getUserPassword().equals(oldpassword)){
+			return new ResponseEntity<Login>(HttpStatus.BAD_REQUEST);
+		}
+
+		login.setUserPassword(newpassword);
+		loginService.updateLogin(login);
+	
+		return new ResponseEntity<Login>(login, HttpStatus.OK);
 	}
 
 }

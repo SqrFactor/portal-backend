@@ -74,21 +74,26 @@ public class EnrichedFeedController {
 				continue;
 			}
 
-			String firstName = "";
-			String lastName = "";
-			String profilePicPath = "";
-			if (user.getFirstName() != null) {
-				firstName = user.getFirstName();
+			String name = getName(user);
+			String profilePicPath = getProfilePicPath(user);
+			
+			long refUserId = 0;
+			String refName = "";
+			String refProfilePicPath = "";
+			
+			Feed refFeed = feedService.findById(feed.getFeedRefId());
+			if(refFeed != null){
+				User refUser = userService.findById(refFeed.getUserId());
+				
+				if(refUser != null){
+				
+					refUserId = refUser.getUserId();
+					refName = getName(refUser);
+					refProfilePicPath = getProfilePicPath(refUser);
+				}
 			}
-			if (user.getLastName() != null) {
-				lastName = user.getLastName();
-			}
-			if(user.getProfilePicPath() != null){
-				profilePicPath = user.getProfilePicPath();
-			}
-
-			String name = firstName + " " + lastName;
-			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath);
+			
+			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath, refUserId, refName, refProfilePicPath);
 			enrichedFeeds.add(enrichedFeed);
 		}
 		if (enrichedFeeds.isEmpty()) {
@@ -128,8 +133,8 @@ public class EnrichedFeedController {
 		for (Feed feed : feeds) {
 			User user = userService.findById(feed.getUserId());
 			
-			//Remove Comments from feed
-			if(feed.getFeedRefId() != 0){
+			//Remove Comments/like from feed
+			if(feed.getFeedActionId()== 1 || feed.getFeedActionId() == 2){
 				continue;
 			}
 			
@@ -137,24 +142,51 @@ public class EnrichedFeedController {
 				continue;
 			}
 
-			String firstName = "";
-			String lastName = "";
-			String profilePicPath = "";
-			if (user.getFirstName() != null) {
-				firstName = user.getFirstName();
+			String name = getName(user);
+			String profilePicPath = getProfilePicPath(user);
+			
+			long refUserId = 0;
+			String refName = "";
+			String refProfilePicPath = "";
+			
+			Feed refFeed = feedService.findById(feed.getFeedRefId());
+			if(refFeed != null){
+				User refUser = userService.findById(refFeed.getUserId());
+				
+				if(refUser != null){
+					refUserId = refUser.getUserId();
+					refName = getName(refUser);
+					refProfilePicPath = getProfilePicPath(refUser);
+				}
 			}
-			if (user.getLastName() != null) {
-				lastName = user.getLastName();
-			}
-			if(user.getProfilePicPath() != null){
-				profilePicPath = user.getProfilePicPath();
-			}
-
-			String name = firstName + " " + lastName;
-			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath);
+			
+			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath, refUserId, refName, refProfilePicPath);
 			enrichedFeeds.add(enrichedFeed);
 		}
 		return enrichedFeeds;
+	}
+	
+	private String getName(User user){
+		String firstName = "";
+		String lastName = "";
+		if (user.getFirstName() != null) {
+			firstName = user.getFirstName();
+		}
+		if (user.getLastName() != null) {
+			lastName = user.getLastName();
+		}
+		String name = firstName + " " + lastName;
+		
+		return name;
+	}
+	
+	private String getProfilePicPath(User user){
+		String profilePicPath = "";
+		
+		if(user.getProfilePicPath() != null){
+			profilePicPath = user.getProfilePicPath();
+		}
+		return profilePicPath;
 	}
 
 }
