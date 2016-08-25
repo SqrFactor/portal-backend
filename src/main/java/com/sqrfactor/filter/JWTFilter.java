@@ -44,7 +44,9 @@ public class JWTFilter extends GenericFilterBean {
 		// Do not validate Authorization param if Path equals below
 		if (!request.getPathInfo().equals("/login/authenticate") && !request.getPathInfo().equals("/user/signup")
 				&& !request.getPathInfo().equals("/user/verify") && !request.getPathInfo().equals("/user/register")
-				&& !request.getPathInfo().equals("/login/forgotpassword")) {
+				&& !request.getPathInfo().equals("/login/forgotpassword")
+				&& !request.getPathInfo().equals("/websocket")
+				&& !request.getMethod().equals("OPTIONS")) {
 
 			final String authHeader = request.getHeader(AUTH_HEADER_KEY);
 
