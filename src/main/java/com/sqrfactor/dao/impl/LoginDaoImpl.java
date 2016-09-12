@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.sqrfactor.dao.AbstractDao;
 import com.sqrfactor.dao.LoginDao;
 import com.sqrfactor.model.Login;
+import com.sqrfactor.model.SocialLogin;
 
 /**
  * @author Angad Gill
@@ -20,6 +21,12 @@ public class LoginDaoImpl extends AbstractDao<Long, Login> implements LoginDao {
 
 	public Login findById(long id) {
 		return getByKey(id);
+	}
+	
+	public Login findByUserId(long userId) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("userId", userId));
+		return (Login) criteria.uniqueResult();
 	}
 	
 	public void saveLogin(Login login) {
@@ -47,13 +54,6 @@ public class LoginDaoImpl extends AbstractDao<Long, Login> implements LoginDao {
 	public Login findLoginByUsername(String userName){
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("userName", userName));
-		return (Login) criteria.uniqueResult();
-	}
-	
-	public Login findBySocialUID(String socialUID, String loginVia){
-		Criteria criteria = createEntityCriteria();
-		criteria.add(Restrictions.eq("socialUID", socialUID));
-		criteria.add(Restrictions.eq("loginVia", loginVia));
 		return (Login) criteria.uniqueResult();
 	}
 }

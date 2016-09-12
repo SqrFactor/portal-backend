@@ -38,6 +38,10 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.findById(userId);
 	}
 	
+	public Login findByUserId(long userId){
+		return loginDao.findByUserId(userId);
+	}
+	
 	/**
 	 * Find login by username
 	 */
@@ -45,13 +49,6 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.findLoginByUsername(userName);
 	}
 	
-	/**
-	 * Find login by socialUID
-	 */
-	public Login findBySocialUID(String socialUID, String loginVia){
-		return loginDao.findBySocialUID(socialUID, loginVia);
-	}
-
 	/**
 	 * Save Logins
 	 */
@@ -67,8 +64,6 @@ public class LoginServiceImpl implements LoginService {
 		if (entity != null) {
 			entity.setUserName(login.getUserName());
 			entity.setUserPassword(login.getUserPassword());
-			entity.setSocialUID(login.getSocialUID());
-			entity.setLoginVia(login.getLoginVia());
 		}
 	}
 

@@ -12,6 +12,8 @@ public interface LoginDao {
 
 	Login findById(long userId);
 	
+	Login findByUserId(long userId);
+	
 	void saveLogin(Login login);
 
 	void deleteLoginById(long id);
@@ -21,7 +23,4 @@ public interface LoginDao {
 	Login findLoginById(long id);
 
 	Login findLoginByUsername(String userName);
-	
-	Login findBySocialUID(String socialUID, String loginVia);
-
 }

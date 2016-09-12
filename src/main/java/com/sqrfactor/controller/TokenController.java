@@ -19,10 +19,12 @@ import com.sqrfactor.email.Email;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
 import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.Login;
+import com.sqrfactor.model.SocialLogin;
 import com.sqrfactor.model.User;
 import com.sqrfactor.model.Verification;
 import com.sqrfactor.service.ConnectionService;
 import com.sqrfactor.service.LoginService;
+import com.sqrfactor.service.SocialLoginService;
 import com.sqrfactor.service.UserService;
 import com.sqrfactor.service.VerificationService;
 import com.sqrfactor.util.RandomGenerator;
@@ -46,6 +48,9 @@ public class TokenController {
 	
 	@Autowired
 	private ConnectionService connectionService;
+	
+	@Autowired 
+	private SocialLoginService socialLoginService;
 	
 	/**
 	 * Authenticate login
@@ -96,27 +101,36 @@ public class TokenController {
 			return new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
 		}
 		
-		Login login = loginService.findBySocialUID(socialUID, loginVia);
+		SocialLogin socialLogin = socialLoginService.findBySocialUID(socialUID, loginVia);
 		
-		if(login == null){
-			//Create a new user
-			//Can also set DOB and other fields
-			User user = new User();
-			user.setEmailId(emailId);
-			user.setVerified(true);
-			userService.saveUser(user);
+		if(socialLogin == null){
 			
-			//Save the Login Details
-			Login loginToSave = new Login();
-			loginToSave.setUserId(user.getUserId());
-			loginToSave.setSocialUID(socialUID);
-			loginToSave.setLoginVia(loginVia);
-			loginToSave.setUserName(emailId);
-			loginToSave.setUserPassword("");
-			loginService.saveLogin(loginToSave);
+			User user = userService.findByEmailId(emailId);
+			if(user == null){
+				user = new User();
+				user.setEmailId(emailId);
+				user.setVerified(true);
+				userService.saveUser(user);
+			}
 			
-			login = loginService.findById(user.getUserId());
+			Login login = loginService.findById(user.getUserId());
+			if(login == null){
+				Login loginToSave = new Login();
+				loginToSave.setUserId(user.getUserId());
+				loginToSave.setUserName(emailId);
+				loginToSave.setUserPassword("");
+				loginService.saveLogin(loginToSave);
+			}
+		
+			//Create Social Login
+			SocialLogin socialLoginToSave = new SocialLogin();
+			socialLoginToSave.setUserId(user.getUserId());
+			socialLoginToSave.setSocialUID(socialUID);
+			socialLoginToSave.setLoginVia(loginVia);
+			socialLoginService.saveSocialLogin(socialLoginToSave);
 		}
+		
+		Login login = loginService.findByUserId(socialLogin.getUserId());
 		
 		//TODO Change since username could be empty/null
 		String token = AuthUtils.createToken(login.getUserName(), login.getUserId()); 
