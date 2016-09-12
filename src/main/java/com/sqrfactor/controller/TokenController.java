@@ -100,8 +100,10 @@ public class TokenController {
 		
 		if(login == null){
 			//Create a new user
+			//Can also set DOB and other fields
 			User user = new User();
 			user.setEmailId(emailId);
+			user.setVerified(true);
 			userService.saveUser(user);
 			
 			//Save the Login Details
@@ -110,6 +112,7 @@ public class TokenController {
 			loginToSave.setSocialUID(socialUID);
 			loginToSave.setLoginVia(loginVia);
 			loginToSave.setUserName(emailId);
+			loginToSave.setUserPassword("");
 			loginService.saveLogin(loginToSave);
 			
 			login = loginService.findById(user.getUserId());

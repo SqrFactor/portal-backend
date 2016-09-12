@@ -24,8 +24,8 @@ public class Login {
 	@Column(name = "userName", nullable = false)
 	private String userName;
 	
-	@Size(min = 3, max = 50)
-	@Column(name = "userPassword", nullable = false)
+	@Size(max = 50)
+	@Column(name = "userPassword")
 	private String userPassword;
 	
 	@Size(min = 1, max = 100)
