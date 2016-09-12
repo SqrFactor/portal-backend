@@ -76,6 +76,52 @@ public class TokenController {
 
 		return new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
 	}
+
+	/**
+	 * Authenticate Social login
+	 * 
+	 * @param login
+	 */
+	@RequestMapping(value = "/login/social/authenticate", method = RequestMethod.POST)
+	public ResponseEntity<LoginResponse> authenticateSocialLogin(@RequestBody Map<String, String> socialLoginMap) {
+		if (!socialLoginMap.containsKey("socialUID") || !socialLoginMap.containsKey("emailId") || !socialLoginMap.containsKey("loginVia")) {
+			return new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
+		}
+
+		String socialUID = socialLoginMap.get("socialUID");
+		String emailId = socialLoginMap.get("emailId");
+		String loginVia = socialLoginMap.get("loginVia");
+		
+		if (StringUtils.isNullOrEmpty(socialUID) || StringUtils.isNullOrEmpty(emailId) || StringUtils.isNullOrEmpty(loginVia)) {
+			return new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
+		}
+		
+		Login login = loginService.findBySocialUID(socialUID, loginVia);
+		
+		if(login == null){
+			//Create a new user
+			User user = new User();
+			user.setEmailId(emailId);
+			userService.saveUser(user);
+			
+			//Save the Login Details
+			Login loginToSave = new Login();
+			loginToSave.setUserId(user.getUserId());
+			loginToSave.setSocialUID(socialUID);
+			loginToSave.setLoginVia(loginVia);
+			loginToSave.setUserName(emailId);
+			loginService.saveLogin(loginToSave);
+			
+			login = loginService.findById(user.getUserId());
+		}
+		
+		//TODO Change since username could be empty/null
+		String token = AuthUtils.createToken(login.getUserName(), login.getUserId()); 
+		LoginResponse response = new LoginResponse(login.getUserId(), login.getUserName(), token);
+			
+		return new ResponseEntity<LoginResponse>(response, HttpStatus.OK);
+	}
+
 	
 	/**
 	 * Signup User

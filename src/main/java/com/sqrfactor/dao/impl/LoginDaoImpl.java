@@ -50,4 +50,10 @@ public class LoginDaoImpl extends AbstractDao<Long, Login> implements LoginDao {
 		return (Login) criteria.uniqueResult();
 	}
 	
+	public Login findBySocialUID(String socialUID, String loginVia){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("socialUID", socialUID));
+		criteria.add(Restrictions.eq("loginVia", loginVia));
+		return (Login) criteria.uniqueResult();
+	}
 }

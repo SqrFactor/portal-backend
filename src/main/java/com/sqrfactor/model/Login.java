@@ -28,6 +28,14 @@ public class Login {
 	@Column(name = "userPassword", nullable = false)
 	private String userPassword;
 	
+	@Size(min = 1, max = 100)
+	@Column(name = "socialUID")
+	private String socialUID;
+	
+	@Size(min = 1, max = 20)
+	@Column(name = "loginVia")
+	private String loginVia;
+	
 	public Login(){
 		
 	}
@@ -63,4 +71,31 @@ public class Login {
 		this.userPassword = userPassword;
 	}
 
+	/**
+	 * @return the socialUID
+	 */
+	public String getSocialUID() {
+		return socialUID;
+	}
+
+	/**
+	 * @param socialUID the socialUID to set
+	 */
+	public void setSocialUID(String socialUID) {
+		this.socialUID = socialUID;
+	}
+
+	/**
+	 * @return the loginVia
+	 */
+	public String getLoginVia() {
+		return loginVia;
+	}
+
+	/**
+	 * @param loginVia the loginVia to set
+	 */
+	public void setLoginVia(String loginVia) {
+		this.loginVia = loginVia;
+	}
 }

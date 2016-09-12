@@ -21,5 +21,7 @@ public interface LoginDao {
 	Login findLoginById(long id);
 
 	Login findLoginByUsername(String userName);
+	
+	Login findBySocialUID(String socialUID, String loginVia);
 
 }

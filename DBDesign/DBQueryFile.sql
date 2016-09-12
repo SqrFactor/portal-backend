@@ -490,6 +490,8 @@ Create table user_login(
 userId       int(16),
 userName     varchar(100) NOT NULL,
 userPassword varchar(100) NOT NULL,
+socialUID VARCHAR(100),
+loginVia VARCHAR(20),
 PRIMARY KEY (userId),
 FOREIGN KEY (userId) REFERENCES user_details(userId)
 );

@@ -42,7 +42,8 @@ public class JWTFilter extends GenericFilterBean {
 		Claims claims = null;
 
 		// Do not validate Authorization param if Path equals below
-		if (!request.getPathInfo().equals("/login/authenticate") && !request.getPathInfo().equals("/user/signup")
+		if (!request.getPathInfo().equals("/login/authenticate") && !request.getPathInfo().equals("/login/social/authenticate")
+				&&!request.getPathInfo().equals("/user/signup")
 				&& !request.getPathInfo().equals("/user/verify") && !request.getPathInfo().equals("/user/register")
 				&& !request.getPathInfo().equals("/login/forgotpassword")
 				&& !request.getPathInfo().equals("/websocket")
