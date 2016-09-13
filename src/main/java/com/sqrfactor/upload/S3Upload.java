@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import com.amazonaws.auth.PropertiesCredentials;
@@ -132,9 +133,13 @@ public class S3Upload {
 		System.out.println("Etag:" + result.getETag() + "-->" + result);
 		
 		//Cleanup
-		outputFileName.delete();
+		try {
+			FileUtils.forceDelete(outputFileName);
+		} catch (IOException e) {
+			return true;
+		}
+		
 		return true;
-
 	}
 
 	
