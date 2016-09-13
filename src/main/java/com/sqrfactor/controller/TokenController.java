@@ -3,6 +3,9 @@
  */
 package com.sqrfactor.controller;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,7 @@ import com.sqrfactor.service.LoginService;
 import com.sqrfactor.service.SocialLoginService;
 import com.sqrfactor.service.UserService;
 import com.sqrfactor.service.VerificationService;
+import com.sqrfactor.upload.S3Upload;
 import com.sqrfactor.util.RandomGenerator;
 import com.sqrfactor.utils.AuthUtils;
 
@@ -96,6 +100,9 @@ public class TokenController {
 		String socialUID = socialLoginMap.get("socialUID");
 		String emailId = socialLoginMap.get("emailId");
 		String loginVia = socialLoginMap.get("loginVia");
+		String imageUrl = socialLoginMap.get("imageUrl");
+		String name = socialLoginMap.get("name");
+		
 		
 		if (StringUtils.isNullOrEmpty(socialUID) || StringUtils.isNullOrEmpty(emailId) || StringUtils.isNullOrEmpty(loginVia)) {
 			return new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
@@ -104,12 +111,51 @@ public class TokenController {
 		SocialLogin socialLogin = socialLoginService.findBySocialUID(socialUID, loginVia);
 		
 		if(socialLogin == null){
-			
+			//TODO Refactor
 			User user = userService.findByEmailId(emailId);
 			if(user == null){
+				
+				//Upload the image
+				String profilePicPath = "";
+				
+				S3Upload s3Upload = new S3Upload();
+				 
+				String destinationFilePath = "/angad";
+				String fileType = "jpg";
+				
+				boolean uploaded = false;
+				String destinationFileName = "";
+				if(imageUrl.lastIndexOf("jpg") > -1 ){
+					fileType = "jpg";
+					destinationFileName = System.currentTimeMillis() + ".JPG";
+					uploaded = s3Upload.upload(imageUrl, destinationFilePath, destinationFileName, fileType);
+				}else if(imageUrl.lastIndexOf("png") > -1){
+					fileType = "png";
+					destinationFileName = System.currentTimeMillis() + ".PNG";
+					uploaded = s3Upload.upload(imageUrl, destinationFilePath, destinationFileName, fileType);
+				}
+				
+				if(uploaded){
+					profilePicPath = "http://d2v59i6n7k35i9.cloudfront.net" + destinationFilePath + "/" + destinationFileName;
+				}
+				
+				//Get the first and last name
+				String firstName = "";
+				String lastName = "";
+				
+				if(!StringUtils.isNullOrEmpty(name) && name.contains(" ")){
+					firstName = name.substring(0, name.indexOf(" "));
+					lastName = name.substring(name.indexOf(" ") + 1);
+				}else{
+					firstName = name;
+				}
+				
 				user = new User();
 				user.setEmailId(emailId);
 				user.setVerified(true);
+				user.setProfilePicPath(profilePicPath);
+				user.setFirstName(firstName);
+				user.setLastName(lastName);
 				userService.saveUser(user);
 			}
 			
@@ -123,13 +169,14 @@ public class TokenController {
 			}
 		
 			//Create Social Login
-			SocialLogin socialLoginToSave = new SocialLogin();
-			socialLoginToSave.setUserId(user.getUserId());
-			socialLoginToSave.setSocialUID(socialUID);
-			socialLoginToSave.setLoginVia(loginVia);
-			socialLoginService.saveSocialLogin(socialLoginToSave);
+			socialLogin = new SocialLogin();
+			socialLogin.setUserId(user.getUserId());
+			socialLogin.setSocialUID(socialUID);
+			socialLogin.setLoginVia(loginVia);
+			socialLoginService.saveSocialLogin(socialLogin);
 		}
 		
+		//TODO breaking on signup
 		Login login = loginService.findByUserId(socialLogin.getUserId());
 		
 		//TODO Change since username could be empty/null
