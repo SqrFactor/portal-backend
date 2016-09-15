@@ -174,6 +174,9 @@ public class TokenController {
 			socialLogin.setSocialUID(socialUID);
 			socialLogin.setLoginVia(loginVia);
 			socialLoginService.saveSocialLogin(socialLogin);
+			
+			//Add Connection to admin account
+			addConnectionToAdminAccount(user);
 		}
 		
 		//TODO breaking on signup
