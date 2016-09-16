@@ -1,6 +1,6 @@
 #!/bin/bash
 TOMCAT_HOME="/usr/share/tomcat8"
-#Time in second to wait before we kill tomcat process gracefully
+#Time in seconds to wait before we kill tomcat process gracefully
 SHUTDOWN_WAIT=10
 start_server() {
     pid=$(ps aux | grep org.apache.catalina.startup.Bootstrap | grep -v grep | awk '{ print $2 }')
