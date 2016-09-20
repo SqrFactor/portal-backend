@@ -599,6 +599,28 @@ FOREIGN KEY (recipientUserId) REFERENCES user_details(userId)
 );
 
 /**-------------------Message Tables End-------------------**/
+/**-------------------Achievement Tables Start-------------------**/
+
+Create table achievement_details(
+achievementId           int(16) AUTO_INCREMENT NOT NULL,
+achievementName			varchar(100) NOT NULL,
+achievementDescription	varchar(100) NOT NULL,
+createdAt			   TIMESTAMP,
+PRIMARY KEY (achievementId)
+);
+
+Create table achievement_earned(
+achievementEarnedId		int(16) AUTO_INCREMENT NOT NULL,
+userId       	   		int(16) NOT NULL, 
+achievementId        	int(16) NOT NULL,
+createdAt			   	TIMESTAMP,
+PRIMARY KEY (achievementEarnedId),
+FOREIGN KEY (userId) REFERENCES user_details(userId),
+FOREIGN KEY (achievementId) REFERENCES achievement_details(achievementId)
+);
+
+/**-------------------Achievement Tables End-------------------**/
+
 
 /**-------------------Add Admin Account Start-------------------**/
 Insert into user_details values (1, 'SqrFactor India', '', 'other', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.png');
