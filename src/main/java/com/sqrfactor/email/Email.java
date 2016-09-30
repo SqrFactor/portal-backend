@@ -8,7 +8,7 @@ public abstract class Email{
 
 		String subject = "Verify your email address";
 		
-		String link = "http://portal.sqrfactor.in/#/verify?emailId=" + recipientEmail
+		String link = "http://beta.sqrfactor.in/#/verify?emailId=" + recipientEmail
 				+ "&verificationCode=" + verificationCode;
 		
 		String body = "Please click on the link to verify your email" + "\n\n " + link;
@@ -23,7 +23,7 @@ public abstract class Email{
 	public boolean sendForgotPasswordMail(String recipientEmail, String newPassword){
 
 		String subject = "Forgot Password";
-		String link = "http://portal.sqrfactor.in/#/login";
+		String link = "http://beta.sqrfactor.in/#/login";
 		String body = "Please click on the link to login with your new password" + "\n\n " + link
 				+"\n\n"
 				+"New Password : " + newPassword;
