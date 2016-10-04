@@ -161,9 +161,25 @@ public class S3Upload {
 	
 	private Map<String, String> populateFileTypes(){
 		Map<String, String> map = new HashMap<>();
+		
+		//image
 		map.put("jpg", "image/jpeg");
+		map.put("png", "image/png");
+		map.put("bmp", "image/bmp");
+		map.put("tiff", "image/tiff");
+		map.put("ico", "image/x-icon");
+		
+		//application
 		map.put("pdf", "application/pdf");
+		map.put("doc", "application/msword");
+		map.put("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+		map.put("csv", "application/vnd.ms-excel");
+		
+		//video
 		map.put("mp4", "video/mp4");
+		map.put("avi", "video/avi");
+		map.put("mpeg", "video/mpeg");
+		
 		return map;
 	}
 }

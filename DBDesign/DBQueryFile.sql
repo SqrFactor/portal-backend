@@ -519,7 +519,12 @@ feedType     varchar(100) NOT NULL,
 PRIMARY KEY (feedTypeId)
 );
 
-Insert into feed_type_list (`feedType`) values ('ArchitectDesign');
+Insert into feed_type_list (`feedType`) values ('Thought');
+Insert into feed_type_list (`feedType`) values ('Photography');
+Insert into feed_type_list (`feedType`) values ('Design');
+Insert into feed_type_list (`feedType`) values ('Article');
+Insert into feed_type_list (`feedType`) values ('Video');
+Insert into feed_type_list (`feedType`) values ('City');
 
 Create table feed_details(
 feedId       int(16) AUTO_INCREMENT NOT NULL,
