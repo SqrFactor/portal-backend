@@ -58,6 +58,11 @@ public class MessageServiceImpl implements MessageService {
 	}
 	
 	@Override
+	public List<Message> findMessagesBySenderUserId(long senderUserId){
+		return messageDao.findMessagesBySenderUserId(senderUserId);
+	}
+	
+	@Override
 	public List<Message> findMessagesByRecipientUserId(long recipientUserId){
 		return messageDao.findMessagesByRecipientUserId(recipientUserId);
 	}

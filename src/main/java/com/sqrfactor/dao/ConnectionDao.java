@@ -23,6 +23,8 @@ public interface ConnectionDao {
 
 	List<Connection> findConnectionsBySourceId(long sourceId);
 	
+	List<Connection> findConnectionsByDestinationId(long destinationId);
+	
 	Connection findConBySrcAndDestId(long sourceId, long destinationId);
 
 }

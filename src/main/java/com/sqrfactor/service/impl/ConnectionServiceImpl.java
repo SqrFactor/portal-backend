@@ -54,10 +54,15 @@ public class ConnectionServiceImpl implements ConnectionService {
 	public List<Connection> findAllConnections() {
 		return connectionDao.findAllConnections();
 	}
-
+	
 	@Override
 	public List<Connection> findConnectionsBySourceId(long sourceId) {
 		return connectionDao.findConnectionsBySourceId(sourceId);
+	}
+
+	@Override
+	public List<Connection> findConnectionsByDestinationId(long destinationId) {
+		return connectionDao.findConnectionsByDestinationId(destinationId);
 	}
 	
 	@Override

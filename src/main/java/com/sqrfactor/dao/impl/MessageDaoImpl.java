@@ -47,6 +47,13 @@ public class MessageDaoImpl extends AbstractDao<Long, Message> implements Messag
 		Criteria criteria = createEntityCriteria();
 		return (List<Message>) criteria.list();
 	}
+
+	@Override
+	public List<Message> findMessagesBySenderUserId(long senderUserId) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("senderUserId", senderUserId));
+		return (List<Message>) criteria.list();
+	}
 	
 	public List<Message> findMessagesByRecipientUserId(long recipientUserId){
 		Criteria criteria = createEntityCriteria();

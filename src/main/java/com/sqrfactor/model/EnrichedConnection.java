@@ -13,14 +13,18 @@ public class EnrichedConnection extends Connection{
 	private String destinationUserTypeId;
 	private String destinationName;
 	private String destinationProfilePicPath;
+	private String sourceName;
+	private String sourceProfilePicPath;
 	
 	public EnrichedConnection(Connection connection, String sourceUserTypeId, 
-			String destinationUserTypeId, String destinationName, String destinationProfilePicPath){
+			String destinationUserTypeId, String destinationName, String destinationProfilePicPath, String sourceName, String sourceProfilePicPath){
 		super(connection);
 		this.sourceUserTypeId = sourceUserTypeId;
 		this.destinationUserTypeId = destinationUserTypeId;
 		this.destinationName = destinationName;
 		this.destinationProfilePicPath = destinationProfilePicPath;
+		this.sourceName = sourceName;
+		this.sourceProfilePicPath = sourceProfilePicPath;
 	}
 
 	/**
@@ -78,6 +82,33 @@ public class EnrichedConnection extends Connection{
 	public void setDestinationProfilePicPath(String destinationProfilePicPath) {
 		this.destinationProfilePicPath = destinationProfilePicPath;
 	}
-	
+
+	/**
+	 * @return the sourceName
+	 */
+	public String getSourceName() {
+		return sourceName;
+	}
+
+	/**
+	 * @param sourceName the sourceName to set
+	 */
+	public void setSourceName(String sourceName) {
+		this.sourceName = sourceName;
+	}
+
+	/**
+	 * @return the sourceProfilePicPath
+	 */
+	public String getSourceProfilePicPath() {
+		return sourceProfilePicPath;
+	}
+
+	/**
+	 * @param sourceProfilePicPath the sourceProfilePicPath to set
+	 */
+	public void setSourceProfilePicPath(String sourceProfilePicPath) {
+		this.sourceProfilePicPath = sourceProfilePicPath;
+	}
 	
 }

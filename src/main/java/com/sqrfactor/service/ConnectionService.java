@@ -22,6 +22,8 @@ public interface ConnectionService {
 	void deleteConnectionById(long connectionId);
 
 	List<Connection> findAllConnections();
+	
+	List<Connection> findConnectionsByDestinationId(long destinationId);
 
 	List<Connection> findConnectionsBySourceId(long sourceId);
 	

@@ -59,8 +59,49 @@ public class EnrichedConnectionController {
 			String destinationName = getName(destinationUser);
 			String destinationProfilePicPath = getProfilePicPath(destinationUser);
 			
+			String sourceName = getName(sourceUser);
+			String sourceProfilePicPath = getProfilePicPath(sourceUser);
+			
 			EnrichedConnection enrichedConnection = new EnrichedConnection(connection, sourceUser.getUserTypeId(),
-					destinationUser.getUserTypeId(), destinationName, destinationProfilePicPath);
+					destinationUser.getUserTypeId(), destinationName, destinationProfilePicPath, sourceName, sourceProfilePicPath);
+			enrichedConnections.add(enrichedConnection);
+		
+		}
+		
+		return new ResponseEntity<List<EnrichedConnection>>(enrichedConnections, HttpStatus.OK);
+	}
+	
+	/**
+	 * Get all enriched connections by sourceId
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/connection/enriched/destinationid/{destinationId}", method = RequestMethod.GET)
+	public ResponseEntity<List<EnrichedConnection>> getConnectionsByDestinationId(@PathVariable("destinationId") long destinationId) {
+		List<EnrichedConnection> enrichedConnections = new ArrayList<EnrichedConnection>();
+		
+		List<Connection> connections = connectionService.findConnectionsByDestinationId(destinationId);
+		if (connections.isEmpty()) {
+			return new ResponseEntity<List<EnrichedConnection>>(HttpStatus.NOT_FOUND);
+		}
+		
+		User destinationUser = userService.findById(destinationId);
+		
+		for(Connection connection : connections){
+			
+			User sourceUser = userService.findById(connection.getSourceId());
+			if(sourceUser == null){
+				continue;
+			}
+			
+			String destinationName = getName(destinationUser);
+			String destinationProfilePicPath = getProfilePicPath(destinationUser);
+			
+			String sourceName = getName(sourceUser);
+			String sourceProfilePicPath = getProfilePicPath(sourceUser);
+			
+			EnrichedConnection enrichedConnection = new EnrichedConnection(connection, sourceUser.getUserTypeId(),
+					destinationUser.getUserTypeId(), destinationName, destinationProfilePicPath, sourceName, sourceProfilePicPath);
 			enrichedConnections.add(enrichedConnection);
 		
 		}

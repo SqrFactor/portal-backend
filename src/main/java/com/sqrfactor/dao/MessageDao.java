@@ -21,6 +21,8 @@ public interface MessageDao {
 	
 	List<Message> findAllMessages();
 	
+	List<Message> findMessagesBySenderUserId(long senderUserId);
+	
 	List<Message> findMessagesByRecipientUserId(long recipientUserId);
 	
 	List<Message> findMessagesBetweenUserIds(long userId1, long userId2);

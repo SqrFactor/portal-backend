@@ -136,30 +136,16 @@ public class ConnectionController {
 	 * @param connection
 	 */
 	@RequestMapping(value = "/connection/add", method = RequestMethod.POST)
-	public ResponseEntity<List<Connection>> addConnection(@RequestBody Connection connection) {
-		List<Connection> connections = new ArrayList<Connection>();
-		
+	public ResponseEntity<Connection> addConnection(@RequestBody Connection connection) {
 		//Check if already exists
 		Connection c1 = connectionService.findConBySrcAndDestId(connection.getSourceId(), connection.getDestinationId());
-		Connection c2 = connectionService.findConBySrcAndDestId(connection.getDestinationId(), connection.getSourceId());
 		
-		if(c1 != null || c2 != null){
-			connections.add(c1);
-			connections.add(c2);
-			return new ResponseEntity<List<Connection>>(connections, HttpStatus.CONFLICT);
+		if(c1 != null){
+			return new ResponseEntity<Connection>(connection, HttpStatus.CONFLICT);
 		}
 		
 		//Add connections
 		connectionService.saveConnection(connection);
-		
-		Connection entity = new Connection();
-		entity.setSourceId(connection.getDestinationId());
-		entity.setDestinationId(connection.getSourceId());
-		
-		connectionService.saveConnection(entity);
-
-		connections.add(connection);
-		connections.add(entity);
 		
 		//Add notification
 		Notification notification = new Notification();
@@ -171,7 +157,7 @@ public class ConnectionController {
 		notification.setNotificationTypeId(EnumUtils.NotificationType.ConnectionAdded.getNotificationCode());
 		
 		notificationService.saveNotification(notification);
-		return new ResponseEntity<List<Connection>>(connections, HttpStatus.CREATED);
+		return new ResponseEntity<Connection>(connection, HttpStatus.CREATED);
 
 	}
 
@@ -184,12 +170,10 @@ public class ConnectionController {
 	public ResponseEntity<Connection> removeConnection(@RequestBody Connection connection) {
 		
 		Connection c1 = connectionService.findConBySrcAndDestId(connection.getSourceId(), connection.getDestinationId());
-		Connection c2 = connectionService.findConBySrcAndDestId(connection.getDestinationId(), connection.getSourceId());
-
-		connectionService.deleteConnectionById(c1.getConnectionId());
-		connectionService.deleteConnectionById(c2.getConnectionId());
 		
-		if (c1 == null || c2 == null) {
+		connectionService.deleteConnectionById(c1.getConnectionId());
+		
+		if (c1 == null) {
 			return new ResponseEntity<Connection>(HttpStatus.NOT_FOUND);
 		}
 		

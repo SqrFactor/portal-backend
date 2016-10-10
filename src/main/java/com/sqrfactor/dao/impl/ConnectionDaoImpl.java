@@ -52,6 +52,13 @@ public class ConnectionDaoImpl extends AbstractDao<Long, Connection> implements 
 	}
 	
 	@Override
+	public List<Connection> findConnectionsByDestinationId(long destinationId) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("destinationId", destinationId));
+		return  (List<Connection>)criteria.list();
+	}
+	
+	@Override
 	public Connection findConBySrcAndDestId(long sourceId, long destinationId){
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("sourceId", sourceId));
