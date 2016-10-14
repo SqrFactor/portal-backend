@@ -30,7 +30,7 @@ public class UserController {
 	 * 
 	 * @return
 	 */
-	@PreAuthorize("hasRole('ROLE_USER')")
+	//@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/user/", method = RequestMethod.GET)
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> users = userService.findAllUsers();
