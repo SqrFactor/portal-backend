@@ -486,6 +486,24 @@ FOREIGN KEY (colCode) REFERENCES mstr_college_list(colCode)
 
 /**-------------------Education Tables End-------------------**/
 
+/**-------------------Professional Tables Start-------------------**/
+
+Create table profession_details(
+id       int(16) AUTO_INCREMENT NOT NULL,
+userId       int(16) NOT NULL,
+professionType	varchar(20) NOT NULL,
+professionRole	varchar(100),
+professionCompany varchar(100) NOT NULL,
+professionSalary varchar(100),
+professionFromYear varchar(20) NOT NULL,
+professionToYear varchar(20) NOT NULL,
+PRIMARY KEY (id),
+FOREIGN KEY (userId) REFERENCES user_details(userId)
+);
+
+/**-------------------Professional Tables End-------------------**/
+
+
 Create table user_login(
 userId       int(16),
 userName     varchar(100) NOT NULL,
