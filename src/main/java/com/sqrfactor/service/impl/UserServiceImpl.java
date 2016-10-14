@@ -64,6 +64,9 @@ public class UserServiceImpl implements UserService {
 			entity.setGender(user.getGender());
 			entity.setDateOfBirth(user.getDateOfBirth());
 			entity.setContactNo(user.getContactNo());
+			entity.setUsrCountry(user.getUsrCountry());
+			entity.setUsrState(user.getUsrState());
+			entity.setUsrCity(user.getUsrCity());
 			//entity.setEmailId(user.getEmailId());
 			entity.setUserTypeId(user.getUserTypeId());
 			entity.setAbout(user.getAbout());

@@ -42,8 +42,18 @@ public class User {
 	@Column(name = "emailId", nullable = false)
 	String emailId;
 	
+	@Column(name = "usrCountry")
+	String usrCountry;
+	
+	@Column(name = "usrState")
+	String usrState;
+	
+	@Column(name = "usrCity")
+	String usrCity;
+	
 	@Column(name = "dateOfBirth")
 	String dateOfBirth;
+	
 		
 	@Column(name = "userTypeId", nullable = false)
 	String userTypeId;
@@ -60,8 +70,25 @@ public class User {
 	public User() {
 	}
 
-	public User(long userId, String firstName, String lastName, String gender, String dateOfBirth,
-			String contactNo,String emailId, String userTypeId, boolean isVerified, String about, String profilePicPath) {
+	/**
+	 * @param userId
+	 * @param firstName
+	 * @param lastName
+	 * @param gender
+	 * @param contactNo
+	 * @param emailId
+	 * @param usrCountry
+	 * @param usrState
+	 * @param usrCity
+	 * @param dateOfBirth
+	 * @param userTypeId
+	 * @param isVerified
+	 * @param about
+	 * @param profilePicPath
+	 */
+	public User(long userId, String firstName, String lastName, String gender, String contactNo, String emailId,
+			String usrCountry, String usrState, String usrCity, String dateOfBirth, String userTypeId,
+			boolean isVerified, String about, String profilePicPath) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -69,12 +96,17 @@ public class User {
 		this.gender = gender;
 		this.contactNo = contactNo;
 		this.emailId = emailId;
+		this.usrCountry = usrCountry;
+		this.usrState = usrState;
+		this.usrCity = usrCity;
 		this.dateOfBirth = dateOfBirth;
 		this.userTypeId = userTypeId;
 		this.isVerified = isVerified;
 		this.about = about;
-		this.profilePicPath  = profilePicPath;
+		this.profilePicPath = profilePicPath;
 	}
+
+
 
 	public long getUserId() {
 		return userId;
@@ -181,5 +213,46 @@ public class User {
 	public void setProfilePicPath(String profilePicPath) {
 		this.profilePicPath = profilePicPath;
 	}
-	
+
+	/**
+	 * @return the usrCountry
+	 */
+	public String getUsrCountry() {
+		return usrCountry;
+	}
+
+	/**
+	 * @param usrCountry the usrCountry to set
+	 */
+	public void setUsrCountry(String usrCountry) {
+		this.usrCountry = usrCountry;
+	}
+
+	/**
+	 * @return the usrState
+	 */
+	public String getUsrState() {
+		return usrState;
+	}
+
+	/**
+	 * @param usrState the usrState to set
+	 */
+	public void setUsrState(String usrState) {
+		this.usrState = usrState;
+	}
+
+	/**
+	 * @return the usrCity
+	 */
+	public String getUsrCity() {
+		return usrCity;
+	}
+
+	/**
+	 * @param usrCity the usrCity to set
+	 */
+	public void setUsrCity(String usrCity) {
+		this.usrCity = usrCity;
+	}
 }
