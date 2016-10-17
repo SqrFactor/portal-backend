@@ -3,6 +3,7 @@
  */
 package com.sqrfactor.controller;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,4 +125,33 @@ public class ProfessionController {
 		return new ResponseEntity<List<Profession>>(professions, HttpStatus.OK);
 	}
 
+	/**
+	 * Get most recent profession by userId
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/profession/recent/userid/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<Profession> getRecentProfessionByUserId(@PathVariable("userId") long userId) {
+		List<Profession> professions = professionService.findProfessionsByUserId(userId);
+		if (professions.isEmpty()) {
+			return new ResponseEntity<Profession>(HttpStatus.NOT_FOUND);
+		}
+		
+		//Sort to find the most recent
+		professions.sort(new Comparator<Profession>() {
+			@Override
+			public int compare(Profession o1, Profession o2) {
+				if(Integer.parseInt(o1.getProfessionToYear()) > Integer.parseInt(o2.getProfessionToYear())){
+					return -1;
+				} else if(Integer.parseInt(o1.getProfessionToYear()) < Integer.parseInt(o2.getProfessionToYear())){
+					return 1;
+				}else{
+					return 0;
+				}
+			}
+		});
+		
+		return new ResponseEntity<Profession>(professions.get(0), HttpStatus.OK);
+	}
+	
 }

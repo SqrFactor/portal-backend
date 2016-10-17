@@ -3,6 +3,7 @@
  */
 package com.sqrfactor.controller;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.Education;
+import com.sqrfactor.model.Profession;
 import com.sqrfactor.model.User;
 import com.sqrfactor.service.ConnectionService;
 import com.sqrfactor.service.EducationService;
@@ -150,6 +152,35 @@ public class EducationController {
 			return new ResponseEntity<List<Education>>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<Education>>(educations, HttpStatus.OK);
+	}
+	
+	/**
+	 * Get most recent education by userId
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/education/recent/userid/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<Education> getRecentEducationByUserId(@PathVariable("userId") long userId) {
+		List<Education> educations = educationService.findEducationsByUserId(userId);
+		if (educations.isEmpty()) {
+			return new ResponseEntity<Education>(HttpStatus.NOT_FOUND);
+		}
+		
+		//Sort to find the most recent
+		educations.sort(new Comparator<Education>() {
+			@Override
+			public int compare(Education o1, Education o2) {
+				if(Integer.parseInt(o1.getEducationToYear()) > Integer.parseInt(o2.getEducationToYear())){
+					return -1;
+				} else if(Integer.parseInt(o1.getEducationToYear()) < Integer.parseInt(o2.getEducationToYear())){
+					return 1;
+				}else{
+					return 0;
+				}
+			}
+		});
+		
+		return new ResponseEntity<Education>(educations.get(0), HttpStatus.OK);
 	}
 
 }
