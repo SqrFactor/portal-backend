@@ -26,9 +26,6 @@ public class Education {
 	@Column(name = "userId")
 	long userId;
 	
-	@Column(name = "educationType", nullable = false)
-	String educationType;
-	
 	@Column(name = "educationRegNo", nullable = true)
 	String educationRegNo;
 	
@@ -50,19 +47,17 @@ public class Education {
 	/**
 	 * @param id
 	 * @param userId
-	 * @param educationType
 	 * @param educationRegNo
 	 * @param educationName
 	 * @param educationFromYear
 	 * @param educationToYear
 	 * @param colCode
 	 */
-	public Education(long id, long userId, String educationType, String educationRegNo, String educationName,
+	public Education(long id, long userId, String educationRegNo, String educationName,
 			String educationFromYear, String educationToYear, String colCode) {
 		super();
 		this.id = id;
 		this.userId = userId;
-		this.educationType = educationType;
 		this.educationRegNo = educationRegNo;
 		this.educationName = educationName;
 		this.educationFromYear = educationFromYear;
@@ -153,20 +148,6 @@ public class Education {
 	 */
 	public void setColCode(String colCode) {
 		this.colCode = colCode;
-	}
-
-	/**
-	 * @return the educationType
-	 */
-	public String getEducationType() {
-		return educationType;
-	}
-
-	/**
-	 * @param educationType the educationType to set
-	 */
-	public void setEducationType(String educationType) {
-		this.educationType = educationType;
 	}
 
 	/**

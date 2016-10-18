@@ -67,7 +67,6 @@ public class EducationServiceImpl implements EducationService {
 
 		if (entity != null) {
 			entity.setUserId(education.getUserId());
-			entity.setEducationType(education.getEducationType());
 			entity.setEducationRegNo(education.getEducationRegNo());
 			entity.setColCode(education.getColCode());
 			entity.setEducationFromYear(education.getEducationFromYear());
