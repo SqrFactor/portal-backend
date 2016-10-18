@@ -6,11 +6,13 @@ package com.sqrfactor.controller;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mysql.jdbc.StringUtils;
 import com.sqrfactor.email.Email;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
+import com.sqrfactor.model.College;
 import com.sqrfactor.model.Connection;
+import com.sqrfactor.model.Invitation;
 import com.sqrfactor.model.Login;
 import com.sqrfactor.model.SocialLogin;
 import com.sqrfactor.model.User;
 import com.sqrfactor.model.Verification;
 import com.sqrfactor.service.ConnectionService;
+import com.sqrfactor.service.InvitationService;
 import com.sqrfactor.service.LoginService;
 import com.sqrfactor.service.SocialLoginService;
 import com.sqrfactor.service.UserService;
@@ -55,6 +60,9 @@ public class TokenController {
 	
 	@Autowired 
 	private SocialLoginService socialLoginService;
+	
+	@Autowired
+	private InvitationService invitationService;
 	
 	/**
 	 * Authenticate login
@@ -370,4 +378,76 @@ public class TokenController {
 			connectionService.saveConnection(connection);	
 		}
 	}
+	
+	/**
+	 * Verify invitation code
+	 * 
+	 * @param inviteCode
+	 * @return
+	 */
+	@RequestMapping(value = "/invitation/verify", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<Boolean> verifyInvitationCode(@RequestParam("invitationCode") String invitationCode) {
+		
+		User user = userService.findByEmailId(invitationCode);
+		if(user == null){
+			return new ResponseEntity<Boolean>(false,HttpStatus.OK);
+		}
+		
+		//Exception for sqrfactor email
+		if(invitationCode.equals("create@sqrfactor.in")){
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		
+		List<Invitation> invitations = invitationService.findByInvitedByUserId(user.getUserId());
+		
+		if(invitations.size() < 2){
+			return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	}
+
+	
+	/**
+	 * Save Invitation
+	 * 
+	 * @param inviteCode
+	 * @return
+	 */
+	@RequestMapping(value = "/invitation", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<Invitation> verifyInvitationCode(@RequestBody Map<String, String> invitationMap) {
+		
+		if (!invitationMap.containsKey("invitedBy") || !invitationMap.containsKey("invitedTo")) {
+			return new ResponseEntity<Invitation>(HttpStatus.BAD_REQUEST);
+		}
+		
+		String invitedBy = invitationMap.get("invitedBy");
+		String invitedTo = invitationMap.get("invitedTo");
+
+		if (StringUtils.isNullOrEmpty(invitedBy) || StringUtils.isNullOrEmpty(invitedTo)) {
+			return new ResponseEntity<Invitation>(HttpStatus.BAD_REQUEST);
+		}
+		
+		User invitedByUser = userService.findByEmailId(invitedBy);
+		User invitedToUser = userService.findByEmailId(invitedTo);
+		
+		if(invitedByUser == null || invitedToUser == null){
+			return new ResponseEntity<Invitation>(HttpStatus.NOT_FOUND);
+		}
+		
+		Invitation invitation = invitationService.findByInvitedByAndTo(invitedByUser.getUserId(), invitedToUser.getUserId());
+		
+		if(invitation != null){
+			return new ResponseEntity<Invitation>(invitation, HttpStatus.CREATED);
+		}
+		
+		invitation = new Invitation();
+		invitation.setInvitedByUserId(invitedByUser.getUserId());
+		invitation.setInvitedToUserId(invitedToUser.getUserId());
+		
+		invitationService.saveInvitation(invitation);
+		
+		return new ResponseEntity<Invitation>(invitation, HttpStatus.CREATED);
+	}
+
 }

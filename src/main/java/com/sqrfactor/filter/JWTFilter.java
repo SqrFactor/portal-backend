@@ -55,6 +55,8 @@ public class JWTFilter extends GenericFilterBean {
 				&& !request.getPathInfo().equals("/user/verify") && !request.getPathInfo().equals("/user/register")
 				&& !request.getPathInfo().equals("/login/forgotpassword")
 				&& !request.getPathInfo().equals("/websocket")
+				&& !request.getPathInfo().equals("/invitation/verify")
+				&& !request.getPathInfo().equals("/invitation")
 				&& !request.getMethod().equals("OPTIONS")) {
 
 			final String authHeader = request.getHeader(AUTH_HEADER_KEY);

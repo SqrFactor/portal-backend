@@ -497,7 +497,7 @@ Create table profession_details(
 id       int(16) AUTO_INCREMENT NOT NULL,
 userId       int(16) NOT NULL,
 professionType	varchar(20) NOT NULL,
-professionRole	varchar(100),
+professionRole	varchar(100) NOT NULL,
 professionCompany varchar(100) NOT NULL,
 professionSalary varchar(100),
 professionFromYear varchar(20) NOT NULL,
@@ -648,6 +648,19 @@ FOREIGN KEY (achievementId) REFERENCES achievement_details(achievementId)
 );
 
 /**-------------------Achievement Tables End-------------------**/
+
+/**-------------------Invitation Tables Start-------------------**/
+
+Create table invitation_details(
+invitationId		int(16) AUTO_INCREMENT NOT NULL,
+invitedByUserId     int(16) NOT NULL, 
+invitedToUserId     int(16) NOT NULL,
+PRIMARY KEY (invitationId),
+FOREIGN KEY (invitedByUserId) REFERENCES user_details(userId),
+FOREIGN KEY (invitedByUserId) REFERENCES user_details(userId)
+);
+
+/**-------------------Invitation Tables End-------------------**/
 
 
 /**-------------------Add Admin Account Start-------------------**/
