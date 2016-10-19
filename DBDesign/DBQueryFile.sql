@@ -506,6 +506,16 @@ PRIMARY KEY (id),
 FOREIGN KEY (userId) REFERENCES user_details(userId)
 );
 
+
+Create table additional_profession_details(
+id		int(16) AUTO_INCREMENT NOT NULL,
+userId  int(16) NOT NULL,
+coaNumber 	varchar(100),
+iiaNumber 	varchar(100),
+PRIMARY KEY (id),
+FOREIGN KEY (userId) REFERENCES user_details(userId)
+);
+
 /**-------------------Professional Tables End-------------------**/
 
 
