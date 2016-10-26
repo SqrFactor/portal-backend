@@ -65,12 +65,19 @@ public class SuggestionController {
 		
 		List<User> users = userService.findAllUsers();
 		for(User u : users){
+			//Skip for current user
+			if(u.getUserId() == userId){
+				continue;
+			}
 			//See if the platform user has studied in the same college and is not connected
 			List<String> uColCodes = getColCodes(u.getUserId());
-			if(currentUserColCodes.contains(uColCodes)){
-				if(!currentUserFollowing.contains(u.getUserId())){
-					suggestedConnections.add(u);
-				}
+			for(String uColCode : uColCodes){
+				if(currentUserColCodes.contains(uColCode)){
+					if(!currentUserFollowing.contains(u.getUserId())){
+						suggestedConnections.add(u);
+						break;
+					}
+				}	
 			}
 		}
 		
