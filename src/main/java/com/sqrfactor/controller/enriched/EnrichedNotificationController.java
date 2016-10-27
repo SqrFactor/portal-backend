@@ -50,8 +50,10 @@ public class EnrichedNotificationController {
 			
 			String sourceUserName = getName(notification.getSourceUserId());
 			String destinationUserName = getName(notification.getDestinationUserId());
+			String sourceProfilePicPath = getProfilePic(notification.getSourceUserId());
+			String destinationProfilePicPath = getProfilePic(notification.getDestinationUserId());
 			
-			final EnrichedNotification enrichedNotification = new EnrichedNotification(notification, sourceUserName, destinationUserName);
+			final EnrichedNotification enrichedNotification = new EnrichedNotification(notification, sourceUserName, destinationUserName, sourceProfilePicPath, destinationProfilePicPath);
 			enrichedNotifications.add(enrichedNotification);
 		}
 		
@@ -79,4 +81,22 @@ public class EnrichedNotificationController {
 		String name = firstName + " " + lastName;
 		return name;
 	}
+	
+	private String getProfilePic(long userId){
+		
+		User user = userService.findById(userId);
+
+		if (user == null) {
+			return null;
+		}
+
+		String profilePicPath = "";
+		
+		if (user.getProfilePicPath() != null) {
+			profilePicPath = user.getProfilePicPath();
+		}
+		
+		return profilePicPath;
+	}
+
 }
