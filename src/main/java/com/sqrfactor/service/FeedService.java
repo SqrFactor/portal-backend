@@ -17,7 +17,7 @@ public interface FeedService {
 	
 	List<Feed> findByUserId(long userId);
 	
-	List<Feed> findByFeedRefId(int feedRefId);
+	List<Feed> findByFeedRefId(long feedRefId);
 	
 	void saveFeed(Feed feed);
 

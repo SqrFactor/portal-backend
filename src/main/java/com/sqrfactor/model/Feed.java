@@ -43,7 +43,7 @@ public class Feed {
 	private int feedActionId;
 	
 	@Column(name = "feedRefId")
-	private int feedRefId;
+	private long feedRefId;
 	
 	@Column(name = "placeName")
 	private String placeName;
@@ -68,7 +68,7 @@ public class Feed {
 	public Feed(){}
 
 	public Feed(int feedId, int userId, int feedTypeId, String feedText, String feedPath, int feedActionId,
-			int feedRefId, String placeName, String placeAddress, double placeLat, double placeLng, Date createdAt, Date modifiedAt) {
+			long feedRefId, String placeName, String placeAddress, double placeLat, double placeLng, Date createdAt, Date modifiedAt) {
 		super();
 		this.feedId = feedId;
 		this.userId = userId;
@@ -189,14 +189,14 @@ public class Feed {
 	/**
 	 * @return the feedRefId
 	 */
-	public int getFeedRefId() {
+	public long getFeedRefId() {
 		return feedRefId;
 	}
 
 	/**
 	 * @param feedRefId the feedRefId to set
 	 */
-	public void setFeedRefId(int feedRefId) {
+	public void setFeedRefId(long feedRefId) {
 		this.feedRefId = feedRefId;
 	}
 	

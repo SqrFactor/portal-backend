@@ -25,5 +25,5 @@ public interface FeedDao {
 
 	List<Feed> findByUserId(long userId);
 	
-	List<Feed> findByFeedRefId(int feedRefId);
+	List<Feed> findByFeedRefId(long feedRefId);
 }

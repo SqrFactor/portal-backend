@@ -50,7 +50,7 @@ public class FeedServiceImpl implements FeedService {
 	/**
 	 * Find Feed by feed ref id
 	 */
-	public List<Feed> findByFeedRefId(int feedRefId) {
+	public List<Feed> findByFeedRefId(long feedRefId) {
 		return feedDao.findByFeedRefId(feedRefId);
 	}
 	

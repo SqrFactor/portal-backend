@@ -4,6 +4,7 @@
 package com.sqrfactor.controller.enriched;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.Connection;
@@ -111,7 +113,7 @@ public class EnrichedFeedController {
 	 * @return
 	 */
 	@RequestMapping(value = "/enrichedfeed/conuserid/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<List<EnrichedFeed>> getConnectionFeedById(@PathVariable int userId) {
+	public ResponseEntity<List<EnrichedFeed>> getConnectionFeedById(@PathVariable int userId, @RequestParam(value = "isRed", required = false, defaultValue = "false") boolean isRed) {
 		List<EnrichedFeed> enrichedFeeds = new ArrayList<EnrichedFeed>();
 		enrichedFeeds = getEnrichedFeedById(userId);
 		
@@ -123,7 +125,41 @@ public class EnrichedFeedController {
 		if (enrichedFeeds.isEmpty()) {
 			return new ResponseEntity<List<EnrichedFeed>>(HttpStatus.NOT_FOUND);
 		}
-
+		
+		//Sort Based on likes
+		if(isRed){
+			enrichedFeeds.sort(new Comparator<EnrichedFeed>() {
+				@Override
+				public int compare(EnrichedFeed o1, EnrichedFeed o2) {
+					if(o1.getFeedRefId() == 0){
+						int o1LikesCount = 0;
+						int o2LikesCount = 0;
+						
+						List<Feed> o1Refs = feedService.findByFeedRefId(o1.getFeedId());
+						for(Feed feed : o1Refs){
+							if(feed.getFeedActionId() == 2){
+								o1LikesCount++;
+							}
+						}
+						
+						List<Feed> o2Refs = feedService.findByFeedRefId(o2.getFeedId());
+						for(Feed feed : o2Refs){
+							if(feed.getFeedActionId() == 2){
+								o2LikesCount++;
+							}
+						}
+						
+						if(o1LikesCount > o2LikesCount){
+							return -1;
+						}else if(o1LikesCount < o2LikesCount){
+							return 1;
+						}
+						
+					}
+					return 0;
+				}
+			});
+		}
 		return new ResponseEntity<List<EnrichedFeed>>(enrichedFeeds, HttpStatus.OK);
 	}
 
