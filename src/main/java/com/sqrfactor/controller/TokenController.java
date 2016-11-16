@@ -164,6 +164,7 @@ public class TokenController {
 				user.setProfilePicPath(profilePicPath);
 				user.setFirstName(firstName);
 				user.setLastName(lastName);
+				user.setUserTypeId("S101");
 				userService.saveUser(user);
 			}
 			
