@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -55,6 +56,7 @@ public class FeedDaoImpl extends AbstractDao<Long, Feed> implements FeedDao {
 	public List<Feed> findByUserId(long userId){
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("userId", userId));
+		criteria.addOrder( Order.desc("createdAt") );
 		return (List<Feed>) criteria.list();
 	}
 	
