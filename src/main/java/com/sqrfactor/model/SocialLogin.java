@@ -17,7 +17,6 @@ import javax.validation.constraints.Size;
 @Table(name = "social_login")
 public class SocialLogin {
 
-	@Id
 	@Column(name = "userId")
 	private long userId;
 	

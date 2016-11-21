@@ -531,7 +531,6 @@ Create table social_login(
 userId       int(16),
 socialUID VARCHAR(100),
 loginVia VARCHAR(20),
-PRIMARY KEY (userId),
 FOREIGN KEY (userId) REFERENCES user_details(userId)
 );
 
@@ -674,14 +673,14 @@ FOREIGN KEY (invitedByUserId) REFERENCES user_details(userId)
 
 
 /**-------------------Add Admin Account Start-------------------**/
-Insert into user_details values (1, 'SqrFactor India', '', 'other', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.png');
+Insert into user_details values (1, 'SqrFactor India', '', 'other', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'India' , 'Karnataka' , 'Bangalore' , 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.png');
 Insert into user_login values (1, 'create@sqrfactor.in', '1234');
 
 /**-------------------Add Admin Account End-------------------**/
 
 /**-------------------Add College Accounts Start--------------**/
 
-Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', 'other', '' , 'AP02@sqrfactor.in', '2016-6-26', 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\AP02.jpg');
+Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', 'other', '' , 'AP02@sqrfactor.in', '2016-6-26', 'India' , 'Andhra Pradesh' , 'Visakhapatnam' , 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\AP02.jpg');
 Insert into user_login values (2, 'AP02@sqrfactor.in', '1234');
 
 /**-------------------Add College Accounts Start--------------**/

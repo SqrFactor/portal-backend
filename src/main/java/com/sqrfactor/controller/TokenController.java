@@ -302,14 +302,21 @@ public class TokenController {
 			return new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
 		}
 		
-		//Save the Login Details
-		Login loginToSave = new Login();
-		loginToSave.setUserName(username);
-		loginToSave.setUserPassword(password);
-		loginToSave.setUserId(user.getUserId());
-		loginService.saveLogin(loginToSave);
-		
 		Login login = loginService.findByUsername(username);
+		
+		if(login == null){
+			//Save the Login Details
+			Login loginToSave = new Login();
+			loginToSave.setUserName(username);
+			loginToSave.setUserPassword(password);
+			loginToSave.setUserId(user.getUserId());
+			loginService.saveLogin(loginToSave);
+		}else{
+			login.setUserPassword(password);
+			loginService.updateLogin(login);
+		}
+		
+		login = loginService.findByUsername(username);
 
 		if (login != null && login.getUserPassword().equals(password)) {
 			String token = AuthUtils.createToken(login.getUserName(), login.getUserId()); 
