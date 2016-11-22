@@ -52,8 +52,8 @@ public class ProfessionServiceImpl implements ProfessionService {
 			entity.setProfessionRole(profession.getProfessionRole());
 			entity.setProfessionCompany(profession.getProfessionCompany());
 			entity.setProfessionSalary(profession.getProfessionSalary());
-			entity.setProfessionFromYear(profession.getProfessionFromYear());
-			entity.setProfessionToYear(profession.getProfessionToYear());
+			entity.setProfessionFromDate(profession.getProfessionFromDate());
+			entity.setProfessionToDate(profession.getProfessionToDate());
 		}
 
 	}

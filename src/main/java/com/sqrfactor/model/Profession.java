@@ -38,11 +38,11 @@ public class Profession {
 	@Column(name = "professionSalary", nullable = true)
 	String professionSalary;
 	
-	@Column(name = "professionFromYear", nullable = false)
-	String professionFromYear;
+	@Column(name = "professionFromDate", nullable = false)
+	String professionFromDate;
 	
-	@Column(name = "professionToYear", nullable = false)
-	String professionToYear;
+	@Column(name = "professionToDate", nullable = false)
+	String professionToDate;
 	
 	public Profession() {
 	}
@@ -58,7 +58,7 @@ public class Profession {
 	 * @param professionToYear
 	 */
 	public Profession(long id, long userId, String professionType, String professionRole, String professionCompany,
-			String professionSalary, String professionFromYear, String professionToYear) {
+			String professionSalary, String professionFromDate, String professionToDate) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -66,8 +66,8 @@ public class Profession {
 		this.professionRole = professionRole;
 		this.professionCompany = professionCompany;
 		this.professionSalary = professionSalary;
-		this.professionFromYear = professionFromYear;
-		this.professionToYear = professionToYear;
+		this.professionFromDate = professionFromDate;
+		this.professionToDate = professionToDate;
 	}
 
 	/**
@@ -155,30 +155,30 @@ public class Profession {
 	}
 
 	/**
-	 * @return the professionFromYear
+	 * @return the professionFromDate
 	 */
-	public String getProfessionFromYear() {
-		return professionFromYear;
+	public String getProfessionFromDate() {
+		return professionFromDate;
 	}
 
 	/**
-	 * @param professionFromYear the professionFromYear to set
+	 * @param professionFromDate the professionFromDate to set
 	 */
-	public void setProfessionFromYear(String professionFromYear) {
-		this.professionFromYear = professionFromYear;
+	public void setProfessionFromDate(String professionFromDate) {
+		this.professionFromDate = professionFromDate;
 	}
 
 	/**
-	 * @return the professionToYear
+	 * @return the professionToDate
 	 */
-	public String getProfessionToYear() {
-		return professionToYear;
+	public String getProfessionToDate() {
+		return professionToDate;
 	}
 
 	/**
-	 * @param professionToYear the professionToYear to set
+	 * @param professionToDate the professionToDate to set
 	 */
-	public void setProfessionToYear(String professionToYear) {
-		this.professionToYear = professionToYear;
+	public void setProfessionToDate(String professionToDate) {
+		this.professionToDate = professionToDate;
 	}
 }

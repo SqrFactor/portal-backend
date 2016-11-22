@@ -141,9 +141,9 @@ public class ProfessionController {
 		professions.sort(new Comparator<Profession>() {
 			@Override
 			public int compare(Profession o1, Profession o2) {
-				if(Integer.parseInt(o1.getProfessionToYear()) > Integer.parseInt(o2.getProfessionToYear())){
+				if(Integer.parseInt(o1.getProfessionToDate()) > Integer.parseInt(o2.getProfessionToDate())){
 					return -1;
-				} else if(Integer.parseInt(o1.getProfessionToYear()) < Integer.parseInt(o2.getProfessionToYear())){
+				} else if(Integer.parseInt(o1.getProfessionToDate()) < Integer.parseInt(o2.getProfessionToDate())){
 					return 1;
 				}else{
 					return 0;

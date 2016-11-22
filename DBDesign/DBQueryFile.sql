@@ -478,7 +478,6 @@ FOREIGN KEY (verificationUserId) REFERENCES user_details(userId)
 Create table education_details(
 id       int(16) AUTO_INCREMENT  NOT NULL,
 userId       int(16) NOT NULL,
-educationType varchar(20) NOT NULL,
 educationRegNo varchar(100),
 educationName varchar(100) NOT NULL,
 educationFromDate varchar(100) NOT NULL,
@@ -500,8 +499,8 @@ professionType	varchar(20) NOT NULL,
 professionRole	varchar(100) NOT NULL,
 professionCompany varchar(100) NOT NULL,
 professionSalary varchar(100),
-professionFromYear varchar(20) NOT NULL,
-professionToYear varchar(20) NOT NULL,
+professionFromDate varchar(100) NOT NULL,
+professionToDate varchar(100) NOT NULL,
 PRIMARY KEY (id),
 FOREIGN KEY (userId) REFERENCES user_details(userId)
 );
