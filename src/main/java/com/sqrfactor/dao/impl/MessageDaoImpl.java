@@ -61,6 +61,15 @@ public class MessageDaoImpl extends AbstractDao<Long, Message> implements Messag
 		return (List<Message>) criteria.list();
 	}
 	
+	public List<Message> findUnreadMessagesByRecipientUserId(long recipientUserId){
+		Criteria criteria = createEntityCriteria();
+		Criterion recipient = Restrictions.eq("recipientUserId", recipientUserId);
+		Criterion read = Restrictions.eq("isRead", false);
+		
+		criteria.add(Restrictions.and(recipient, read));
+		return (List<Message>) criteria.list();
+	}
+	
 	public List<Message> findMessagesBetweenUserIds(long userId1, long userId2){
 		
 		List<Message> messages = new ArrayList<>();

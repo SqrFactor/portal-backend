@@ -27,6 +27,8 @@ public interface MessageService {
 	
 	List<Message> findMessagesByRecipientUserId(long recipientUserId);
 	
+	List<Message> findUnreadMessagesByRecipientUserId(long recipientUserId);
+	
 	List<Message> findMessagesBetweenUserIds(long userId1, long userId2);
 
 }

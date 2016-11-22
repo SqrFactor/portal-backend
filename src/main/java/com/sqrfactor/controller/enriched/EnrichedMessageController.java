@@ -71,6 +71,27 @@ public class EnrichedMessageController {
 	}
 	
 	/**
+	 * Read all messages by sourceId
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/message/enriched/readall/recipientuserid/{recipientUserId}", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> readAllMessagesByRecipientUserId(@PathVariable("recipientUserId") long recipientUserId) {
+		List<Message> messages = messageService.findUnreadMessagesByRecipientUserId(recipientUserId);
+		if (messages.isEmpty()) {
+			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
+		}
+		
+		for(Message message : messages){
+			message.setRead(true);
+			
+			messageService.updateMessage(message);
+		}
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+	
+	/**
 	 * Get all messages by sourceId
 	 * 
 	 * @return
