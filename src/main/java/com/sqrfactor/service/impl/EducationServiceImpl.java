@@ -69,9 +69,9 @@ public class EducationServiceImpl implements EducationService {
 			entity.setUserId(education.getUserId());
 			entity.setEducationRegNo(education.getEducationRegNo());
 			entity.setColCode(education.getColCode());
-			entity.setEducationFromYear(education.getEducationFromYear());
+			entity.setEducationFromDate(education.getEducationFromDate());
 			entity.setEducationName(education.getEducationName());
-			entity.setEducationToYear(education.getEducationToYear());
+			entity.setEducationToDate(education.getEducationToDate());
 		}
 
 	}

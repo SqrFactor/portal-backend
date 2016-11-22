@@ -170,9 +170,9 @@ public class EducationController {
 		educations.sort(new Comparator<Education>() {
 			@Override
 			public int compare(Education o1, Education o2) {
-				if(Integer.parseInt(o1.getEducationToYear()) > Integer.parseInt(o2.getEducationToYear())){
+				if(Integer.parseInt(o1.getEducationToDate()) > Integer.parseInt(o2.getEducationToDate())){
 					return -1;
-				} else if(Integer.parseInt(o1.getEducationToYear()) < Integer.parseInt(o2.getEducationToYear())){
+				} else if(Integer.parseInt(o1.getEducationToDate()) < Integer.parseInt(o2.getEducationToDate())){
 					return 1;
 				}else{
 					return 0;

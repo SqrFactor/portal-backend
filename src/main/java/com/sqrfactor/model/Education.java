@@ -32,11 +32,11 @@ public class Education {
 	@Column(name = "educationName", nullable = false)
 	String educationName;
 	
-	@Column(name = "educationFromYear", nullable = false)
-	String educationFromYear;
+	@Column(name = "educationFromDate", nullable = false)
+	String educationFromDate;
 	
-	@Column(name = "educationToYear", nullable = false)
-	String educationToYear;
+	@Column(name = "educationToDate", nullable = false)
+	String educationToDate;
 	
 	@Column(name = "colCode", nullable = false)
 	String colCode;
@@ -54,14 +54,14 @@ public class Education {
 	 * @param colCode
 	 */
 	public Education(long id, long userId, String educationRegNo, String educationName,
-			String educationFromYear, String educationToYear, String colCode) {
+			String educationFromDate, String educationToDate, String colCode) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.educationRegNo = educationRegNo;
 		this.educationName = educationName;
-		this.educationFromYear = educationFromYear;
-		this.educationToYear = educationToYear;
+		this.educationFromDate = educationFromDate;
+		this.educationToDate = educationToDate;
 		this.colCode = colCode;
 	}
 
@@ -109,31 +109,31 @@ public class Education {
 	}
 
 	/**
-	 * @return the educationFromYear
+	 * @return the educationFromDate
 	 */
-	public String getEducationFromYear() {
-		return educationFromYear;
+	public String getEducationFromDate() {
+		return educationFromDate;
 	}
 
 	/**
-	 * @param educationFromYear the educationFromYear to set
+	 * @param educationFromDate the educationFromDate to set
 	 */
-	public void setEducationFromYear(String educationFromYear) {
-		this.educationFromYear = educationFromYear;
+	public void setEducationFromDate(String educationFromDate) {
+		this.educationFromDate = educationFromDate;
 	}
 
 	/**
-	 * @return the educationToYear
+	 * @return the educationToDate
 	 */
-	public String getEducationToYear() {
-		return educationToYear;
+	public String getEducationToDate() {
+		return educationToDate;
 	}
 
 	/**
-	 * @param educationToYear the educationToYear to set
+	 * @param educationToDate the educationToDate to set
 	 */
-	public void setEducationToYear(String educationToYear) {
-		this.educationToYear = educationToYear;
+	public void setEducationToDate(String educationToDate) {
+		this.educationToDate = educationToDate;
 	}
 
 	/**
