@@ -7,12 +7,14 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.sqrfactor.dao.AbstractDao;
 import com.sqrfactor.dao.NotificationDao;
 import com.sqrfactor.model.Connection;
+import com.sqrfactor.model.Message;
 import com.sqrfactor.model.Notification;
 
 /**
@@ -47,6 +49,15 @@ public class NotificationDaoImpl extends AbstractDao<Long, Notification> impleme
 	public List<Notification> findNotificationsBySourceUserId(long sourceUserId){
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("sourceUserId", sourceUserId));
+		return (List<Notification>) criteria.list();
+	}
+	
+	public List<Notification> findUnreadNotificationsBySourceUserId(long sourceUserId){
+		Criteria criteria = createEntityCriteria();
+		Criterion source = Restrictions.eq("sourceUserId", sourceUserId);
+		Criterion read = Restrictions.eq("isRead", false);
+		
+		criteria.add(Restrictions.and(source, read));
 		return (List<Notification>) criteria.list();
 	}
 

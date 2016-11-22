@@ -68,4 +68,9 @@ public class NotificationServiceImpl implements NotificationService {
 	public List<Notification> findNotificationsBySourceUserId(long sourceUserId){
 		return notificationDao.findNotificationsBySourceUserId(sourceUserId);
 	}
+	
+	@Override
+	public List<Notification> findUnreadNotificationsBySourceUserId(long sourceUserId){
+		return notificationDao.findUnreadNotificationsBySourceUserId(sourceUserId);
+	}
 }

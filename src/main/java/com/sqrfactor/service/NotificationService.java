@@ -24,5 +24,7 @@ public interface NotificationService {
 	List<Notification> findAllNotifications();
 	
 	List<Notification> findNotificationsBySourceUserId(long sourceUserId);
+	
+	List<Notification> findUnreadNotificationsBySourceUserId(long sourceUserId);
 
 }

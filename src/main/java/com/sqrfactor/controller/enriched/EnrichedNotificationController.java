@@ -59,6 +59,27 @@ public class EnrichedNotificationController {
 		
 		return new ResponseEntity<List<EnrichedNotification>>(enrichedNotifications, HttpStatus.OK);
 	}
+
+	/**
+	 * read all notifications by sourceId
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/notification/enriched/readall/sourceuserid/{sourceUserId}", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> readAllNotificationsBySourceUserId(@PathVariable("sourceUserId") long sourceUserId) {
+		List<Notification> notifications = notificationService.findUnreadNotificationsBySourceUserId(sourceUserId);
+		if (notifications.isEmpty()) {
+			return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
+		}
+		
+		for(Notification notification : notifications){
+			notification.setRead(true);
+			notificationService.updateNotification(notification);
+		}
+		
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+
 	
 	private String getName(long userId){
 		
