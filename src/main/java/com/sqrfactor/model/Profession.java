@@ -41,8 +41,11 @@ public class Profession {
 	@Column(name = "professionFromDate", nullable = false)
 	String professionFromDate;
 	
-	@Column(name = "professionToDate", nullable = false)
+	@Column(name = "professionToDate")
 	String professionToDate;
+	
+	@Column(name = "professionToDateIsCurrent")
+	boolean professionToDateIsCurrent; 
 	
 	public Profession() {
 	}
@@ -58,7 +61,7 @@ public class Profession {
 	 * @param professionToYear
 	 */
 	public Profession(long id, long userId, String professionType, String professionRole, String professionCompany,
-			String professionSalary, String professionFromDate, String professionToDate) {
+			String professionSalary, String professionFromDate, String professionToDate, boolean professionToDateIsCurrent) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -68,6 +71,7 @@ public class Profession {
 		this.professionSalary = professionSalary;
 		this.professionFromDate = professionFromDate;
 		this.professionToDate = professionToDate;
+		this.professionToDateIsCurrent = professionToDateIsCurrent;
 	}
 
 	/**
@@ -181,4 +185,19 @@ public class Profession {
 	public void setProfessionToDate(String professionToDate) {
 		this.professionToDate = professionToDate;
 	}
+
+	/**
+	 * @return the professionToDateIsCurrent
+	 */
+	public boolean isProfessionToDateIsCurrent() {
+		return professionToDateIsCurrent;
+	}
+
+	/**
+	 * @param professionToDateIsCurrent the professionToDateIsCurrent to set
+	 */
+	public void setProfessionToDateIsCurrent(boolean professionToDateIsCurrent) {
+		this.professionToDateIsCurrent = professionToDateIsCurrent;
+	}
+	
 }
