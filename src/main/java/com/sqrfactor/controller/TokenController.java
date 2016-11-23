@@ -65,6 +65,24 @@ public class TokenController {
 	private InvitationService invitationService;
 	
 	/**
+	 * Verify if user is registered
+	 * 
+	 * @param inviteCode
+	 * @return
+	 */
+	@RequestMapping(value = "/login/verify", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<Boolean> verifyLogin(@RequestParam("emailId") String emailId) {
+		
+		User user = userService.findByEmailId(emailId);
+		if(user == null){
+			return new ResponseEntity<Boolean>(false,HttpStatus.OK);
+		}
+				
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+
+	
+	/**
 	 * Authenticate login
 	 * 
 	 * @param login
