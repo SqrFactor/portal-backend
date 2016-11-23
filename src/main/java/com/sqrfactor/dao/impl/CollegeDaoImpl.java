@@ -6,6 +6,7 @@ package com.sqrfactor.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +36,7 @@ public class CollegeDaoImpl extends AbstractDao<String, College> implements Coll
 	@SuppressWarnings("unchecked")
 	public List<College> findAllColleges() {
 		Criteria criteria = createEntityCriteria();
+		criteria.addOrder( Order.asc("colName") );
 		return (List<College>) criteria.list();
 	}
 }
