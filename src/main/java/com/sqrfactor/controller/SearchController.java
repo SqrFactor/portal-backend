@@ -1,5 +1,6 @@
 package com.sqrfactor.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,13 @@ public class SearchController {
 		List<User> users = userService.searchByEmailOrName(searchQuery);
 		
 		//Remove unverified users
-		for(User user : users){
-			if(!user.isVerified()){
-				users.remove(user);
+		List<Integer> usersToRemove = new ArrayList<>();
+		for(int i = 0 ; i < users.size() ; i++){
+			if(!users.get(i).isVerified()){
+				usersToRemove.add(i);
 			}
 		}
+		users.removeAll(usersToRemove);
 		
 		if (users == null || users.isEmpty()) {
 			return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
