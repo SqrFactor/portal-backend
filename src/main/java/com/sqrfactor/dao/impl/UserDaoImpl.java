@@ -61,17 +61,18 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		List<User> users = new ArrayList<>();
 		Criteria criteria = createEntityCriteria();
 		
-		Query q = getSession().createQuery("from User c where :fullName = concat(c.firstName, ' ', c.lastName)");
+		Query q = getSession().createQuery("from User c where :fullName = concat(c.firstName, ' ', c.lastName) and c.isVerified = 1");
 	    q.setString("fullName", searchQuery);
 	    users.addAll((List<User>)q.list());
 		
 		Criterion emailId = Restrictions.like("emailId", "%" + searchQuery + "%");
 		Criterion firstName = Restrictions.like("firstName", "%" + searchQuery + "%");
 		Criterion lastName = Restrictions.like("lastName","%" + searchQuery + "%");
-		 
+		Criterion verified = Restrictions.eq("isVerified" , true); 
 		
 		Disjunction orExp = Restrictions.or(emailId, firstName, lastName);
 		criteria.add( orExp );
+		criteria.add(verified);
 		
 		users.addAll((List<User>)criteria.list());
 		

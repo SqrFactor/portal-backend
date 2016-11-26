@@ -36,16 +36,7 @@ public class SearchController {
 	public ResponseEntity<List<User>> searchByEmailOrUser(@RequestParam("q") String searchQuery) {
 
 		List<User> users = userService.searchByEmailOrName(searchQuery);
-		
-		//Remove unverified users
-		List<Integer> usersToRemove = new ArrayList<>();
-		for(int i = 0 ; i < users.size() ; i++){
-			if(!users.get(i).isVerified()){
-				usersToRemove.add(i);
-			}
-		}
-		users.removeAll(usersToRemove);
-		
+				
 		if (users == null || users.isEmpty()) {
 			return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
 		}
