@@ -683,4 +683,66 @@ Insert into user_login values (1, 'create@sqrfactor.in', '1234');
 Insert into user_details values (2, 'College of Engineering,Visakhapatnam', '', 'other', '' , 'AP02@sqrfactor.in', '2016-6-26', 'India' , 'Andhra Pradesh' , 'Visakhapatnam' , 'C101', 1, 'College Of Engineering, Visakhapatnam\'s Official Account', '\\images\\colleges\\AP02.jpg');
 Insert into user_login values (2, 'AP02@sqrfactor.in', '1234');
 
-/**-------------------Add College Accounts Start--------------**/
+/**-------------------Competition Tables Start--------------**/
+
+Create table competition_details(
+compId       int(16) AUTO_INCREMENT NOT NULL,
+compType     varchar(10) NOT NULL,
+compTitle    varchar(200) NOT NULL,
+compHeading  varchar(300) ,
+compBrief    varchar(500) ,
+compECriteria     varchar(100),
+coverPic     varchar(500)  ,
+profilePic   varchar(500),
+compSubRqrmts varchar(1000),
+compFAQ       varchar(1000),
+compStartDate TIMESTAMP,
+compEndDate TIMESTAMP,
+compSubEndDate TIMESTAMP,
+compResultDate TIMESTAMP,
+compDetails varchar(100),
+PRIMARY KEY (compId)
+); 
+
+Create table competition_jury(
+compJuryId int(16) AUTO_INCREMENT NOT NULL,
+compId       int(16) NOT NULL,
+juryName     varchar(100),
+juryFirmName varchar(200),
+juryEmail    varchar(100),
+juryContactNo varchar(20),
+juryPic      varchar(500),
+PRIMARY KEY (compJuryId),
+FOREIGN KEY (compId) REFERENCES competition_details(compId)
+);
+
+Create table competition_awards(
+compAwardId int(16) AUTO_INCREMENT NOT NULL,
+compId       int(16) NOT NULL,
+awardType      varchar(100),
+awardPrice     varchar(100),
+awardDetails     varchar(100),
+PRIMARY KEY (compAwardId),
+FOREIGN KEY (compId) REFERENCES competition_details(compId)
+);
+
+
+Create table competition_partners(
+compPartnerId int(16) AUTO_INCREMENT NOT NULL,
+compId       int(16) NOT NULL,
+partnerName     varchar(100),
+partnerWebsite     varchar(100),
+partnerEmail    varchar(100),
+partnerContactNo varchar(20),
+partnerPic      varchar(500),
+PRIMARY KEY (compPartnerId),
+FOREIGN KEY (compId) REFERENCES competition_details(compId)
+);
+
+/**-------------------Competition Tables End--------------**/
+
+
+
+
+
+
