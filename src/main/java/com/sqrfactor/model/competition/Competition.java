@@ -3,16 +3,12 @@
  */
 package com.sqrfactor.model.competition;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * @author Angad Gill
@@ -54,21 +50,17 @@ public class Competition {
 	@Column(name="compFAQ")
 	private String compFAQ;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="compStartDate")
-	private Date compStartDate;
+	private String compStartDate;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="compEndDate")
-	private Date compEndDate;
+	private String compEndDate;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="compSubEndDate")
-	private Date compSubEndDate;
+	private String compSubEndDate;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="compResultDate")
-	private Date compResultDate;
+	private String compResultDate;
 	
 	@Column(name="compDetails")
 	private String compDetails;
@@ -224,56 +216,56 @@ public class Competition {
 	/**
 	 * @return the compStartDate
 	 */
-	public Date getCompStartDate() {
+	public String getCompStartDate() {
 		return compStartDate;
 	}
 
 	/**
 	 * @param compStartDate the compStartDate to set
 	 */
-	public void setCompStartDate(Date compStartDate) {
+	public void setCompStartDate(String compStartDate) {
 		this.compStartDate = compStartDate;
 	}
 
 	/**
 	 * @return the compEndDate
 	 */
-	public Date getCompEndDate() {
+	public String getCompEndDate() {
 		return compEndDate;
 	}
 
 	/**
 	 * @param compEndDate the compEndDate to set
 	 */
-	public void setCompEndDate(Date compEndDate) {
+	public void setCompEndDate(String compEndDate) {
 		this.compEndDate = compEndDate;
 	}
 
 	/**
 	 * @return the compSubEndDate
 	 */
-	public Date getCompSubEndDate() {
+	public String getCompSubEndDate() {
 		return compSubEndDate;
 	}
 
 	/**
 	 * @param compSubEndDate the compSubEndDate to set
 	 */
-	public void setCompSubEndDate(Date compSubEndDate) {
+	public void setCompSubEndDate(String compSubEndDate) {
 		this.compSubEndDate = compSubEndDate;
 	}
 
 	/**
 	 * @return the compResultDate
 	 */
-	public Date getCompResultDate() {
+	public String getCompResultDate() {
 		return compResultDate;
 	}
 
 	/**
 	 * @param compResultDate the compResultDate to set
 	 */
-	public void setCompResultDate(Date compResultDate) {
+	public void setCompResultDate(String compResultDate) {
 		this.compResultDate = compResultDate;
 	}
 
