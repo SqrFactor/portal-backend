@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.dao.impl.competition;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
@@ -39,4 +41,10 @@ public class CompetitionPartnerDaoImpl extends AbstractDao<Long, CompetitionPart
 		query.executeUpdate();
 	}
 
+	@Override
+	public List<CompetitionPartner> findAllByCompetitionId(long compId) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("compId", compId));
+		return (List<CompetitionPartner>)criteria.list();
+	}
 }

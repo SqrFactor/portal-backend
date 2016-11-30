@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.controller.competition;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,22 @@ public class CompetitionPartnerController {
 			return new ResponseEntity<CompetitionPartner>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<CompetitionPartner>(competitionPartner, HttpStatus.OK);
+	}
+	
+	/**
+	 * Get all CompetitionPartner by competitionId
+	 * 
+	 * @param competitionId
+	 * @return
+	 */
+	@RequestMapping(value = "/competitionpartner/compid/{competitionId}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<CompetitionPartner>> getCompetitionPartnerByCompetitionId(@PathVariable long competitionId) {
+		List<CompetitionPartner> competitionPartners = competitionPartnerService.findAllByCompetitionId(competitionId);
+		
+		if (competitionPartners.isEmpty()) {
+			return new ResponseEntity<List<CompetitionPartner>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<CompetitionPartner>>(competitionPartners, HttpStatus.OK);
 	}
 
 	/**

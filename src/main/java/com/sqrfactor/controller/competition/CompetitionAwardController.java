@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.controller.competition;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.competition.CompetitionAward;
+import com.sqrfactor.model.competition.CompetitionJury;
 import com.sqrfactor.service.competition.CompetitionAwardService;
 
 /**
@@ -42,6 +45,22 @@ public class CompetitionAwardController {
 			return new ResponseEntity<CompetitionAward>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<CompetitionAward>(competitionAward, HttpStatus.OK);
+	}
+	
+	/**
+	 * Get all CompetitionAward by competitionId
+	 * 
+	 * @param competitionId
+	 * @return
+	 */
+	@RequestMapping(value = "/competitionaward/compid/{competitionId}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<CompetitionAward>> getCompetitionAwardByCompetitionId(@PathVariable long competitionId) {
+		List<CompetitionAward> competitionAwards = competitionAwardService.findAllByCompetitionId(competitionId);
+		
+		if (competitionAwards.isEmpty()) {
+			return new ResponseEntity<List<CompetitionAward>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<CompetitionAward>>(competitionAwards, HttpStatus.OK);
 	}
 
 	/**

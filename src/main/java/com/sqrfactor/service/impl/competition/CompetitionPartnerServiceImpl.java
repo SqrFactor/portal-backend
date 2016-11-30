@@ -3,11 +3,14 @@
  */
 package com.sqrfactor.service.impl.competition;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sqrfactor.dao.competition.CompetitionPartnerDao;
+import com.sqrfactor.model.competition.CompetitionJury;
 import com.sqrfactor.model.competition.CompetitionPartner;
 import com.sqrfactor.service.competition.CompetitionPartnerService;
 
@@ -57,4 +60,8 @@ public class CompetitionPartnerServiceImpl implements CompetitionPartnerService 
 		competitionPartnerDao.deleteCompetitionPartnerById(competitionPartnerId);
 	}
 
+	@Override
+	public List<CompetitionPartner> findAllByCompetitionId(long competitionId) {
+		return competitionPartnerDao.findAllByCompetitionId(competitionId);
+	}
 }

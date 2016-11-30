@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.service.competition;
 
+import java.util.List;
+
 import com.sqrfactor.model.competition.CompetitionJury;
 
 /**
@@ -18,5 +20,7 @@ public interface CompetitionJuryService {
 	void updateCompetitionJury(CompetitionJury competitionJury);
 
 	void deleteCompetitionJuryById(long competitionJuryId);
+	
+	List<CompetitionJury> findAllByCompetitionId(long competitionId);
 
 }

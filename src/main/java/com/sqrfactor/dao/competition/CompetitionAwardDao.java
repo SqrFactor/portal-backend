@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.dao.competition;
 
+import java.util.List;
+
 import com.sqrfactor.model.competition.CompetitionAward;
 
 /**
@@ -16,5 +18,6 @@ public interface CompetitionAwardDao {
 	void saveCompetitionAward(CompetitionAward competitionAward);
 
 	void deleteCompetitionAwardById(long competitionAwardId);
-
+	
+	List<CompetitionAward> findAllByCompetitionId(long competitionId);	
 }
