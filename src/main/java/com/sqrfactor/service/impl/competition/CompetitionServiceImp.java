@@ -42,6 +42,7 @@ public class CompetitionServiceImp implements CompetitionService{
 	public void updateCompetition(Competition competition) {
 		Competition entity = competitionDao.findByCompetitionId(competition.getCompId());
 		if (entity != null) {
+			entity.setUserId(competition.getUserId());
 			entity.setCompType(competition.getCompType());
 			entity.setCompTitle(competition.getCompTitle());
 			entity.setCompHeading(competition.getCompHeading());
@@ -56,6 +57,9 @@ public class CompetitionServiceImp implements CompetitionService{
 			entity.setCompSubEndDate(competition.getCompSubEndDate());
 			entity.setCompResultDate(competition.getCompResultDate());
 			entity.setCompDetails(competition.getCompDetails());
+			entity.setCompBriefPath(competition.getCompBriefPath());
+			entity.setCompFees(competition.getCompFees());
+			entity.setCompCurrency(competition.getCompCurrency());
 		}
 	}
 

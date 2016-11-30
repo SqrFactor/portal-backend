@@ -41,6 +41,9 @@ public class CompetitionPartner {
 	@Column(name="partnerPic")
 	private String partnerPic;
 	
+	@Column(name="partnerDetails")
+	private String partnerDetails;
+	
 	/**
 	 * 
 	 */
@@ -145,4 +148,19 @@ public class CompetitionPartner {
 	public void setPartnerPic(String partnerPic) {
 		this.partnerPic = partnerPic;
 	}
+
+	/**
+	 * @return the partnerDetails
+	 */
+	public String getPartnerDetails() {
+		return partnerDetails;
+	}
+
+	/**
+	 * @param partnerDetails the partnerDetails to set
+	 */
+	public void setPartnerDetails(String partnerDetails) {
+		this.partnerDetails = partnerDetails;
+	}
+	
 }

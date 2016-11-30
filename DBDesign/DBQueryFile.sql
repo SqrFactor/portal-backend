@@ -687,11 +687,12 @@ Insert into user_login values (2, 'AP02@sqrfactor.in', '1234');
 
 Create table competition_details(
 compId       int(16) AUTO_INCREMENT NOT NULL,
+userId       int(16) NOT NULL,
 compType     varchar(10) NOT NULL,
 compTitle    varchar(200) NOT NULL,
 compHeading  varchar(300) ,
 compBrief    varchar(500) ,
-compECriteria     varchar(100),
+compECriteria     varchar(300),
 coverPic     varchar(500),
 profilePic   varchar(500),
 compSubRqrmts varchar(1000),
@@ -700,8 +701,12 @@ compStartDate varchar(100),
 compEndDate varchar(100),
 compSubEndDate varchar(100),
 compResultDate varchar(100),
-compDetails varchar(100),
-PRIMARY KEY (compId)
+compDetails varchar(300),
+compBriefPath varchar(500),
+compFees	varchar(10),
+compCurrency	varchar(10),
+PRIMARY KEY (compId),
+FOREIGN KEY (userId) REFERENCES user_details(userId)
 ); 
 
 Create table competition_jury(
@@ -712,6 +717,7 @@ juryFirmName varchar(200),
 juryEmail    varchar(100),
 juryContactNo varchar(20),
 juryPic      varchar(500),
+juryDetails  varchar(300),
 PRIMARY KEY (compJuryId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId)
 );
@@ -735,6 +741,7 @@ partnerWebsite     varchar(100),
 partnerEmail    varchar(100),
 partnerContactNo varchar(20),
 partnerPic      varchar(500),
+partnerDetails  varchar(300),
 PRIMARY KEY (compPartnerId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId)
 );

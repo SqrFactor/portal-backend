@@ -50,7 +50,7 @@ public class CompetitionController {
 	 * @param message
 	 */
 	@RequestMapping(value = "/competition/", method = RequestMethod.POST)
-	public ResponseEntity<Competition> createMessage(@RequestBody Competition competition) {
+	public ResponseEntity<Competition> createCompetition(@RequestBody Competition competition) {
 
 		competitionService.saveCompetition(competition);
 		

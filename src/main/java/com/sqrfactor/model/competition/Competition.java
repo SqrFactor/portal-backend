@@ -23,6 +23,9 @@ public class Competition {
 	@Column(name = "compId")
 	long compId;
 	
+	@Column(name = "userId")
+	long userId;
+	
 	@Column(name="compType" , nullable = false)
 	private String compType;
 	
@@ -64,6 +67,15 @@ public class Competition {
 	
 	@Column(name="compDetails")
 	private String compDetails;
+
+	@Column(name="compBriefPath")
+	private String compBriefPath;
+	
+	@Column(name="compFees")
+	private String compFees;
+	
+	@Column(name="compCurrency")
+	private String compCurrency;
 	
 	/**
 	 * 
@@ -85,6 +97,20 @@ public class Competition {
 	 */
 	public void setCompId(long compId) {
 		this.compId = compId;
+	}
+	
+	/**
+	 * @return the userId
+	 */
+	public long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	/**
@@ -281,6 +307,48 @@ public class Competition {
 	 */
 	public void setCompDetails(String compDetails) {
 		this.compDetails = compDetails;
+	}
+
+	/**
+	 * @return the compBriefPath
+	 */
+	public String getCompBriefPath() {
+		return compBriefPath;
+	}
+
+	/**
+	 * @param compBriefPath the compBriefPath to set
+	 */
+	public void setCompBriefPath(String compBriefPath) {
+		this.compBriefPath = compBriefPath;
+	}
+
+	/**
+	 * @return the compFees
+	 */
+	public String getCompFees() {
+		return compFees;
+	}
+
+	/**
+	 * @param compFees the compFees to set
+	 */
+	public void setCompFees(String compFees) {
+		this.compFees = compFees;
+	}
+
+	/**
+	 * @return the compCurrency
+	 */
+	public String getCompCurrency() {
+		return compCurrency;
+	}
+
+	/**
+	 * @param compCurrency the compCurrency to set
+	 */
+	public void setCompCurrency(String compCurrency) {
+		this.compCurrency = compCurrency;
 	}
 	
 }

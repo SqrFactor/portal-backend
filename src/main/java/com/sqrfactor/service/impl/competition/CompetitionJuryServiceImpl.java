@@ -49,6 +49,7 @@ public class CompetitionJuryServiceImpl implements CompetitionJuryService{
 			entity.setJuryEmail(competitionJury.getJuryEmail());
 			entity.setJuryContactNo(competitionJury.getJuryContactNo());
 			entity.setJuryPic(competitionJury.getJuryPic());
+			entity.setJuryDetails(competitionJury.getJuryDetails());
 		}
 	}
 

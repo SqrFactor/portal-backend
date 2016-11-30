@@ -40,6 +40,9 @@ public class CompetitionJury {
 
 	@Column(name="juryPic")
 	private String juryPic;
+	
+	@Column(name="juryDetails")
+	private String juryDetails;
 
 	/**
 	 * 
@@ -146,6 +149,20 @@ public class CompetitionJury {
 	 */
 	public void setJuryPic(String juryPic) {
 		this.juryPic = juryPic;
+	}
+
+	/**
+	 * @return the juryDetails
+	 */
+	public String getJuryDetails() {
+		return juryDetails;
+	}
+
+	/**
+	 * @param juryDetails the juryDetails to set
+	 */
+	public void setJuryDetails(String juryDetails) {
+		this.juryDetails = juryDetails;
 	}
 
 }

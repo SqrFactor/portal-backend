@@ -48,6 +48,7 @@ public class CompetitionPartnerServiceImpl implements CompetitionPartnerService 
 			entity.setPartnerEmail(competitionPartner.getPartnerEmail());
 			entity.setPartnerContactNo(competitionPartner.getPartnerContactNo());
 			entity.setPartnerPic(competitionPartner.getPartnerPic());
+			entity.setPartnerDetails(competitionPartner.getPartnerDetails());
 		}
 	}
 
