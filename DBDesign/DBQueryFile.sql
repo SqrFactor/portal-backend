@@ -746,6 +746,15 @@ PRIMARY KEY (compPartnerId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId)
 );
 
+Create table competition_registration(
+compRegistrationId int(16) AUTO_INCREMENT NOT NULL,
+compId       int(16) NOT NULL,
+userId       int(16) NOT NULL,
+PRIMARY KEY (compRegistrationId),
+FOREIGN KEY (compId) REFERENCES competition_details(compId),
+FOREIGN KEY (userId) REFERENCES user_details(userId)
+);
+
 /**-------------------Competition Tables End--------------**/
 
 

@@ -1,0 +1,54 @@
+/**
+ * 
+ */
+package com.sqrfactor.service.impl.competition;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sqrfactor.dao.competition.CompetitionRegistrationDao;
+import com.sqrfactor.model.competition.CompetitionRegistration;
+import com.sqrfactor.service.competition.CompetitionRegistrationService;
+
+/**
+ * @author Angad Gill
+ *
+ */
+@Service("competitionRegistrationService")
+@Transactional
+public class CompetitionRegistrationServiceImpl implements CompetitionRegistrationService{
+
+	@Autowired
+	private CompetitionRegistrationDao competitionRegistrationDao;
+
+	/**
+	 * Find Competition Registration by id
+	 */
+	public CompetitionRegistration findByCompetitionRegistrationId(long competitionRegistrationId) {
+		return competitionRegistrationDao.findByCompetitionRegistrationId(competitionRegistrationId);
+	}
+	
+	/**
+	 * Save Competition Registration
+	 */
+	public void saveCompetitionRegistration(CompetitionRegistration competitionRegistration) {
+		competitionRegistrationDao.saveCompetitionRegistration(competitionRegistration);
+	}
+
+	/**
+	 * Update Competition Registration 
+	 */
+	public void updateCompetitionRegistration(CompetitionRegistration competitionRegistration) {
+		CompetitionRegistration entity = competitionRegistrationDao.findByCompetitionRegistrationId(competitionRegistration.getCompId());
+		if (entity != null) {
+			entity.setCompId(competitionRegistration.getCompId());
+			entity.setUserId(competitionRegistration.getUserId());
+		}
+	}
+
+	@Override
+	public void deleteCompetitionRegistrationById(long competitionRegistrationId) {
+		competitionRegistrationDao.deleteCompetitionRegistrationById(competitionRegistrationId);
+	}
+}
