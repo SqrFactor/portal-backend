@@ -732,7 +732,6 @@ PRIMARY KEY (compAwardId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId)
 );
 
-
 Create table competition_partners(
 compPartnerId int(16) AUTO_INCREMENT NOT NULL,
 compId       int(16) NOT NULL,
@@ -753,6 +752,31 @@ userId       int(16) NOT NULL,
 PRIMARY KEY (compRegistrationId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId),
 FOREIGN KEY (userId) REFERENCES user_details(userId)
+);
+
+Create table competition_submission(
+compSubmissionId int(16) AUTO_INCREMENT NOT NULL,
+compId       		int(16) NOT NULL,
+compTeamCode		varchar(100),
+filePath			varchar(500),
+submittedByUserId	int(16) NOT NULL,
+createdAt			TIMESTAMP,
+PRIMARY KEY (compSubmissionId),
+FOREIGN KEY (compId) REFERENCES competition_details(compId),
+FOREIGN KEY (submittedByUserId) REFERENCES user_details(userId)
+);
+
+Create table competition_result(
+compResultId int(16) AUTO_INCREMENT NOT NULL,
+compId       		int(16) NOT NULL,
+compTeamCode		varchar(100),
+compAwardId			int(16) NOT NULL,
+submittedByUserId	int(16) NOT NULL,
+createdAt			TIMESTAMP,
+PRIMARY KEY (compResultId),
+FOREIGN KEY (compId) REFERENCES competition_details(compId),
+FOREIGN KEY (compAwardId) REFERENCES competition_awards(compAwardId),
+FOREIGN KEY (submittedByUserId) REFERENCES user_details(userId)
 );
 
 /**-------------------Competition Tables End--------------**/
