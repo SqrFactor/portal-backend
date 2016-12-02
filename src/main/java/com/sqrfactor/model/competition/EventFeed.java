@@ -39,6 +39,9 @@ public class EventFeed {
 	@Column(name = "eventActionId")
 	int eventActionId;
 	
+	@Column(name ="eventText")
+	String eventText;
+	
 	@Column(name = "eventRefId")
 	long eventRefId;
 	
@@ -120,6 +123,20 @@ public class EventFeed {
 	 */
 	public void setEventActionId(int eventActionId) {
 		this.eventActionId = eventActionId;
+	}
+	
+	/**
+	 * @return the eventText
+	 */
+	public String getEventText() {
+		return eventText;
+	}
+
+	/**
+	 * @param eventText the eventText to set
+	 */
+	public void setEventText(String eventText) {
+		this.eventText = eventText;
 	}
 
 	/**

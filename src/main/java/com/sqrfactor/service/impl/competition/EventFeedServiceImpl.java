@@ -46,6 +46,7 @@ public class EventFeedServiceImpl implements EventFeedService{
 			entity.setEventType(eventFeed.getEventType());
 			entity.setEventTypeId(eventFeed.getEventTypeId());
 			entity.setEventActionId(eventFeed.getEventActionId());
+			entity.setEventText(eventFeed.getEventText());
 			entity.setEventRefId(eventFeed.getEventRefId());
 			entity.setCreatedAt(eventFeed.getCreatedAt());
 			entity.setModifiedAt(eventFeed.getModifiedAt());
