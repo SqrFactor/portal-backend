@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.controller.competition;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.competition.EventFeed;
 import com.sqrfactor.service.competition.EventFeedService;
 
@@ -42,6 +46,22 @@ public class EventFeedController {
 			return new ResponseEntity<EventFeed>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<EventFeed>(eventFeed, HttpStatus.OK);
+	}
+	
+	/**
+	 * Pull all the event event feeds for eventType and eventTypeId 
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/eventfeed/eventtype", method = RequestMethod.GET)
+	public ResponseEntity<List<EventFeed>> getByEventTypeAndEventTypeId(@RequestParam("eventType") String eventType, @RequestParam("eventTypeId") long eventTypeId) {
+		List<EventFeed> eventFeeds = eventFeedService.findAllByEventTypeAndEventTypeId(eventType, eventTypeId);
+		
+		if(eventFeeds.isEmpty()){
+			return new ResponseEntity<List<EventFeed>>(HttpStatus.NOT_FOUND);
+		}else{
+			return new ResponseEntity<List<EventFeed>>(eventFeeds, HttpStatus.OK);
+		}
 	}
 
 	/**
