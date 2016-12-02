@@ -779,6 +779,19 @@ FOREIGN KEY (compAwardId) REFERENCES competition_awards(compAwardId),
 FOREIGN KEY (submittedByUserId) REFERENCES user_details(userId)
 );
 
+Create table event_feed(
+eventFeedId int(16) AUTO_INCREMENT NOT NULL,
+userId       		int(16) NOT NULL,
+eventType			varchar(20) NOT NULL,
+eventTypeId			int(16) NOT NULL,
+eventActionId		int(3),
+eventRefId 			int(16),
+createdAt			TIMESTAMP,
+modifiedAt			TIMESTAMP,
+PRIMARY KEY (eventFeedId),
+FOREIGN KEY (userId) REFERENCES user_details(userId)
+);
+
 /**-------------------Competition Tables End--------------**/
 
 

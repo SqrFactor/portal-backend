@@ -3,16 +3,12 @@
  */
 package com.sqrfactor.controller;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mysql.jdbc.StringUtils;
 import com.sqrfactor.email.Email;
 import com.sqrfactor.email.impl.BigRockEmailImpl;
-import com.sqrfactor.model.College;
 import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.Invitation;
 import com.sqrfactor.model.Login;
@@ -414,14 +409,14 @@ public class TokenController {
 	@RequestMapping(value = "/invitation/verify", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<Boolean> verifyInvitationCode(@RequestParam("invitationCode") String invitationCode) {
 		
+		//Exception for sqrfactor email
+		if(invitationCode.equals("create@sqrfactor.in") || invitationCode.equals("SQRDEC127")){
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		
 		User user = userService.findByEmailId(invitationCode);
 		if(user == null){
 			return new ResponseEntity<Boolean>(false,HttpStatus.OK);
-		}
-		
-		//Exception for sqrfactor email
-		if(invitationCode.equals("create@sqrfactor.in")){
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 		
 		List<Invitation> invitations = invitationService.findByInvitedByUserId(user.getUserId());
@@ -449,7 +444,11 @@ public class TokenController {
 		
 		String invitedBy = invitationMap.get("invitedBy");
 		String invitedTo = invitationMap.get("invitedTo");
-
+		
+		if(invitedBy.equals("create@sqrfactor.in") || invitedBy.equals("SQRDEC127")){
+			invitedBy = "create@sqrfactor.in";
+		}
+		
 		if (StringUtils.isNullOrEmpty(invitedBy) || StringUtils.isNullOrEmpty(invitedTo)) {
 			return new ResponseEntity<Invitation>(HttpStatus.BAD_REQUEST);
 		}
