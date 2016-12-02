@@ -180,6 +180,8 @@ public class S3Upload {
 		map.put("avi", "video/avi");
 		map.put("mpeg", "video/mpeg");
 		
+		map.put("zip", "application/zip");
+		
 		return map;
 	}
 }
