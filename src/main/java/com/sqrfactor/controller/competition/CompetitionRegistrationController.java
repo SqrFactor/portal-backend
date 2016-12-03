@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.controller.competition;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +53,31 @@ public class CompetitionRegistrationController {
 	 */
 	@RequestMapping(value = "/competitionregistration/", method = RequestMethod.POST)
 	public ResponseEntity<CompetitionRegistration> createCompetitionRegistration(@RequestBody CompetitionRegistration competitionRegistration) {
+		
+		CompetitionRegistration alreadySaved = competitionRegistrationService.findByCompIdUserIdAndCompTeamCode(competitionRegistration.getCompId(), competitionRegistration.getUserId());
+		if(alreadySaved != null){
+			return new ResponseEntity<CompetitionRegistration>(alreadySaved, HttpStatus.CREATED);
+		}
+		
+		//If user role is Leader generate the team code
+		if(competitionRegistration.getCompUserRole().toLowerCase().equals("leader")){
+			
+			String startingTeamCode = competitionRegistration.getCompId() + "SQRFACTOR";
+			List<CompetitionRegistration> competitionRegistrations = competitionRegistrationService.findByStartsWithTeamCode(startingTeamCode);
+			
+			String compTeamCode = "";
+			if(competitionRegistrations.isEmpty()){
+				Integer newIncrement = 1;
+				compTeamCode = startingTeamCode + newIncrement;
+			}else{
+				String currentIncrement = competitionRegistrations.get(competitionRegistrations.size() - 1).getCompTeamCode().substring(startingTeamCode.length());
+				Integer newIncrement = Integer.parseInt(currentIncrement) + 1;
+				compTeamCode = startingTeamCode + newIncrement;
+			}
+			
+			//Set the team code
+			competitionRegistration.setCompTeamCode(compTeamCode);
+		}
 
 		competitionRegistrationService.saveCompetitionRegistration(competitionRegistration);
 		

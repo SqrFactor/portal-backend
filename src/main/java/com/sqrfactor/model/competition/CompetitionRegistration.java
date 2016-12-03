@@ -29,6 +29,12 @@ public class CompetitionRegistration {
 	@Column(name = "userId")
 	long userId;
 	
+	@Column(name = "compTeamCode")
+	String compTeamCode;
+	
+	@Column(name = "compUserRole")
+	String compUserRole;
+	
 	public CompetitionRegistration(){}
 
 	/**
@@ -71,6 +77,34 @@ public class CompetitionRegistration {
 	 */
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	/**
+	 * @return the compTeamCode
+	 */
+	public String getCompTeamCode() {
+		return compTeamCode;
+	}
+
+	/**
+	 * @param compTeamCode the compTeamCode to set
+	 */
+	public void setCompTeamCode(String compTeamCode) {
+		this.compTeamCode = compTeamCode;
+	}
+
+	/**
+	 * @return the compUserRole
+	 */
+	public String getCompUserRole() {
+		return compUserRole;
+	}
+
+	/**
+	 * @param compUserRole the compUserRole to set
+	 */
+	public void setCompUserRole(String compUserRole) {
+		this.compUserRole = compUserRole;
 	}
 	
 }

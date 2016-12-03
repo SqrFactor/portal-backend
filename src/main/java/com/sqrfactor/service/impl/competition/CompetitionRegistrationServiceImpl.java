@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.service.impl.competition;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,11 +46,28 @@ public class CompetitionRegistrationServiceImpl implements CompetitionRegistrati
 		if (entity != null) {
 			entity.setCompId(competitionRegistration.getCompId());
 			entity.setUserId(competitionRegistration.getUserId());
+			entity.setCompTeamCode(competitionRegistration.getCompTeamCode());
+			entity.setCompUserRole(competitionRegistration.getCompUserRole());
 		}
 	}
 
 	@Override
 	public void deleteCompetitionRegistrationById(long competitionRegistrationId) {
 		competitionRegistrationDao.deleteCompetitionRegistrationById(competitionRegistrationId);
+	}
+	
+	@Override
+	public List<CompetitionRegistration> findAllByCompetitionId(long competitionId){
+		return competitionRegistrationDao.findAllByCompetitionId(competitionId);
+	}
+	
+	@Override
+	public List<CompetitionRegistration> findByStartsWithTeamCode(String startingTeamCode){
+		return competitionRegistrationDao.findByStartsWithTeamCode(startingTeamCode);
+	}
+	
+	@Override
+	public CompetitionRegistration findByCompIdUserIdAndCompTeamCode(long compId, long userId){
+		return competitionRegistrationDao.findByCompIdUserIdAndCompTeamCode(compId, userId);
 	}
 }

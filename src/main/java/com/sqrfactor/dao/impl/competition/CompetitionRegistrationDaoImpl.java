@@ -3,8 +3,12 @@
  */
 package com.sqrfactor.dao.impl.competition;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -37,6 +41,26 @@ public class CompetitionRegistrationDaoImpl extends AbstractDao<Long, Competitio
 		Query query = getSession().createSQLQuery("delete from competition_registration where compRegistrationId = :compRegistrationId");
 		query.setLong("compRegistrationId", compRegistrationId);
 		query.executeUpdate();
+	}
+	
+	public List<CompetitionRegistration> findAllByCompetitionId(long competitionId){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("compId", competitionId));
+		return (List<CompetitionRegistration>) criteria.list();
+	}
+	
+	public List<CompetitionRegistration> findByStartsWithTeamCode(String startingTeamCode){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.like("compTeamCode", startingTeamCode, MatchMode.START));
+		criteria.addOrder(Order.asc("compTeamCode"));
+		return (List<CompetitionRegistration>) criteria.list();
+	}
+	
+	public CompetitionRegistration findByCompIdUserIdAndCompTeamCode(long compId, long userId){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("compId", compId));
+		criteria.add(Restrictions.eq("userId", userId));
+		return (CompetitionRegistration) criteria.uniqueResult();
 	}
 
 }

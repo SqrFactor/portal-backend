@@ -54,6 +54,44 @@ public class EventFeed {
     private Date modifiedAt;
 	
 	public EventFeed(){}
+	
+	/**
+	 * @param eventFeedId
+	 * @param userId
+	 * @param eventType
+	 * @param eventTypeId
+	 * @param eventActionId
+	 * @param eventText
+	 * @param eventRefId
+	 * @param createdAt
+	 * @param modifiedAt
+	 */
+	public EventFeed(long eventFeedId, long userId, String eventType, long eventTypeId, int eventActionId,
+			String eventText, long eventRefId, Date createdAt, Date modifiedAt) {
+		super();
+		this.eventFeedId = eventFeedId;
+		this.userId = userId;
+		this.eventType = eventType;
+		this.eventTypeId = eventTypeId;
+		this.eventActionId = eventActionId;
+		this.eventText = eventText;
+		this.eventRefId = eventRefId;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+	}
+
+	public EventFeed(EventFeed eventFeed){
+		super();
+		this.eventFeedId = eventFeed.getEventFeedId();
+		this.userId = eventFeed.getUserId();
+		this.eventType = eventFeed.getEventType();
+		this.eventTypeId = eventFeed.getEventTypeId();
+		this.eventActionId = eventFeed.getEventActionId();
+		this.eventText = eventFeed.getEventText();
+		this.eventRefId = eventFeed.getEventRefId();
+		this.createdAt = eventFeed.getCreatedAt();
+		this.modifiedAt = eventFeed.getModifiedAt();
+	}
 
 	/**
 	 * @return the eventFeedId

@@ -747,8 +747,10 @@ FOREIGN KEY (compId) REFERENCES competition_details(compId)
 
 Create table competition_registration(
 compRegistrationId int(16) AUTO_INCREMENT NOT NULL,
-compId       int(16) NOT NULL,
-userId       int(16) NOT NULL,
+compId       		int(16) NOT NULL,
+userId       		int(16) NOT NULL,
+compTeamCode		varchar(100) NOT NULL,
+compUserRole		varchar(20) NOT NULL,
 PRIMARY KEY (compRegistrationId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId),
 FOREIGN KEY (userId) REFERENCES user_details(userId)
@@ -757,24 +759,26 @@ FOREIGN KEY (userId) REFERENCES user_details(userId)
 Create table competition_submission(
 compSubmissionId int(16) AUTO_INCREMENT NOT NULL,
 compId       		int(16) NOT NULL,
-compTeamCode		varchar(100),
+compTeamCode		varchar(100) NOT NULL,
 filePath			varchar(500),
 submittedByUserId	int(16) NOT NULL,
 createdAt			TIMESTAMP,
 PRIMARY KEY (compSubmissionId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId),
+FOREIGN KEY (compTeamCode) REFERENCES competition_registration(compTeamCode),
 FOREIGN KEY (submittedByUserId) REFERENCES user_details(userId)
 );
 
 Create table competition_result(
 compResultId int(16) AUTO_INCREMENT NOT NULL,
 compId       		int(16) NOT NULL,
-compTeamCode		varchar(100),
+compTeamCode		varchar(100) NOT NULL,
 compAwardId			int(16) NOT NULL,
 submittedByUserId	int(16) NOT NULL,
 createdAt			TIMESTAMP,
 PRIMARY KEY (compResultId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId),
+FOREIGN KEY (compTeamCode) REFERENCES competition_registration(compTeamCode),
 FOREIGN KEY (compAwardId) REFERENCES competition_awards(compAwardId),
 FOREIGN KEY (submittedByUserId) REFERENCES user_details(userId)
 );

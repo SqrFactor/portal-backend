@@ -47,22 +47,6 @@ public class EventFeedController {
 		}
 		return new ResponseEntity<EventFeed>(eventFeed, HttpStatus.OK);
 	}
-	
-	/**
-	 * Pull all the event event feeds for eventType and eventTypeId 
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/eventfeed/eventtype", method = RequestMethod.GET)
-	public ResponseEntity<List<EventFeed>> getByEventTypeAndEventTypeId(@RequestParam("eventType") String eventType, @RequestParam("eventTypeId") long eventTypeId) {
-		List<EventFeed> eventFeeds = eventFeedService.findAllByEventTypeAndEventTypeId(eventType, eventTypeId);
-		
-		if(eventFeeds.isEmpty()){
-			return new ResponseEntity<List<EventFeed>>(HttpStatus.NOT_FOUND);
-		}else{
-			return new ResponseEntity<List<EventFeed>>(eventFeeds, HttpStatus.OK);
-		}
-	}
 
 	/**
 	 * Create EventFeed
