@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.EnrichedEventFeed;
 import com.sqrfactor.model.User;
+import com.sqrfactor.model.competition.CompetitionSubmission;
 import com.sqrfactor.model.competition.EventFeed;
 import com.sqrfactor.service.UserService;
+import com.sqrfactor.service.competition.CompetitionSubmissionService;
 import com.sqrfactor.service.competition.EventFeedService;
 
 /**
@@ -29,6 +31,9 @@ public class EnrichedEventFeedController {
 
 	@Autowired
 	private EventFeedService eventFeedService;
+	
+	@Autowired
+	private CompetitionSubmissionService competitionSubmissionService;
 	
 	@Autowired
 	private UserService userService;
@@ -64,6 +69,27 @@ public class EnrichedEventFeedController {
 		}
 	}
 	
+	/**
+	 * Find all event feeds for submissions 
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/eventfeed/enriched/submissions", method = RequestMethod.GET)
+	public ResponseEntity<List<CompetitionSubmissionEventFeed>> getAllSubmissionsByCompId(@RequestParam("competitionId") long competitionId) {
+		List<CompetitionSubmissionEventFeed> competitionSubmissionEventFeeds = new ArrayList<>();
+		List<CompetitionSubmission> competitionSubmissions = competitionSubmissionService.findAllByCompetitionId(competitionId);
+		
+		for(CompetitionSubmission competitionSubmission : competitionSubmissions){
+			String eventType = "Submission";
+			long eventTypeId = competitionSubmission.getCompSubmissionId();
+			List<EventFeed> eventFeeds = eventFeedService.findAllByEventTypeAndEventTypeId(eventType, eventTypeId);
+			
+			CompetitionSubmissionEventFeed competitionSubmissionEventFeed = new CompetitionSubmissionEventFeed(competitionSubmission, eventFeeds);
+			competitionSubmissionEventFeeds.add(competitionSubmissionEventFeed);
+		}
+		return new ResponseEntity<List<CompetitionSubmissionEventFeed>>(competitionSubmissionEventFeeds, HttpStatus.OK);
+	}
+
 	private String getName(User user){
 		String firstName = "";
 		String lastName = "";
@@ -85,6 +111,35 @@ public class EnrichedEventFeedController {
 			profilePicPath = user.getProfilePicPath();
 		}
 		return profilePicPath;
+	}
+	
+	private class CompetitionSubmissionEventFeed extends CompetitionSubmission{
+		
+		private List<EventFeed> eventFeeds = new ArrayList<>();
+
+		/**
+		 * @param eventFeeds
+		 */
+		public CompetitionSubmissionEventFeed(CompetitionSubmission competitionSubmission, List<EventFeed> eventFeeds) {
+			super(competitionSubmission);
+			this.eventFeeds = eventFeeds;
+		}
+		
+		/**
+		 * @return the eventFeeds
+		 */
+		public List<EventFeed> getEventFeeds() {
+			return eventFeeds;
+		}
+
+
+		/**
+		 * @param eventFeeds the eventFeeds to set
+		 */
+		public void setEventFeeds(List<EventFeed> eventFeeds) {
+			this.eventFeeds = eventFeeds;
+		}
+		
 	}
 
 }

@@ -44,6 +44,36 @@ public class CompetitionSubmission {
     private Date createdAt;
 	
 	public CompetitionSubmission(){}
+	
+	/**
+	 * @param compSubmissionId
+	 * @param compId
+	 * @param compTeamCode
+	 * @param filePath
+	 * @param submittedByUserId
+	 * @param createdAt
+	 */
+	public CompetitionSubmission(long compSubmissionId, long compId, String compTeamCode, String filePath,
+			long submittedByUserId, Date createdAt) {
+		super();
+		this.compSubmissionId = compSubmissionId;
+		this.compId = compId;
+		this.compTeamCode = compTeamCode;
+		this.filePath = filePath;
+		this.submittedByUserId = submittedByUserId;
+		this.createdAt = createdAt;
+	}
+
+	public CompetitionSubmission(CompetitionSubmission competitionSubmission){
+		super();
+		this.compSubmissionId = competitionSubmission.getCompSubmissionId();
+		this.compId = competitionSubmission.getCompId();
+		this.compTeamCode = competitionSubmission.getCompTeamCode();
+		this.filePath = competitionSubmission.getFilePath();
+		this.submittedByUserId = competitionSubmission.getSubmittedByUserId();
+		this.createdAt = competitionSubmission.getCreatedAt();
+	}
+
 
 	/**
 	 * @return the compSubmissionId

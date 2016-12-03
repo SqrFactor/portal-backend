@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.competition.EventFeed;
+import com.sqrfactor.service.competition.CompetitionSubmissionService;
 import com.sqrfactor.service.competition.EventFeedService;
 
 /**
@@ -28,7 +29,7 @@ public class EventFeedController {
 
 	@Autowired
 	private EventFeedService eventFeedService;
-
+	
 	public EventFeedController() {
 	}
 	
