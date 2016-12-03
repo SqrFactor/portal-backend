@@ -25,5 +25,7 @@ public interface CompetitionRegistrationService {
 	
 	List<CompetitionRegistration> findByStartsWithTeamCode(String startingTeamCode);
 
-	CompetitionRegistration findByCompIdUserIdAndCompTeamCode(long compId, long userId);
+	CompetitionRegistration findByCompIdAndUserId(long compId, long userId);
+	
+	List<CompetitionRegistration> findAllByCompetitionTeamCode(String compTeamCode);
 }

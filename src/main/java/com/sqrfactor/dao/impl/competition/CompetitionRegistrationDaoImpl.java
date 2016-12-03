@@ -56,11 +56,17 @@ public class CompetitionRegistrationDaoImpl extends AbstractDao<Long, Competitio
 		return (List<CompetitionRegistration>) criteria.list();
 	}
 	
-	public CompetitionRegistration findByCompIdUserIdAndCompTeamCode(long compId, long userId){
+	public CompetitionRegistration findByCompIdAndUserId(long compId, long userId){
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("compId", compId));
 		criteria.add(Restrictions.eq("userId", userId));
 		return (CompetitionRegistration) criteria.uniqueResult();
+	}
+	
+	public List<CompetitionRegistration> findAllByCompetitionTeamCode(String compTeamCode){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("compTeamCode", compTeamCode));
+		return (List<CompetitionRegistration>) criteria.list();
 	}
 
 }

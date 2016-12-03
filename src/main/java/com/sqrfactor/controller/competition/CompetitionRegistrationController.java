@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sqrfactor.model.EnrichedEventFeed;
 import com.sqrfactor.model.competition.CompetitionRegistration;
+import com.sqrfactor.model.competition.CompetitionSubmission;
 import com.sqrfactor.service.competition.CompetitionRegistrationService;
 
 /**
@@ -45,6 +48,39 @@ public class CompetitionRegistrationController {
 		}
 		return new ResponseEntity<CompetitionRegistration>(competitionRegistration, HttpStatus.OK);
 	}
+	
+	/**
+	 * Get a Competition Registration by Id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/competitionregistration/compteamcode", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<String> getCompTeamCodeByCompIdAndUserId(@RequestParam("compId") long compId, @RequestParam("userId") long userId) {
+		CompetitionRegistration competitionRegistration = competitionRegistrationService.findByCompIdAndUserId(compId, userId);
+		
+		if (competitionRegistration == null) {
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<String>(competitionRegistration.getCompTeamCode(), HttpStatus.OK);
+	}
+	
+	/**
+	 * Get all CompetitionRegistration by competitionId
+	 * 
+	 * @param competitionId
+	 * @return
+	 */
+	@RequestMapping(value = "/competitionregistration/compteamcode/{compTeamCode}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<CompetitionRegistration>> getCompetitionRegistrationByCompetitionId(@PathVariable String compTeamCode) {
+		List<CompetitionRegistration> competitionRegistrations = competitionRegistrationService.findAllByCompetitionTeamCode(compTeamCode);
+		
+		if (competitionRegistrations.isEmpty()) {
+			return new ResponseEntity<List<CompetitionRegistration>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<CompetitionRegistration>>(competitionRegistrations, HttpStatus.OK);
+	}
+
 
 	/**
 	 * Create Competition Registration
@@ -54,7 +90,7 @@ public class CompetitionRegistrationController {
 	@RequestMapping(value = "/competitionregistration/", method = RequestMethod.POST)
 	public ResponseEntity<CompetitionRegistration> createCompetitionRegistration(@RequestBody CompetitionRegistration competitionRegistration) {
 		
-		CompetitionRegistration alreadySaved = competitionRegistrationService.findByCompIdUserIdAndCompTeamCode(competitionRegistration.getCompId(), competitionRegistration.getUserId());
+		CompetitionRegistration alreadySaved = competitionRegistrationService.findByCompIdAndUserId(competitionRegistration.getCompId(), competitionRegistration.getUserId());
 		if(alreadySaved != null){
 			return new ResponseEntity<CompetitionRegistration>(alreadySaved, HttpStatus.CREATED);
 		}

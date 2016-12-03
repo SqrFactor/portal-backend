@@ -67,7 +67,12 @@ public class CompetitionRegistrationServiceImpl implements CompetitionRegistrati
 	}
 	
 	@Override
-	public CompetitionRegistration findByCompIdUserIdAndCompTeamCode(long compId, long userId){
-		return competitionRegistrationDao.findByCompIdUserIdAndCompTeamCode(compId, userId);
+	public CompetitionRegistration findByCompIdAndUserId(long compId, long userId){
+		return competitionRegistrationDao.findByCompIdAndUserId(compId, userId);
+	}
+	
+	@Override
+	public List<CompetitionRegistration> findAllByCompetitionTeamCode(String compTeamCode){
+		return competitionRegistrationDao.findAllByCompetitionTeamCode(compTeamCode);
 	}
 }
