@@ -16,10 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.EnrichedEventFeed;
 import com.sqrfactor.model.User;
+import com.sqrfactor.model.competition.CompetitionAward;
+import com.sqrfactor.model.competition.CompetitionRegistration;
 import com.sqrfactor.model.competition.CompetitionResult;
 import com.sqrfactor.model.competition.CompetitionSubmission;
+import com.sqrfactor.model.competition.EnrichedCompetitionRegistration;
 import com.sqrfactor.model.competition.EventFeed;
 import com.sqrfactor.service.UserService;
+import com.sqrfactor.service.competition.CompetitionAwardService;
+import com.sqrfactor.service.competition.CompetitionRegistrationService;
 import com.sqrfactor.service.competition.CompetitionResultService;
 import com.sqrfactor.service.competition.CompetitionSubmissionService;
 import com.sqrfactor.service.competition.EventFeedService;
@@ -39,6 +44,12 @@ public class EnrichedEventFeedController {
 	
 	@Autowired
 	private CompetitionResultService competitionResultService;
+	
+	@Autowired
+	private CompetitionRegistrationService competitionRegistrationService;
+	
+	@Autowired
+	private CompetitionAwardService competitionAwardService;
 	
 	@Autowired
 	private UserService userService;
@@ -89,7 +100,23 @@ public class EnrichedEventFeedController {
 			long eventTypeId = competitionSubmission.getCompSubmissionId();
 			List<EventFeed> eventFeeds = eventFeedService.findAllByEventTypeAndEventTypeId(eventType, eventTypeId);
 			
-			CompetitionSubmissionEventFeed competitionSubmissionEventFeed = new CompetitionSubmissionEventFeed(competitionSubmission, eventFeeds);
+			List<CompetitionRegistration> competitionRegistrations = competitionRegistrationService.findAllByCompetitionTeamCode(competitionSubmission.getCompTeamCode());
+			List<EnrichedCompetitionRegistration> enrichedCompetitionRegistrations = new ArrayList<>();
+			
+			//Retrive names of each user
+			for(CompetitionRegistration competitionRegistration : competitionRegistrations){
+				User user = userService.findById(competitionRegistration.getUserId());
+				
+				if (user == null) {
+					continue;
+				}
+
+				String name = getName(user);
+				EnrichedCompetitionRegistration enrichedCompetitionRegistration = new EnrichedCompetitionRegistration(competitionRegistration, name);
+				enrichedCompetitionRegistrations.add(enrichedCompetitionRegistration);
+			}
+			 
+			CompetitionSubmissionEventFeed competitionSubmissionEventFeed = new CompetitionSubmissionEventFeed(competitionSubmission, eventFeeds, enrichedCompetitionRegistrations);
 			competitionSubmissionEventFeeds.add(competitionSubmissionEventFeed);
 		}
 		return new ResponseEntity<List<CompetitionSubmissionEventFeed>>(competitionSubmissionEventFeeds, HttpStatus.OK);
@@ -110,7 +137,27 @@ public class EnrichedEventFeedController {
 			long eventTypeId = competitionResult.getCompResultId();
 			List<EventFeed> eventFeeds = eventFeedService.findAllByEventTypeAndEventTypeId(eventType, eventTypeId);
 			
-			CompetitionResultEventFeed competitionResultEventFeed = new CompetitionResultEventFeed(competitionResult, eventFeeds);
+			List<CompetitionRegistration> competitionRegistrations = competitionRegistrationService.findAllByCompetitionTeamCode(competitionResult.getCompTeamCode());
+			List<EnrichedCompetitionRegistration> enrichedCompetitionRegistrations = new ArrayList<>();
+			
+			//Retrive names of each user
+			for(CompetitionRegistration competitionRegistration : competitionRegistrations){
+				User user = userService.findById(competitionRegistration.getUserId());
+				
+				if (user == null) {
+					continue;
+				}
+
+				String name = getName(user);
+				EnrichedCompetitionRegistration enrichedCompetitionRegistration = new EnrichedCompetitionRegistration(competitionRegistration, name);
+				enrichedCompetitionRegistrations.add(enrichedCompetitionRegistration);
+			}
+			
+			CompetitionAward competitionAward = competitionAwardService.findByCompetitionAwardId(competitionResult.getCompAwardId());
+			
+			CompetitionSubmission competitionSubmission = competitionSubmissionService.findByCompTeamCode(competitionResult.getCompTeamCode());
+			
+			CompetitionResultEventFeed competitionResultEventFeed = new CompetitionResultEventFeed(competitionResult, competitionAward.getAwardType(), competitionSubmission.getFilePath(), eventFeeds, enrichedCompetitionRegistrations);
 			competitionResultEventFeeds.add(competitionResultEventFeed);
 		}
 		return new ResponseEntity<List<CompetitionResultEventFeed>>(competitionResultEventFeeds, HttpStatus.OK);
@@ -142,13 +189,15 @@ public class EnrichedEventFeedController {
 	private class CompetitionSubmissionEventFeed extends CompetitionSubmission{
 		
 		private List<EventFeed> eventFeeds = new ArrayList<>();
+		private List<EnrichedCompetitionRegistration> enrichedCompetitionRegistrations = new ArrayList<>();
 
 		/**
 		 * @param eventFeeds
 		 */
-		public CompetitionSubmissionEventFeed(CompetitionSubmission competitionSubmission, List<EventFeed> eventFeeds) {
+		public CompetitionSubmissionEventFeed(CompetitionSubmission competitionSubmission, List<EventFeed> eventFeeds, List<EnrichedCompetitionRegistration> enrichedCompetitionRegistrations) {
 			super(competitionSubmission);
 			this.eventFeeds = eventFeeds;
+			this.enrichedCompetitionRegistrations = enrichedCompetitionRegistrations;
 		}
 		
 		/**
@@ -165,19 +214,40 @@ public class EnrichedEventFeedController {
 		public void setEventFeeds(List<EventFeed> eventFeeds) {
 			this.eventFeeds = eventFeeds;
 		}
-		
+
+		/**
+		 * @return the enrichedCompetitionRegistrations
+		 */
+		public List<EnrichedCompetitionRegistration> getEnrichedCompetitionRegistrations() {
+			return enrichedCompetitionRegistrations;
+		}
+
+		/**
+		 * @param enrichedCompetitionRegistrations the enrichedCompetitionRegistrations to set
+		 */
+		public void setEnrichedCompetitionRegistrations(
+				List<EnrichedCompetitionRegistration> enrichedCompetitionRegistrations) {
+			this.enrichedCompetitionRegistrations = enrichedCompetitionRegistrations;
+		}
+
 	}
 
 	private class CompetitionResultEventFeed extends CompetitionResult{
 		
 		private List<EventFeed> eventFeeds = new ArrayList<>();
-
+		private List<EnrichedCompetitionRegistration> enrichedCompetitionRegistrations = new ArrayList<>();
+		private String compAwardType;
+		private String filePath;
+		
 		/**
 		 * @param eventFeeds
 		 */
-		public CompetitionResultEventFeed(CompetitionResult competitionResult, List<EventFeed> eventFeeds) {
+		public CompetitionResultEventFeed(CompetitionResult competitionResult, String compAwardType, String filePath, List<EventFeed> eventFeeds, List<EnrichedCompetitionRegistration> enrichedCompetitionRegistrations) {
 			super(competitionResult);
+			this.compAwardType = compAwardType;
+			this.filePath = filePath;
 			this.eventFeeds = eventFeeds;
+			this.enrichedCompetitionRegistrations = enrichedCompetitionRegistrations;
 		}
 		
 		/**
@@ -195,5 +265,48 @@ public class EnrichedEventFeedController {
 			this.eventFeeds = eventFeeds;
 		}
 		
+		/**
+		 * @return the enrichedCompetitionRegistrations
+		 */
+		public List<EnrichedCompetitionRegistration> getEnrichedCompetitionRegistrations() {
+			return enrichedCompetitionRegistrations;
+		}
+
+		/**
+		 * @param enrichedCompetitionRegistrations the enrichedCompetitionRegistrations to set
+		 */
+		public void setEnrichedCompetitionRegistrations(
+				List<EnrichedCompetitionRegistration> enrichedCompetitionRegistrations) {
+			this.enrichedCompetitionRegistrations = enrichedCompetitionRegistrations;
+		}
+
+		/**
+		 * @return the compAwardType
+		 */
+		public String getCompAwardType() {
+			return compAwardType;
+		}
+
+		/**
+		 * @param compAwardType the compAwardType to set
+		 */
+		public void setCompAwardType(String compAwardType) {
+			this.compAwardType = compAwardType;
+		}
+
+		/**
+		 * @return the filePath
+		 */
+		public String getFilePath() {
+			return filePath;
+		}
+
+		/**
+		 * @param filePath the filePath to set
+		 */
+		public void setFilePath(String filePath) {
+			this.filePath = filePath;
+		}
+				
 	}
 }

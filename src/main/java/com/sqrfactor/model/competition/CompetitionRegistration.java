@@ -36,6 +36,40 @@ public class CompetitionRegistration {
 	String compUserRole;
 	
 	public CompetitionRegistration(){}
+	
+	/**
+	 * @param compRegistrationId
+	 * @param compId
+	 * @param userId
+	 * @param compTeamCode
+	 * @param compUserRole
+	 */
+	public CompetitionRegistration(long compRegistrationId, long compId, long userId, String compTeamCode,
+			String compUserRole) {
+		super();
+		this.compRegistrationId = compRegistrationId;
+		this.compId = compId;
+		this.userId = userId;
+		this.compTeamCode = compTeamCode;
+		this.compUserRole = compUserRole;
+	}
+
+	/**
+	 * @param compRegistrationId
+	 * @param compId
+	 * @param userId
+	 * @param compTeamCode
+	 * @param compUserRole
+	 */
+	public CompetitionRegistration(CompetitionRegistration competitionRegistration) {
+		super();
+		this.compRegistrationId = competitionRegistration.getCompRegistrationId();
+		this.compId = competitionRegistration.getCompId();
+		this.userId = competitionRegistration.getUserId();
+		this.compTeamCode = competitionRegistration.getCompTeamCode();
+		this.compUserRole = competitionRegistration.getCompUserRole();
+	}
+
 
 	/**
 	 * @return the compRegistrationId

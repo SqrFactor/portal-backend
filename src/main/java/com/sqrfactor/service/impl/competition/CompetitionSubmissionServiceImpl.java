@@ -61,4 +61,9 @@ public class CompetitionSubmissionServiceImpl implements CompetitionSubmissionSe
 	public List<CompetitionSubmission> findAllByCompetitionId(long competitionId) {
 		return competitionSubmissionDao.findAllByCompetitionId(competitionId);
 	}
+	
+	@Override
+	public CompetitionSubmission findByCompTeamCode(String compTeamCode){
+		return competitionSubmissionDao.findByCompTeamCode(compTeamCode);
+	}
 }

@@ -47,4 +47,9 @@ public class CompetitionSubmissionDaoImpl extends AbstractDao<Long, CompetitionS
 		return (List<CompetitionSubmission>) criteria.list();
 	}
 
+	public CompetitionSubmission findByCompTeamCode(String compTeamCode){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("compTeamCode", compTeamCode));
+		return (CompetitionSubmission) criteria.uniqueResult();
+	}
 }

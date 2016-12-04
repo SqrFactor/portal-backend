@@ -20,4 +20,6 @@ public interface CompetitionSubmissionDao {
 	void deleteCompetitionSubmissionById(long competitionSubmissionId);
 
 	List<CompetitionSubmission> findAllByCompetitionId(long competitionId);
+	
+	CompetitionSubmission findByCompTeamCode(String teamCode);
 }

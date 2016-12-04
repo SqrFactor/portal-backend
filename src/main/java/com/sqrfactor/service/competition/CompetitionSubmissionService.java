@@ -23,4 +23,5 @@ public interface CompetitionSubmissionService {
 	
 	List<CompetitionSubmission> findAllByCompetitionId(long competitionId);
 
+	CompetitionSubmission findByCompTeamCode(String compTeamCode);
 }
