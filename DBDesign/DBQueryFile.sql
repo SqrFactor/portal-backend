@@ -765,7 +765,6 @@ submittedByUserId	int(16) NOT NULL,
 createdAt			TIMESTAMP,
 PRIMARY KEY (compSubmissionId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId),
-FOREIGN KEY (compTeamCode) REFERENCES competition_registration(compTeamCode),
 FOREIGN KEY (submittedByUserId) REFERENCES user_details(userId)
 );
 
@@ -778,7 +777,6 @@ submittedByUserId	int(16) NOT NULL,
 createdAt			TIMESTAMP,
 PRIMARY KEY (compResultId),
 FOREIGN KEY (compId) REFERENCES competition_details(compId),
-FOREIGN KEY (compTeamCode) REFERENCES competition_registration(compTeamCode),
 FOREIGN KEY (compAwardId) REFERENCES competition_awards(compAwardId),
 FOREIGN KEY (submittedByUserId) REFERENCES user_details(userId)
 );

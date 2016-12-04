@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.EnrichedEventFeed;
 import com.sqrfactor.model.User;
+import com.sqrfactor.model.competition.CompetitionResult;
 import com.sqrfactor.model.competition.CompetitionSubmission;
 import com.sqrfactor.model.competition.EventFeed;
 import com.sqrfactor.service.UserService;
+import com.sqrfactor.service.competition.CompetitionResultService;
 import com.sqrfactor.service.competition.CompetitionSubmissionService;
 import com.sqrfactor.service.competition.EventFeedService;
 
@@ -34,6 +36,9 @@ public class EnrichedEventFeedController {
 	
 	@Autowired
 	private CompetitionSubmissionService competitionSubmissionService;
+	
+	@Autowired
+	private CompetitionResultService competitionResultService;
 	
 	@Autowired
 	private UserService userService;
@@ -89,6 +94,27 @@ public class EnrichedEventFeedController {
 		}
 		return new ResponseEntity<List<CompetitionSubmissionEventFeed>>(competitionSubmissionEventFeeds, HttpStatus.OK);
 	}
+	
+	/**
+	 * Find all event feeds for submissions 
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/eventfeed/enriched/results", method = RequestMethod.GET)
+	public ResponseEntity<List<CompetitionResultEventFeed>> getAllResultsByCompId(@RequestParam("competitionId") long competitionId) {
+		List<CompetitionResultEventFeed> competitionResultEventFeeds = new ArrayList<>();
+		List<CompetitionResult> competitionResults = competitionResultService.findAllByCompetitionId(competitionId);
+		
+		for(CompetitionResult competitionResult : competitionResults){
+			String eventType = "Result";
+			long eventTypeId = competitionResult.getCompResultId();
+			List<EventFeed> eventFeeds = eventFeedService.findAllByEventTypeAndEventTypeId(eventType, eventTypeId);
+			
+			CompetitionResultEventFeed competitionResultEventFeed = new CompetitionResultEventFeed(competitionResult, eventFeeds);
+			competitionResultEventFeeds.add(competitionResultEventFeed);
+		}
+		return new ResponseEntity<List<CompetitionResultEventFeed>>(competitionResultEventFeeds, HttpStatus.OK);
+	}
 
 	private String getName(User user){
 		String firstName = "";
@@ -142,4 +168,32 @@ public class EnrichedEventFeedController {
 		
 	}
 
+	private class CompetitionResultEventFeed extends CompetitionResult{
+		
+		private List<EventFeed> eventFeeds = new ArrayList<>();
+
+		/**
+		 * @param eventFeeds
+		 */
+		public CompetitionResultEventFeed(CompetitionResult competitionResult, List<EventFeed> eventFeeds) {
+			super(competitionResult);
+			this.eventFeeds = eventFeeds;
+		}
+		
+		/**
+		 * @return the eventFeeds
+		 */
+		public List<EventFeed> getEventFeeds() {
+			return eventFeeds;
+		}
+
+
+		/**
+		 * @param eventFeeds the eventFeeds to set
+		 */
+		public void setEventFeeds(List<EventFeed> eventFeeds) {
+			this.eventFeeds = eventFeeds;
+		}
+		
+	}
 }

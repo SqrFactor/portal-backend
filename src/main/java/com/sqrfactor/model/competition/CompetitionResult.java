@@ -44,6 +44,43 @@ public class CompetitionResult {
     private Date createdAt;
 	
 	public CompetitionResult(){}
+	
+	/**
+	 * @param compResultId
+	 * @param compId
+	 * @param compTeamCode
+	 * @param compAwardId
+	 * @param submittedByUserId
+	 * @param createdAt
+	 */
+	public CompetitionResult(long compResultId, long compId, String compTeamCode, long compAwardId,
+			long submittedByUserId, Date createdAt) {
+		super();
+		this.compResultId = compResultId;
+		this.compId = compId;
+		this.compTeamCode = compTeamCode;
+		this.compAwardId = compAwardId;
+		this.submittedByUserId = submittedByUserId;
+		this.createdAt = createdAt;
+	}
+
+	/**
+	 * @param compResultId
+	 * @param compId
+	 * @param compTeamCode
+	 * @param compAwardId
+	 * @param submittedByUserId
+	 * @param createdAt
+	 */
+	public CompetitionResult(CompetitionResult competitionResult) {
+		super();
+		this.compResultId = competitionResult.getCompResultId();
+		this.compId = competitionResult.getCompId();
+		this.compTeamCode = competitionResult.getCompTeamCode();
+		this.compAwardId = competitionResult.getCompAwardId();
+		this.submittedByUserId = competitionResult.getSubmittedByUserId();
+		this.createdAt = competitionResult.getCreatedAt();
+	}
 
 	/**
 	 * @return the compResultId
