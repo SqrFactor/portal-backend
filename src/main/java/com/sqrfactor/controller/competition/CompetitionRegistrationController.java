@@ -82,23 +82,6 @@ public class CompetitionRegistrationController {
 	}
 	
 	/**
-	 * Get all CompetitionRegistration by competitionId
-	 * 
-	 * @param competitionId
-	 * @return
-	 */
-	@RequestMapping(value = "/competitionregistration/compteamcode/{compTeamCode}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<List<CompetitionRegistration>> getCompetitionRegistrationByCompetitionId(@PathVariable String compTeamCode) {
-		List<CompetitionRegistration> competitionRegistrations = competitionRegistrationService.findAllByCompetitionTeamCode(compTeamCode);
-		
-		if (competitionRegistrations.isEmpty()) {
-			return new ResponseEntity<List<CompetitionRegistration>>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<List<CompetitionRegistration>>(competitionRegistrations, HttpStatus.OK);
-	}
-
-
-	/**
 	 * Create Competition Registration
 	 * 
 	 * @param competitionRegistration
