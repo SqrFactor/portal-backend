@@ -3,6 +3,8 @@
  */
 package com.sqrfactor.service.impl.competition;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +50,7 @@ public class CompetitionServiceImp implements CompetitionService{
 			entity.setCompHeading(competition.getCompHeading());
 			entity.setCompBrief(competition.getCompBrief());
 			entity.setCompECriteria(competition.getCompECriteria());
+			entity.setCompECriteriaOthers(competition.getCompECriteriaOthers());
 			entity.setCoverPic(competition.getCoverPic());
 			entity.setProfilePic(competition.getProfilePic());	
 			entity.setCompSubRqrmts(competition.getCompSubRqrmts());
@@ -66,6 +69,11 @@ public class CompetitionServiceImp implements CompetitionService{
 	@Override
 	public void deleteCompetitionById(long competitionId) {
 		competitionDao.deleteCompetitionById(competitionId);
+	}
+	
+	@Override
+	public List<Competition> findAllCompetitions(){
+		return competitionDao.findAllCompetitions();
 	}
 
 }

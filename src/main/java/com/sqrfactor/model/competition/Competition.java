@@ -41,6 +41,9 @@ public class Competition {
 	@Column(name="compECriteria")
 	private String compECriteria;
 	
+	@Column(name="compECriteriaOthers")
+	private String compECriteriaOthers;
+	
 	@Column(name="coverPic")
 	private String coverPic;
 	
@@ -82,7 +85,99 @@ public class Competition {
 	 */
 	public Competition() {
 		super();
+	}
 	
+	/**
+	 * @param compId
+	 * @param userId
+	 * @param compType
+	 * @param compTitle
+	 * @param compHeading
+	 * @param compBrief
+	 * @param compECriteria
+	 * @param coverPic
+	 * @param profilePic
+	 * @param compSubRqrmts
+	 * @param compFAQ
+	 * @param compStartDate
+	 * @param compEndDate
+	 * @param compSubEndDate
+	 * @param compResultDate
+	 * @param compDetails
+	 * @param compBriefPath
+	 * @param compFees
+	 * @param compCurrency
+	 */
+	public Competition(long compId, long userId, String compType, String compTitle, String compHeading,
+			String compBrief, String compECriteria, String compECriteriaOthers, String coverPic, String profilePic, String compSubRqrmts,
+			String compFAQ, String compStartDate, String compEndDate, String compSubEndDate, String compResultDate,
+			String compDetails, String compBriefPath, String compFees, String compCurrency) {
+		super();
+		this.compId = compId;
+		this.userId = userId;
+		this.compType = compType;
+		this.compTitle = compTitle;
+		this.compHeading = compHeading;
+		this.compBrief = compBrief;
+		this.compECriteria = compECriteria;
+		this.compECriteriaOthers = compECriteriaOthers;
+		this.coverPic = coverPic;
+		this.profilePic = profilePic;
+		this.compSubRqrmts = compSubRqrmts;
+		this.compFAQ = compFAQ;
+		this.compStartDate = compStartDate;
+		this.compEndDate = compEndDate;
+		this.compSubEndDate = compSubEndDate;
+		this.compResultDate = compResultDate;
+		this.compDetails = compDetails;
+		this.compBriefPath = compBriefPath;
+		this.compFees = compFees;
+		this.compCurrency = compCurrency;
+	}
+
+	/**
+	 * @param compId
+	 * @param userId
+	 * @param compType
+	 * @param compTitle
+	 * @param compHeading
+	 * @param compBrief
+	 * @param compECriteria
+	 * @param coverPic
+	 * @param profilePic
+	 * @param compSubRqrmts
+	 * @param compFAQ
+	 * @param compStartDate
+	 * @param compEndDate
+	 * @param compSubEndDate
+	 * @param compResultDate
+	 * @param compDetails
+	 * @param compBriefPath
+	 * @param compFees
+	 * @param compCurrency
+	 */
+	public Competition(Competition competition) {
+		super();
+		this.compId = competition.getCompId();
+		this.userId = competition.getUserId();
+		this.compType = competition.getCompType();
+		this.compTitle = competition.getCompTitle();
+		this.compHeading = competition.getCompHeading();
+		this.compBrief = competition.getCompBrief();
+		this.compECriteria = competition.getCompECriteria();
+		this.compECriteriaOthers = competition.getCompECriteriaOthers();
+		this.coverPic = competition.getCoverPic();
+		this.profilePic = competition.getProfilePic();
+		this.compSubRqrmts = competition.getCompSubRqrmts();
+		this.compFAQ = competition.getCompFAQ();
+		this.compStartDate = competition.getCompStartDate();
+		this.compEndDate = competition.getCompEndDate();
+		this.compSubEndDate = competition.getCompSubEndDate();
+		this.compResultDate = competition.getCompResultDate();
+		this.compDetails = competition.getCompDetails();
+		this.compBriefPath = competition.getCompBriefPath();
+		this.compFees = competition.getCompFees();
+		this.compCurrency = competition.getCompCurrency();
 	}
 
 	/**
@@ -181,6 +276,20 @@ public class Competition {
 	 */
 	public void setCompECriteria(String compECriteria) {
 		this.compECriteria = compECriteria;
+	}
+
+	/**
+	 * @return the compECriteriaOthers
+	 */
+	public String getCompECriteriaOthers() {
+		return compECriteriaOthers;
+	}
+
+	/**
+	 * @param compECriteriaOthers the compECriteriaOthers to set
+	 */
+	public void setCompECriteriaOthers(String compECriteriaOthers) {
+		this.compECriteriaOthers = compECriteriaOthers;
 	}
 
 	/**
