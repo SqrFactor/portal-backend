@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.College;
+import com.sqrfactor.model.EnrichedCollege;
+import com.sqrfactor.model.User;
 import com.sqrfactor.service.CollegeService;
+import com.sqrfactor.service.UserService;
 
 /**
  * @author Angad Gill
@@ -26,6 +29,9 @@ public class CollegeController {
 	@Autowired
 	private CollegeService collegeService;
 
+	@Autowired
+	private UserService userService;
+	
 	public CollegeController() {
 	}
 
@@ -49,13 +55,23 @@ public class CollegeController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/college/colcode/{colCode}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<College> getCollegeByColCode(@PathVariable String colCode) {
+	@RequestMapping(value = "/college/enriched/colcode/{colCode}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<EnrichedCollege> getCollegeByColCode(@PathVariable String colCode) {
 		College college = collegeService.findByColCode(colCode);
 		if (college == null) {
-			return new ResponseEntity<College>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<EnrichedCollege>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<College>(college, HttpStatus.OK);
+		
+		User user = userService.findByEmailId(college.getColCode() + "@sqrfactor.in");
+		
+		EnrichedCollege enrichedCollege;
+		if(user != null){
+			enrichedCollege = new EnrichedCollege(college, user.getUserId());
+		}else{
+			enrichedCollege = new EnrichedCollege(college, 1);
+		}
+		
+		return new ResponseEntity<EnrichedCollege>(enrichedCollege, HttpStatus.OK);
 	}
 
 	/**

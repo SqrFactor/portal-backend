@@ -31,6 +31,11 @@ public class College {
 		this.colCode = colCode;
 		this.colName = colName;
 	}
+	
+	public College(College college){
+		this.colCode = college.getColCode();
+		this.colName = college.getColName();
+	}
 
 	/**
 	 * @return the colCode
