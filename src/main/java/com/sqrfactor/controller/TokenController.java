@@ -396,7 +396,13 @@ public class TokenController {
 		User adminUser = userService.findByEmailId("create@sqrfactor.in");
 		if(adminUser!= null){
 			connection.setDestinationId(adminUser.getUserId());
-			connectionService.saveConnection(connection);	
+			
+			//Check if already exists
+			Connection c1 = connectionService.findConBySrcAndDestId(connection.getSourceId(), connection.getDestinationId());
+			
+			if(c1 == null){
+				connectionService.saveConnection(connection);
+			}	
 		}
 	}
 	

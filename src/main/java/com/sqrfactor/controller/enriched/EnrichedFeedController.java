@@ -46,6 +46,49 @@ public class EnrichedFeedController {
 	 * @param id
 	 * @return
 	 */
+	@RequestMapping(value = "/enrichedfeed/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<EnrichedFeed> retrieveEnrichedFeedById(@PathVariable int id) {
+		Feed feed = feedService.findById(id);
+		
+		if (feed == null) {
+			return new ResponseEntity<EnrichedFeed>(HttpStatus.NOT_FOUND);
+		}
+		
+		User user = userService.findById(feed.getUserId());
+
+		if (user == null) {
+			return new ResponseEntity<EnrichedFeed>(HttpStatus.NOT_FOUND);
+		}
+
+		String name = getName(user);
+		String profilePicPath = getProfilePicPath(user);
+		
+		long refUserId = 0;
+		String refName = "";
+		String refProfilePicPath = "";
+		
+		Feed refFeed = feedService.findById(feed.getFeedRefId());
+		if(refFeed != null){
+			User refUser = userService.findById(refFeed.getUserId());
+			
+			if(refUser != null){
+			
+				refUserId = refUser.getUserId();
+				refName = getName(refUser);
+				refProfilePicPath = getProfilePicPath(refUser);
+			}
+		}
+		
+		EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath, refUserId, refName, refProfilePicPath);
+		return new ResponseEntity<EnrichedFeed>(enrichedFeed, HttpStatus.OK);
+	}
+	
+	/**
+	 * Get a Feed by Id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/enrichedfeed/userid/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<List<EnrichedFeed>> getFeedById(@PathVariable int userId) {
 		List<EnrichedFeed> enrichedFeeds = new ArrayList<EnrichedFeed>();
@@ -158,6 +201,14 @@ public class EnrichedFeedController {
 					}
 					return 0;
 				}
+			});
+		}else{
+			enrichedFeeds.sort(new Comparator<EnrichedFeed>() {
+				@Override
+				public int compare(EnrichedFeed o1, EnrichedFeed o2) {
+					return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+				}
+				
 			});
 		}
 		return new ResponseEntity<List<EnrichedFeed>>(enrichedFeeds, HttpStatus.OK);

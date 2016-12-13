@@ -88,7 +88,16 @@ public class EducationController {
 		User user = userService.findByEmailId(education.getColCode() + "@sqrfactor.in");
 		if(user != null){
 			connection.setDestinationId(user.getUserId());
-			connectionService.saveConnection(connection);	
+			
+			//Check if already exists
+			Connection c1 = connectionService.findConBySrcAndDestId(connection.getSourceId(), connection.getDestinationId());
+			
+			if(c1 == null){
+				connectionService.saveConnection(connection);
+			}
+			
+			
+				
 		}
 		
 		return new ResponseEntity<Education>(education, HttpStatus.CREATED);

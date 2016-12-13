@@ -75,7 +75,12 @@ public class ConnectionController {
 	@RequestMapping(value = "/connection/", method = RequestMethod.POST)
 	public ResponseEntity<Connection> createConnection(@RequestBody Connection connection) {
 		
-		connectionService.saveConnection(connection);
+		//Check if already exists
+		Connection c1 = connectionService.findConBySrcAndDestId(connection.getSourceId(), connection.getDestinationId());
+		
+		if(c1 == null){
+			connectionService.saveConnection(connection);
+		}
 
 		return new ResponseEntity<Connection>(connection, HttpStatus.CREATED);
 	}

@@ -52,21 +52,6 @@ public class FeedController {
 	}
 
 	/**
-	 * Get a Feed by Id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "/feed/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<Feed> getFeedById(@PathVariable int id) {
-		Feed feed = feedService.findById(id);
-		if (feed == null) {
-			return new ResponseEntity<Feed>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Feed>(feed, HttpStatus.OK);
-	}
-
-	/**
 	 * Create Feed
 	 * 
 	 * @param feed
@@ -105,7 +90,7 @@ public class FeedController {
 				notification.setSourceUserId(notificationSource);
 				notification.setDestinationUserId(notificationDestination);
 				notification.setNotificationTypeId(notificationTypeId);
-				notification.setFeedRefId(feed.getFeedId());
+				notification.setFeedRefId(feed.getFeedRefId());
 				if(notificationSource != notificationDestination){
 					notificationService.saveNotification(notification);	
 				}
