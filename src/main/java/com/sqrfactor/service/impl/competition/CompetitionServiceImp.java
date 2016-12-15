@@ -63,6 +63,7 @@ public class CompetitionServiceImp implements CompetitionService{
 			entity.setCompBriefPath(competition.getCompBriefPath());
 			entity.setCompFees(competition.getCompFees());
 			entity.setCompCurrency(competition.getCompCurrency());
+			entity.setCreatedAt(competition.getCreatedAt());
 		}
 	}
 

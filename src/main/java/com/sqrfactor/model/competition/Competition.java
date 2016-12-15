@@ -3,12 +3,16 @@
  */
 package com.sqrfactor.model.competition;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * @author Angad Gill
@@ -80,6 +84,10 @@ public class Competition {
 	@Column(name="compCurrency")
 	private String compCurrency;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdAt", nullable = false)
+    private Date createdAt;
+	
 	/**
 	 * 
 	 */
@@ -111,7 +119,7 @@ public class Competition {
 	public Competition(long compId, long userId, String compType, String compTitle, String compHeading,
 			String compBrief, String compECriteria, String compECriteriaOthers, String coverPic, String profilePic, String compSubRqrmts,
 			String compFAQ, String compStartDate, String compEndDate, String compSubEndDate, String compResultDate,
-			String compDetails, String compBriefPath, String compFees, String compCurrency) {
+			String compDetails, String compBriefPath, String compFees, String compCurrency, Date createdAt) {
 		super();
 		this.compId = compId;
 		this.userId = userId;
@@ -133,6 +141,7 @@ public class Competition {
 		this.compBriefPath = compBriefPath;
 		this.compFees = compFees;
 		this.compCurrency = compCurrency;
+		this.createdAt = createdAt;
 	}
 
 	/**
@@ -178,6 +187,7 @@ public class Competition {
 		this.compBriefPath = competition.getCompBriefPath();
 		this.compFees = competition.getCompFees();
 		this.compCurrency = competition.getCompCurrency();
+		this.createdAt= competition.getCreatedAt();
 	}
 
 	/**
@@ -458,6 +468,20 @@ public class Competition {
 	 */
 	public void setCompCurrency(String compCurrency) {
 		this.compCurrency = compCurrency;
+	}
+
+	/**
+	 * @return the createdAt
+	 */
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	/**
+	 * @param createdAt the createdAt to set
+	 */
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }

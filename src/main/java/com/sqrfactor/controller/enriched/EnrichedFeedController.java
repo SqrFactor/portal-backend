@@ -206,7 +206,14 @@ public class EnrichedFeedController {
 			enrichedFeeds.sort(new Comparator<EnrichedFeed>() {
 				@Override
 				public int compare(EnrichedFeed o1, EnrichedFeed o2) {
-					return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+					if(o1.getCreatedAt().getTime() > o2.getCreatedAt().getTime()){
+						return -1;
+					}else if(o1.getCreatedAt().getTime() < o2.getCreatedAt().getTime()){
+						return 1;
+					}else{
+						return 0;
+					}
+					
 				}
 				
 			});
