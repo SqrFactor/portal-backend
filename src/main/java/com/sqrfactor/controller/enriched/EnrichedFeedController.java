@@ -90,15 +90,27 @@ public class EnrichedFeedController {
 	 * @return
 	 */
 	@RequestMapping(value = "/enrichedfeed/userid/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<List<EnrichedFeed>> getFeedById(@PathVariable int userId) {
+	public ResponseEntity<List<EnrichedFeed>> getFeedById(@PathVariable int userId, @RequestParam(value = "first", required = false) int first,@RequestParam(value = "max", required = false) int max) {
 		List<EnrichedFeed> enrichedFeeds = new ArrayList<EnrichedFeed>();
 		enrichedFeeds = getEnrichedFeedById(userId);
 		
 		if (enrichedFeeds.isEmpty()) {
-			return new ResponseEntity<List<EnrichedFeed>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<EnrichedFeed>>(HttpStatus.OK);
 		}
 
-		return new ResponseEntity<List<EnrichedFeed>>(enrichedFeeds, HttpStatus.OK);
+		//Check if first max can return results 
+		if(enrichedFeeds.size() <= first){
+			return new ResponseEntity<List<EnrichedFeed>>(HttpStatus.NOT_FOUND);
+		}else if(first == 0 && max == 0){
+			return new ResponseEntity<List<EnrichedFeed>>(enrichedFeeds, HttpStatus.OK);
+		}
+		
+		//TODO Move this to dao
+		List<EnrichedFeed> enrichedFeedsToReturn = new ArrayList<>();
+		for(int i = first; i < first+max && i < enrichedFeeds.size(); i++){
+			enrichedFeedsToReturn.add(enrichedFeeds.get(i));
+		}
+		return new ResponseEntity<List<EnrichedFeed>>(enrichedFeedsToReturn, HttpStatus.OK);
 	}
 
 	/**
@@ -156,7 +168,7 @@ public class EnrichedFeedController {
 	 * @return
 	 */
 	@RequestMapping(value = "/enrichedfeed/conuserid/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<List<EnrichedFeed>> getConnectionFeedById(@PathVariable int userId, @RequestParam(value = "isRed", required = false, defaultValue = "false") boolean isRed) {
+	public ResponseEntity<List<EnrichedFeed>> getConnectionFeedById(@PathVariable int userId, @RequestParam(value = "isRed", required = false, defaultValue = "false") boolean isRed,@RequestParam(value = "first", required = false) int first,@RequestParam(value = "max", required = false) int max) {
 		List<EnrichedFeed> enrichedFeeds = new ArrayList<EnrichedFeed>();
 		enrichedFeeds = getEnrichedFeedById(userId);
 		
@@ -218,7 +230,20 @@ public class EnrichedFeedController {
 				
 			});
 		}
-		return new ResponseEntity<List<EnrichedFeed>>(enrichedFeeds, HttpStatus.OK);
+		
+		//Check if first max can return results 
+		if(enrichedFeeds.size() <= first){
+			return new ResponseEntity<List<EnrichedFeed>>(HttpStatus.NOT_FOUND);
+		}else if(first == 0 && max == 0){
+			return new ResponseEntity<List<EnrichedFeed>>(enrichedFeeds, HttpStatus.OK);
+		}
+		
+		//TODO Move this to dao
+		List<EnrichedFeed> enrichedFeedsToReturn = new ArrayList<>();
+		for(int i = first; i < first+max && i < enrichedFeeds.size(); i++){
+			enrichedFeedsToReturn.add(enrichedFeeds.get(i));
+		}
+		return new ResponseEntity<List<EnrichedFeed>>(enrichedFeedsToReturn, HttpStatus.OK);
 	}
 
 	private List<EnrichedFeed> getEnrichedFeedById(long userId){
