@@ -788,7 +788,7 @@
 	/**-------------------Competition Tables End--------------**/
 
 	/**-------------------Add Admin Account Start-------------------**/
-	Insert into user_details values (1, 'SqrFactor India', '', 'other', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'India' , 'Karnataka' , 'Bangalore' , 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.png');
+	Insert into user_details values (1, 'SqrFactor India', '', 'other', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'India' , 'Karnataka' , 'Bangalore' , 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.jpg');
 	Insert into user_login values (1, 'create@sqrfactor.in', '1234');
 
 	/**-------------------Add Admin Account End-------------------**/
