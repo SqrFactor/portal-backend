@@ -416,7 +416,7 @@ public class TokenController {
 	public ResponseEntity<Boolean> verifyInvitationCode(@RequestParam("invitationCode") String invitationCode) {
 		
 		//Exception for sqrfactor email
-		if(invitationCode.equals("create@sqrfactor.in") || invitationCode.equals("SQRDEC127")){
+		if(invitationCode.equals("create@sqrfactor.in") || invitationCode.equals("SQRDEC127") || invitationCode.equals("ARCHSQR")){
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 		
@@ -451,7 +451,7 @@ public class TokenController {
 		String invitedBy = invitationMap.get("invitedBy");
 		String invitedTo = invitationMap.get("invitedTo");
 		
-		if(invitedBy.equals("create@sqrfactor.in") || invitedBy.equals("SQRDEC127")){
+		if(invitedBy.equals("create@sqrfactor.in") || invitedBy.equals("SQRDEC127") || invitedBy.equals("ARCHSQR")){
 			invitedBy = "create@sqrfactor.in";
 		}
 		
