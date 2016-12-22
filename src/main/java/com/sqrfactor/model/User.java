@@ -105,8 +105,24 @@ public class User {
 		this.about = about;
 		this.profilePicPath = profilePicPath;
 	}
-
-
+	
+	public User(User user){
+		super();
+		this.userId = user.getUserId();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.gender = user.getGender();
+		this.contactNo = user.getContactNo();
+		this.emailId = user.getEmailId();
+		this.usrCountry = user.getUsrCountry();
+		this.usrState = user.getUsrState();
+		this.usrCity = user.getUsrCity();
+		this.dateOfBirth = user.getDateOfBirth();
+		this.userTypeId = user.getUserTypeId();
+		this.isVerified = user.isVerified;
+		this.about = user.getAbout();
+		this.profilePicPath = user.getProfilePicPath();
+	}
 
 	public long getUserId() {
 		return userId;

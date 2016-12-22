@@ -64,6 +64,17 @@ public class Education {
 		this.educationToDate = educationToDate;
 		this.colCode = colCode;
 	}
+	
+	public Education(Education education) {
+		super();
+		this.id = education.getId();
+		this.userId = education.getUserId();
+		this.educationRegNo = education.getEducationRegNo();
+		this.educationName = education.getEducationName();
+		this.educationFromDate = education.getEducationFromDate();
+		this.educationToDate = education.getEducationToDate();
+		this.colCode = education.getColCode();
+	}
 
 
 	/**
