@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sqrfactor.model.User;
 import com.sqrfactor.model.competition.Competition;
+import com.sqrfactor.model.competition.EnrichedCompetition;
+import com.sqrfactor.service.UserService;
 import com.sqrfactor.service.competition.CompetitionService;
 
 /**
@@ -24,6 +27,9 @@ public class CompetitionController {
 	
 	@Autowired
 	private CompetitionService competitionService;
+	
+	@Autowired
+	private UserService userService;
 
 	public CompetitionController() {
 	}
@@ -93,5 +99,43 @@ public class CompetitionController {
 		competitionService.deleteCompetitionById(id);
 		return new ResponseEntity<Competition>(HttpStatus.NO_CONTENT);
 	}
+	
+	/**
+	 * Get a Competition by Id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/competition/enriched/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<EnrichedCompetition> getEnrichedCompetitionById(@PathVariable int id) {
+		Competition competition = competitionService.findByCompetitionId(id);
+		
+		if (competition == null) {
+			return new ResponseEntity<EnrichedCompetition>(HttpStatus.NOT_FOUND);
+		}
+		
+		//Add the username also 
+		User competitionUser = userService.findById(competition.getUserId());
+		String userName = "";
+		if(competitionUser != null){
+			userName = getName(competitionUser);
+		}
+		
+		EnrichedCompetition enrichedCompetition = new EnrichedCompetition(competition, userName);
+		return new ResponseEntity<EnrichedCompetition>(enrichedCompetition, HttpStatus.OK);
+	}
 
+	private String getName(User user){
+		String firstName = "";
+		String lastName = "";
+		if (user.getFirstName() != null) {
+			firstName = user.getFirstName();
+		}
+		if (user.getLastName() != null) {
+			lastName = user.getLastName();
+		}
+		String name = firstName + " " + lastName;
+		
+		return name;
+	}
 }
