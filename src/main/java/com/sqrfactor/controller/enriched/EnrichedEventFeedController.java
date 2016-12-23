@@ -23,6 +23,7 @@ import com.sqrfactor.model.competition.CompetitionPartner;
 import com.sqrfactor.model.competition.CompetitionRegistration;
 import com.sqrfactor.model.competition.CompetitionResult;
 import com.sqrfactor.model.competition.CompetitionSubmission;
+import com.sqrfactor.model.competition.EnrichedCompetition;
 import com.sqrfactor.model.competition.EnrichedCompetitionRegistration;
 import com.sqrfactor.model.competition.EventFeed;
 import com.sqrfactor.service.UserService;
@@ -243,8 +244,15 @@ public class EnrichedEventFeedController {
 			List<CompetitionJury> competitionJurys = competitionJuryService.findAllByCompetitionId(competition.getCompId());
 			List<CompetitionAward> competitionAwards = competitionAwardService.findAllByCompetitionId(competition.getCompId());
 			List<CompetitionPartner> competitionPartners = competitionPartnerService.findAllByCompetitionId(competition.getCompId());
+			
+			//Add the username also 
+			User competitionUser = userService.findById(competition.getUserId());
+			String userName = "";
+			if(competitionUser != null){
+				userName = getName(competitionUser);
+			}
 						 
-			CompetitionEventFeed competitionEventFeed = new CompetitionEventFeed(competition, enrichedEventFeeds, competitionJurys, competitionAwards, competitionPartners);
+			CompetitionEventFeed competitionEventFeed = new CompetitionEventFeed(competition, userName, enrichedEventFeeds, competitionJurys, competitionAwards, competitionPartners);
 			competitionEventFeeds.add(competitionEventFeed);
 		}
 		return new ResponseEntity<List<CompetitionEventFeed>>(competitionEventFeeds, HttpStatus.OK);
@@ -398,7 +406,7 @@ public class EnrichedEventFeedController {
 				
 	}
 	
-	private class CompetitionEventFeed extends Competition{
+	private class CompetitionEventFeed extends EnrichedCompetition{
 		
 		private List<EnrichedEventFeed> eventFeeds = new ArrayList<>();
 		private List<CompetitionJury> competitionJurys = new ArrayList<>();
@@ -408,8 +416,8 @@ public class EnrichedEventFeedController {
 		/**
 		 * @param eventFeeds
 		 */
-		public CompetitionEventFeed(Competition competition, List<EnrichedEventFeed> eventFeeds, List<CompetitionJury> competitionJurys, List<CompetitionAward> competitionAwards, List<CompetitionPartner> competitionPartners) {
-			super(competition);
+		public CompetitionEventFeed(Competition competition, String userName, List<EnrichedEventFeed> eventFeeds, List<CompetitionJury> competitionJurys, List<CompetitionAward> competitionAwards, List<CompetitionPartner> competitionPartners) {
+			super(competition, userName);
 			this.eventFeeds = eventFeeds;
 			this.competitionJurys = competitionJurys;
 			this.competitionAwards = competitionAwards;
