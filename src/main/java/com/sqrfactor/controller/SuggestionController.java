@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sqrfactor.model.College;
 import com.sqrfactor.model.Connection;
 import com.sqrfactor.model.Education;
+import com.sqrfactor.model.EnrichedEducation;
 import com.sqrfactor.model.Profession;
 import com.sqrfactor.model.User;
 import com.sqrfactor.model.competition.CompetitionSubmission;
@@ -179,26 +180,6 @@ public class SuggestionController {
 			}
 		}
 		return colCodes;
-	}
-	
-	private class EnrichedEducation extends Education{
-		private String colName;
-		public EnrichedEducation(Education education, String colName){
-			super(education);
-			this.colName = colName;
-		}
-		/**
-		 * @return the colName
-		 */
-		public String getColName() {
-			return colName;
-		}
-		/**
-		 * @param colName the colName to set
-		 */
-		public void setColName(String colName) {
-			this.colName = colName;
-		}
 	}
 	
 	private class SuggestedUser extends User{
