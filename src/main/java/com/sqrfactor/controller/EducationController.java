@@ -118,6 +118,22 @@ public class EducationController {
 			return new ResponseEntity<Education>(HttpStatus.NOT_FOUND);
 		}
 		education.setId(id);
+		
+		//Add Connection to college
+		Connection connection = new Connection();
+		connection.setSourceId(education.getUserId());
+		User user = userService.findByEmailId(education.getColCode() + "@sqrfactor.in");
+		if(user != null){
+			connection.setDestinationId(user.getUserId());
+			
+			//Check if already exists
+			Connection c1 = connectionService.findConBySrcAndDestId(connection.getSourceId(), connection.getDestinationId());
+			
+			if(c1 == null){
+				connectionService.saveConnection(connection);
+			}
+		}
+		
 		educationService.updateEducation(education);
 		return new ResponseEntity<Education>(education, HttpStatus.OK);
 	}
