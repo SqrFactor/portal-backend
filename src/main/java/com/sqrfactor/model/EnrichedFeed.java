@@ -17,6 +17,20 @@ public class EnrichedFeed extends Feed{
 		this.refProfilePicPath = refProfilePicPath;
 	}
 	
+	public EnrichedFeed(EnrichedFeed enrichedFeed){
+		super(enrichedFeed.getFeedId(), enrichedFeed.getUserId(), enrichedFeed.getFeedTypeId(),
+				enrichedFeed.getFeedText(), enrichedFeed.getFeedPath(), enrichedFeed.getFeedActionId(),
+				enrichedFeed.getFeedRefId(), enrichedFeed.getPlaceName(), enrichedFeed.getPlaceAddress(),
+				enrichedFeed.getPlaceLat(), enrichedFeed.getPlaceLng(), enrichedFeed.getCreatedAt(), 
+				enrichedFeed.getModifiedAt());
+		
+		this.name = enrichedFeed.getName();
+		this.profilePicPath = enrichedFeed.getProfilePicPath();
+		this.refUserId = enrichedFeed.getRefUserId();
+		this.refName = enrichedFeed.getRefName();
+		this.refProfilePicPath = enrichedFeed.getRefProfilePicPath();
+	}
+	
 	/**
 	 * @return the profilePicPath
 	 */
