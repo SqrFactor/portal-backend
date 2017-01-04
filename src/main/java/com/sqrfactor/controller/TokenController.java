@@ -229,7 +229,7 @@ public class TokenController {
 		//Create a new user
 		user = new User();
 		user.setEmailId(emailId);
-		userService.saveUser(user);
+		userService.saveUser(user);	
 		
 		Verification verification = verificationService.findByUserId(user.getUserId());
 		if(verification == null){
@@ -248,6 +248,47 @@ public class TokenController {
 		
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
+
+	/**
+	 * Signup User For Competition
+	 * This API requires a user to be authorized
+	 * 
+	 * @param user
+	 */
+	@RequestMapping(value = "/user/signup/competition", method = RequestMethod.POST)
+	public ResponseEntity<User> signupUserFromCompetition(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("emailId") String emailId) {
+		
+		User user = userService.findByEmailId(emailId);
+		// Return error if user already exists
+		if (user != null) {
+			return new ResponseEntity<User>(user, HttpStatus.CREATED);
+		}
+		
+		//Create a new user
+		user = new User();
+		user.setEmailId(emailId);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		userService.saveUser(user);	
+		
+		Verification verification = verificationService.findByUserId(user.getUserId());
+		if(verification == null){
+			verification = new Verification();
+			verification.setVerificationUserId(user.getUserId());
+			verification.setEmailCode(RandomGenerator.nextRandom());
+			verificationService.saveVerification(verification);	
+		}else{
+			verification.setEmailCode(RandomGenerator.nextRandom());
+			verificationService.updateVerification(verification);
+		}
+
+		// Send Email
+		Email email = new BigRockEmailImpl();		
+		email.sendVerificationMail(emailId, verification.getEmailCode());
+		
+		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+	}
+
 	
 	/**
 	 * Verify User
