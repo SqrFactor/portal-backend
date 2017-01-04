@@ -113,7 +113,17 @@ public class CompetitionRegistrationController {
 			//Set the team code
 			competitionRegistration.setCompTeamCode(compTeamCode);
 		}
-
+		
+		if(competitionRegistration.getCompUserRole().toLowerCase().equals("mentor")){
+			CompetitionRegistration mentorAlreadySaved = competitionRegistrationService.findByCompIdTeamCodeAndUserRole(competitionRegistration.getCompId()
+					, competitionRegistration.getCompTeamCode(), competitionRegistration.getCompUserRole());
+			if(mentorAlreadySaved != null){
+				mentorAlreadySaved.setUserId(competitionRegistration.getUserId());
+				competitionRegistrationService.updateCompetitionRegistration(mentorAlreadySaved);
+				return new ResponseEntity<CompetitionRegistration>(mentorAlreadySaved, HttpStatus.CREATED);
+			}
+		}
+		
 		competitionRegistrationService.saveCompetitionRegistration(competitionRegistration);
 		
 		return new ResponseEntity<CompetitionRegistration>(competitionRegistration, HttpStatus.CREATED);

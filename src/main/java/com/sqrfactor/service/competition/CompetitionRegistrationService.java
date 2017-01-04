@@ -28,4 +28,6 @@ public interface CompetitionRegistrationService {
 	CompetitionRegistration findByCompIdAndUserId(long compId, long userId);
 	
 	List<CompetitionRegistration> findAllByCompetitionTeamCode(String compTeamCode);
+	
+	CompetitionRegistration findByCompIdTeamCodeAndUserRole(long compId, String compTeamCode, String compUserRole);
 }

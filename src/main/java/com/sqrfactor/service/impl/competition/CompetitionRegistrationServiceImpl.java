@@ -42,7 +42,7 @@ public class CompetitionRegistrationServiceImpl implements CompetitionRegistrati
 	 * Update Competition Registration 
 	 */
 	public void updateCompetitionRegistration(CompetitionRegistration competitionRegistration) {
-		CompetitionRegistration entity = competitionRegistrationDao.findByCompetitionRegistrationId(competitionRegistration.getCompId());
+		CompetitionRegistration entity = competitionRegistrationDao.findByCompetitionRegistrationId(competitionRegistration.getCompRegistrationId());
 		if (entity != null) {
 			entity.setCompId(competitionRegistration.getCompId());
 			entity.setUserId(competitionRegistration.getUserId());
@@ -74,5 +74,10 @@ public class CompetitionRegistrationServiceImpl implements CompetitionRegistrati
 	@Override
 	public List<CompetitionRegistration> findAllByCompetitionTeamCode(String compTeamCode){
 		return competitionRegistrationDao.findAllByCompetitionTeamCode(compTeamCode);
+	}
+	
+	@Override
+	public CompetitionRegistration findByCompIdTeamCodeAndUserRole(long compId, String compTeamCode, String userRole){
+		return competitionRegistrationDao.findByCompIdTeamCodeAndUserRole(compId, compTeamCode, userRole);
 	}
 }
