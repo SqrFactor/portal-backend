@@ -97,21 +97,28 @@ public class CompetitionRegistrationController {
 		//If user role is Leader generate the team code
 		if(competitionRegistration.getCompUserRole().toLowerCase().equals("leader")){
 			
-			String startingTeamCode = competitionRegistration.getCompId() + "SQRFACTOR";
-			List<CompetitionRegistration> competitionRegistrations = competitionRegistrationService.findByStartsWithTeamCode(startingTeamCode);
-			
-			String compTeamCode = "";
-			if(competitionRegistrations.isEmpty()){
-				Integer newIncrement = 1;
-				compTeamCode = startingTeamCode + newIncrement;
+			//REMOVE THIS CONDITION
+			if(competitionRegistration.getCompId() != 1){
+				String startingTeamCode = competitionRegistration.getCompId() + "SQRFACTOR";
+				List<CompetitionRegistration> competitionRegistrations = competitionRegistrationService.findByStartsWithTeamCode(startingTeamCode);
+				
+				String compTeamCode = "";
+				if(competitionRegistrations.isEmpty()){
+					Integer newIncrement = 1;
+					compTeamCode = startingTeamCode + newIncrement;
+				}else{
+					String currentIncrement = competitionRegistrations.get(competitionRegistrations.size() - 1).getCompTeamCode().substring(startingTeamCode.length());
+					Integer newIncrement = Integer.parseInt(currentIncrement) + 1;
+					compTeamCode = startingTeamCode + newIncrement;
+				}
+
+				//Set the team code
+				competitionRegistration.setCompTeamCode(compTeamCode);
 			}else{
-				String currentIncrement = competitionRegistrations.get(competitionRegistrations.size() - 1).getCompTeamCode().substring(startingTeamCode.length());
-				Integer newIncrement = Integer.parseInt(currentIncrement) + 1;
-				compTeamCode = startingTeamCode + newIncrement;
+
+				//Set the team code
+				competitionRegistration.setCompTeamCode(competitionRegistration.getCompTeamCode());
 			}
-			
-			//Set the team code
-			competitionRegistration.setCompTeamCode(compTeamCode);
 		}
 		
 		if(competitionRegistration.getCompUserRole().toLowerCase().equals("mentor")){
