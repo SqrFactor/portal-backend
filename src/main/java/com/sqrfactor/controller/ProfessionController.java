@@ -137,33 +137,37 @@ public class ProfessionController {
 		if (professions.isEmpty()) {
 			return new ResponseEntity<Profession>(HttpStatus.NOT_FOUND);
 		}
-		
-		//Sort to find the most recent
+
+		// Sort to find the most recent
 		professions.sort(new Comparator<Profession>() {
 			@Override
 			public int compare(Profession o1, Profession o2) {
-				Long o1ProfessionToDate = Long.parseLong(o1.getProfessionToDate());
-				Long o2ProfessionToDate = Long.parseLong(o2.getProfessionToDate());
-				Date now = new Date();
-				
-				if(o1.getProfessionToDate() == null){
-					o1ProfessionToDate = now.getTime(); 
-				}
-				if(o2.getProfessionToDate() == null){
-					o1ProfessionToDate = now.getTime();
-				}
-				
-				if(o1ProfessionToDate > o2ProfessionToDate){
-					return -1;
-				} else if(o1ProfessionToDate < o2ProfessionToDate){
-					return 1;
-				}else{
+				try {
+					Long o1ProfessionToDate = Long.parseLong(o1.getProfessionToDate());
+					Long o2ProfessionToDate = Long.parseLong(o2.getProfessionToDate());
+					Date now = new Date();
+
+					if (o1.getProfessionToDate() == null) {
+						o1ProfessionToDate = now.getTime();
+					}
+					if (o2.getProfessionToDate() == null) {
+						o1ProfessionToDate = now.getTime();
+					}
+
+					if (o1ProfessionToDate > o2ProfessionToDate) {
+						return -1;
+					} else if (o1ProfessionToDate < o2ProfessionToDate) {
+						return 1;
+					} else {
+						return 0;
+					}
+				} catch (Exception e) {
 					return 0;
 				}
 			}
 		});
-		
+
 		return new ResponseEntity<Profession>(professions.get(0), HttpStatus.OK);
 	}
-	
+
 }
