@@ -786,6 +786,30 @@
 	);
 
 	/**-------------------Competition Tables End--------------**/
+	
+	
+	
+	/**-------------------Annoucement Tables Start-------------------**/
+
+	Create table announcement_details(
+	announcementId		int(16) AUTO_INCREMENT NOT NULL,
+	userId     			int(16) NOT NULL, 
+	announcementType	varchar(50) NOT NULL,
+	announcementPic     varchar(500),
+	announcementTitle	varchar(100),
+	announcementDesc	varchar(500),
+	placeName 			VARCHAR(250),
+	placeAddress 		VARCHAR(250),
+	placeLat 			DECIMAL(10,8),
+	placeLng 			DECIMAL(11,8),
+	createdAt			TIMESTAMP,
+	PRIMARY KEY (announcementId),
+	FOREIGN KEY (userId) REFERENCES user_details(userId)
+	);
+
+	/**-------------------Announcement Tables End-------------------**/
+	
+	
 
 	/**-------------------Add Admin Account Start-------------------**/
 	Insert into user_details values (1, 'SqrFactor India', '', 'other', '7263957201' , 'create@sqrfactor.in', '2016-6-26', 'India' , 'Karnataka' , 'Bangalore' , 'A101', 1, 'Official SqrFactor\'s Account', '\\images\\logo.jpg');
