@@ -169,11 +169,15 @@ public class EnrichedConnectionController {
 		educations.sort(new Comparator<Education>() {
 			@Override
 			public int compare(Education o1, Education o2) {
-				if(Integer.parseInt(o1.getEducationToDate()) > Integer.parseInt(o2.getEducationToDate())){
-					return -1;
-				} else if(Integer.parseInt(o1.getEducationToDate()) < Integer.parseInt(o2.getEducationToDate())){
-					return 1;
-				}else{
+				try{
+					if(Integer.parseInt(o1.getEducationToDate()) > Integer.parseInt(o2.getEducationToDate())){
+						return -1;
+					} else if(Integer.parseInt(o1.getEducationToDate()) < Integer.parseInt(o2.getEducationToDate())){
+						return 1;
+					}else{
+						return 0;
+					}
+				}catch(Exception e){
 					return 0;
 				}
 			}
@@ -192,8 +196,16 @@ public class EnrichedConnectionController {
 		professions.sort(new Comparator<Profession>() {
 			@Override
 			public int compare(Profession o1, Profession o2) {
-				Long o1ProfessionToDate = Long.parseLong(o1.getProfessionToDate());
-				Long o2ProfessionToDate = Long.parseLong(o2.getProfessionToDate());
+				Long o1ProfessionToDate;
+				Long o2ProfessionToDate;
+				
+				try{
+					o1ProfessionToDate = Long.parseLong(o1.getProfessionToDate());
+					o2ProfessionToDate = Long.parseLong(o2.getProfessionToDate());
+				}catch(Exception e){
+					return 0;
+				}
+				
 				Date now = new Date();
 				
 				if(o1.getProfessionToDate() == null){
