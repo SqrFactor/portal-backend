@@ -58,6 +58,36 @@ public class Announcement {
 	    private Date createdAt;
 
 		public Announcement(){}
+		
+		/**
+		 * @param announcementId
+		 * @param userId
+		 * @param announcementType
+		 * @param announcementPic
+		 * @param announcementTitle
+		 * @param announcementDesc
+		 * @param placeName
+		 * @param placeAddress
+		 * @param placeLat
+		 * @param placeLng
+		 * @param createdAt
+		 */
+		public Announcement(Announcement announcement) {
+			super();
+			this.announcementId = announcement.getAnnouncementId();
+			this.userId = announcement.getUserId();
+			this.announcementType = announcement.getAnnouncementType();
+			this.announcementPic = announcement.getAnnouncementPic();
+			this.announcementTitle = announcement.getAnnouncementTitle();
+			this.announcementDesc = announcement.getAnnouncementDesc();
+			this.placeName = announcement.getPlaceName();
+			this.placeAddress = announcement.getPlaceAddress();
+			this.placeLat = announcement.getPlaceLat();
+			this.placeLng = announcement.getPlaceLng();
+			this.createdAt = announcement.getCreatedAt();
+		}
+
+
 
 		/**
 		 * @return the announcementId

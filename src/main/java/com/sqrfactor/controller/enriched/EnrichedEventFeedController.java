@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sqrfactor.model.Announcement;
+import com.sqrfactor.model.EnrichedAnnouncement;
 import com.sqrfactor.model.EnrichedEventFeed;
 import com.sqrfactor.model.User;
 import com.sqrfactor.model.competition.Competition;
@@ -26,6 +28,7 @@ import com.sqrfactor.model.competition.CompetitionSubmission;
 import com.sqrfactor.model.competition.EnrichedCompetition;
 import com.sqrfactor.model.competition.EnrichedCompetitionRegistration;
 import com.sqrfactor.model.competition.EventFeed;
+import com.sqrfactor.service.AnnouncementService;
 import com.sqrfactor.service.UserService;
 import com.sqrfactor.service.competition.CompetitionAwardService;
 import com.sqrfactor.service.competition.CompetitionJuryService;
@@ -69,6 +72,9 @@ public class EnrichedEventFeedController {
 	
 	@Autowired
 	private CompetitionPartnerService competitionPartnerService;
+	
+	@Autowired
+	private AnnouncementService announcementService;
 	
 	
 	/**
@@ -256,6 +262,49 @@ public class EnrichedEventFeedController {
 			competitionEventFeeds.add(competitionEventFeed);
 		}
 		return new ResponseEntity<List<CompetitionEventFeed>>(competitionEventFeeds, HttpStatus.OK);
+	}
+
+	/**
+	 * Find all event feeds for submissions 
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/eventfeed/enriched/announcements", method = RequestMethod.GET)
+	public ResponseEntity<List<AnnouncementEventFeed>> getAllAnnouncements() {
+		List<AnnouncementEventFeed> announcementEventFeeds = new ArrayList<>();
+		List<Announcement> announcements = announcementService.findAllAnnouncements();
+		
+		for(Announcement announcement : announcements){
+			String eventType = "Announcement";
+			long eventTypeId = announcement.getAnnouncementId();
+			
+			List<EventFeed> eventFeeds = eventFeedService.findAllByEventTypeAndEventTypeId(eventType, eventTypeId);
+			List<EnrichedEventFeed> enrichedEventFeeds = new ArrayList<>();
+			
+			//populate name and profile pic path for event feed userid
+			for(EventFeed eventFeed : eventFeeds){
+				User user = userService.findById(eventFeed.getUserId());
+				if(user == null){
+					continue;
+				}
+				String name = getName(user);
+				String profilePicPath = getProfilePicPath(user);
+				
+				EnrichedEventFeed enrichedEventFeed = new EnrichedEventFeed(eventFeed, name, profilePicPath);
+				enrichedEventFeeds.add(enrichedEventFeed);
+			}
+			
+			//Add the username also 
+			User announcementUser = userService.findById(announcement.getUserId());
+			String userName = "";
+			if(announcementUser != null){
+				userName = getName(announcementUser);
+			}
+						 
+			AnnouncementEventFeed announcementEventFeed = new AnnouncementEventFeed(announcement, userName, enrichedEventFeeds);
+			announcementEventFeeds.add(announcementEventFeed);
+		}
+		return new ResponseEntity<List<AnnouncementEventFeed>>(announcementEventFeeds, HttpStatus.OK);
 	}
 
 
@@ -482,4 +531,34 @@ public class EnrichedEventFeedController {
 		}
 
 	}
+	
+	private class AnnouncementEventFeed extends EnrichedAnnouncement{
+		
+		private List<EnrichedEventFeed> eventFeeds = new ArrayList<>();
+		
+		/**
+		 * @param eventFeeds
+		 */
+		public AnnouncementEventFeed(Announcement announcement, String userName, List<EnrichedEventFeed> eventFeeds) {
+			super(announcement, userName);
+			this.eventFeeds = eventFeeds;
+		}
+		
+		/**
+		 * @return the eventFeeds
+		 */
+		public List<EnrichedEventFeed> getEventFeeds() {
+			return eventFeeds;
+		}
+
+
+		/**
+		 * @param eventFeeds the eventFeeds to set
+		 */
+		public void setEventFeeds(List<EnrichedEventFeed> eventFeeds) {
+			this.eventFeeds = eventFeeds;
+		}
+
+	}
+
 }
