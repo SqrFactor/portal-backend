@@ -42,6 +42,7 @@ public class FeedDaoImpl extends AbstractDao<Long, Feed> implements FeedDao {
 	@Override
 	public List<Feed> findAllFeeds() {
 		Criteria criteria = createEntityCriteria();
+		criteria.addOrder( Order.desc("createdAt") );
 		return (List<Feed>) criteria.list();
 	}
 

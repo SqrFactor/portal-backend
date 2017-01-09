@@ -154,8 +154,84 @@ public class EnrichedFeedController {
 
 		// TODO Move this to dao
 		List<SpecialEnrichedFeed> specialEnrichedFeedsToReturn = new ArrayList<>();
-		for (int i = first; i < first + max && i < specialEnrichedFeedsToReturn.size(); i++) {
-			specialEnrichedFeedsToReturn.add(specialEnrichedFeedsToReturn.get(i));
+		for (int i = first; i < first + max && i < specialEnrichedFeeds.size(); i++) {
+			specialEnrichedFeedsToReturn.add(specialEnrichedFeeds.get(i));
+		}
+		return new ResponseEntity<List<SpecialEnrichedFeed>>(specialEnrichedFeedsToReturn, HttpStatus.OK);
+	}
+
+	/**
+	 * Get a Feed by Id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/enrichedfeed/public", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<SpecialEnrichedFeed>> getFeedById(
+			@RequestParam(value = "first", required = false) int first,
+			@RequestParam(value = "max", required = false) int max) {
+		List<SpecialEnrichedFeed> specialEnrichedFeeds = new ArrayList<>();
+
+		List<EnrichedFeed> enrichedFeeds = new ArrayList<EnrichedFeed>();
+		enrichedFeeds = getAllEnrichedFeeds();
+
+		if (enrichedFeeds.isEmpty()) {
+			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.OK);
+		}
+
+		// ADD CHILD REF
+		for (EnrichedFeed enrichedFeed : enrichedFeeds) {
+
+			// Refactor
+			List<EnrichedFeed> childFeeds = new ArrayList<EnrichedFeed>();
+
+			List<Feed> feeds = feedService.findByFeedRefId(enrichedFeed.getFeedId());
+			for (Feed feed : feeds) {
+				User user = userService.findById(feed.getUserId());
+
+				if (user == null) {
+					continue;
+				}
+
+				String name = getName(user);
+				String profilePicPath = getProfilePicPath(user);
+
+				long refUserId = 0;
+				String refName = "";
+				String refProfilePicPath = "";
+
+				Feed refFeed = feedService.findById(feed.getFeedRefId());
+				if (refFeed != null) {
+					User refUser = userService.findById(refFeed.getUserId());
+
+					if (refUser != null) {
+
+						refUserId = refUser.getUserId();
+						refName = getName(refUser);
+						refProfilePicPath = getProfilePicPath(refUser);
+					}
+				}
+
+				EnrichedFeed childFeed = new EnrichedFeed(feed, name, profilePicPath, refUserId, refName,
+						refProfilePicPath);
+				childFeeds.add(childFeed);
+			}
+
+			SpecialEnrichedFeed specialEnrichedFeed = new SpecialEnrichedFeed(enrichedFeed, childFeeds);
+			specialEnrichedFeeds.add(specialEnrichedFeed);
+		}
+
+		// Check if first max can return results
+		if (specialEnrichedFeeds.size() <= first) {
+			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.NOT_FOUND);
+		} else if (first == 0 && max == 0) {
+			return new ResponseEntity<List<SpecialEnrichedFeed>>(specialEnrichedFeeds, HttpStatus.OK);
+		}
+
+		// TODO Move this to dao
+		List<SpecialEnrichedFeed> specialEnrichedFeedsToReturn = new ArrayList<>();
+		for (int i = first; i < first + max && i < specialEnrichedFeeds.size(); i++) {
+			specialEnrichedFeedsToReturn.add(specialEnrichedFeeds.get(i));
 		}
 		return new ResponseEntity<List<SpecialEnrichedFeed>>(specialEnrichedFeedsToReturn, HttpStatus.OK);
 	}
@@ -381,6 +457,47 @@ public class EnrichedFeedController {
 		return enrichedFeeds;
 	}
 
+	private List<EnrichedFeed> getAllEnrichedFeeds() {
+		List<EnrichedFeed> enrichedFeeds = new ArrayList<EnrichedFeed>();
+		List<Feed> feeds = feedService.findAllFeeds();
+		for (Feed feed : feeds) {
+			User user = userService.findById(feed.getUserId());
+
+			// Remove Comments/like from feed
+			if (feed.getFeedActionId() == 1 || feed.getFeedActionId() == 2) {
+				continue;
+			}
+
+			if (user == null) {
+				continue;
+			}
+
+			String name = getName(user);
+			String profilePicPath = getProfilePicPath(user);
+
+			long refUserId = 0;
+			String refName = "";
+			String refProfilePicPath = "";
+
+			Feed refFeed = feedService.findById(feed.getFeedRefId());
+			if (refFeed != null) {
+				User refUser = userService.findById(refFeed.getUserId());
+
+				if (refUser != null) {
+					refUserId = refUser.getUserId();
+					refName = getName(refUser);
+					refProfilePicPath = getProfilePicPath(refUser);
+				}
+			}
+
+			EnrichedFeed enrichedFeed = new EnrichedFeed(feed, name, profilePicPath, refUserId, refName,
+					refProfilePicPath);
+			enrichedFeeds.add(enrichedFeed);
+		}
+		return enrichedFeeds;
+	}
+
+	
 	private String getName(User user) {
 		String firstName = "";
 		String lastName = "";
