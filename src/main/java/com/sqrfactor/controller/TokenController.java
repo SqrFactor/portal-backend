@@ -157,7 +157,7 @@ public class TokenController {
 				}
 				
 				if(uploaded){
-					profilePicPath = "http://d2v59i6n7k35i9.cloudfront.net" + destinationFilePath + "/" + destinationFileName;
+					profilePicPath = "https://d2v59i6n7k35i9.cloudfront.net" + destinationFilePath + "/" + destinationFileName;
 				}
 				
 				//Get the first and last name
