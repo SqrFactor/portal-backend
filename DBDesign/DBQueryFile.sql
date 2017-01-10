@@ -797,7 +797,7 @@
 	announcementType	varchar(50) NOT NULL,
 	announcementPic     varchar(500),
 	announcementTitle	varchar(100),
-	announcementDesc	varchar(500),
+	announcementDesc	varchar(1000),
 	placeName 			VARCHAR(250),
 	placeAddress 		VARCHAR(250),
 	placeLat 			DECIMAL(10,8),
