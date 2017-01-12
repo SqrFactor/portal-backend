@@ -446,7 +446,7 @@
 
 	Create table user_details(
 	userId       int(16) AUTO_INCREMENT  NOT NULL,
-	firstName    varchar(100)  ,
+	firstName    varchar(200)  ,
 	lastName     varchar(100),
 	gender		 varchar(10),
 	contactNo    varchar(20),
