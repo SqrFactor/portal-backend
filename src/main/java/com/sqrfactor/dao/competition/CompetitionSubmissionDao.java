@@ -21,5 +21,7 @@ public interface CompetitionSubmissionDao {
 
 	List<CompetitionSubmission> findAllByCompetitionId(long competitionId);
 	
+	List<CompetitionSubmission> findAllByCompIdAndTeamCode(long competitionId, String compTeamCode);
+	
 	CompetitionSubmission findByCompTeamCode(String teamCode);
 }

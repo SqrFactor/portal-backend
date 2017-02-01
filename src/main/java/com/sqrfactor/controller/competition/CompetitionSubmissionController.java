@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.competition.CompetitionSubmission;
@@ -61,7 +62,22 @@ public class CompetitionSubmissionController {
 		}
 		return new ResponseEntity<List<CompetitionSubmission>>(competitionSubmissions, HttpStatus.OK);
 	}
-
+	
+	/**
+	 * Get CompetitionSubmission by competitionId and compTeamCode
+	 * 
+	 * @param competitionId
+	 * @return
+	 */
+	@RequestMapping(value = "/competitionsubmission/team", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<CompetitionSubmission>> getCompetitionSubmissionByCompIdAndTeamCode(@RequestParam("compId") long compId, @RequestParam("compTeamCode") String compTeamCode) {
+		List<CompetitionSubmission> competitionSubmissions = competitionSubmissionService.findAllByCompIdAndTeamCode(compId, compTeamCode);
+		
+		if (competitionSubmissions.isEmpty()) {
+			return new ResponseEntity<List<CompetitionSubmission>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<CompetitionSubmission>>(competitionSubmissions, HttpStatus.OK);
+	}
 
 	/**
 	 * Create Competition Submission

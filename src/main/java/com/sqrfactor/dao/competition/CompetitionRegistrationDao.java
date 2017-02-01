@@ -21,6 +21,8 @@ public interface CompetitionRegistrationDao {
 	
 	List<CompetitionRegistration> findAllByCompetitionId(long competitionId);
 	
+	List<CompetitionRegistration> findAllByUserId(long userId);
+	
 	List<CompetitionRegistration> findByStartsWithTeamCode(String startingTeamCode);
 
 	CompetitionRegistration findByCompIdAndUserId(long compId, long userId);
