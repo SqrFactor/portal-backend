@@ -9,7 +9,9 @@ import java.io.IOException;
 
 import javax.servlet.annotation.MultipartConfig;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,4 +51,27 @@ public class UploadService {
 
 		return true;
 	}
+
+	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
+	public boolean uploadFile(@RequestParam("uploadedFile") String uploadedFile,
+			@RequestParam("filePath") String filePath, @RequestParam("fileName") String fileName,@RequestParam("fileType")String fileType) {
+
+		
+		String encodingPrefix = "base64,";
+		int contentStartIndex = uploadedFile.indexOf(encodingPrefix) + encodingPrefix.length();
+		byte[] imageData = Base64.decodeBase64(uploadedFile.substring(contentStartIndex));
+		
+		S3Upload s3Upload = new S3Upload();
+		String destinationFileName = fileName;
+		String destinationFilePath = filePath;
+		
+		boolean uploaded = s3Upload.uploadImage(imageData, destinationFilePath, destinationFileName, fileType);
+		
+		if (!uploaded) {
+			System.out.println("File Could not be uploaded");
+		}
+
+		return true;
+	}
+
 }
