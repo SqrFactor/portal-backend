@@ -502,6 +502,7 @@
 	professionFromDate varchar(100) NOT NULL,
 	professionToDate varchar(100),
 	professionToDateIsCurrent tinyint(1) DEFAULT 0,
+	coaNumber varchar(50),
 	PRIMARY KEY (id),
 	FOREIGN KEY (userId) REFERENCES user_details(userId)
 	);

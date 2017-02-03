@@ -55,6 +55,8 @@ public class ProfessionServiceImpl implements ProfessionService {
 			entity.setProfessionFromDate(profession.getProfessionFromDate());
 			entity.setProfessionToDate(profession.getProfessionToDate());
 			entity.setProfessionToDateIsCurrent(profession.isProfessionToDateIsCurrent());
+			entity.setCoaNumber(profession.getCoaNumber());
+			
 		}
 
 	}

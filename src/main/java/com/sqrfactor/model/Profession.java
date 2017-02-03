@@ -47,6 +47,9 @@ public class Profession {
 	@Column(name = "professionToDateIsCurrent")
 	boolean professionToDateIsCurrent; 
 	
+	@Column(name = "coaNumber")
+	String coaNumber;
+	
 	public Profession() {
 	}
 
@@ -59,9 +62,10 @@ public class Profession {
 	 * @param professionSalary
 	 * @param professionFromYear
 	 * @param professionToYear
+	 * @param coaNumber
 	 */
 	public Profession(long id, long userId, String professionType, String professionRole, String professionCompany,
-			String professionSalary, String professionFromDate, String professionToDate, boolean professionToDateIsCurrent) {
+			String professionSalary, String professionFromDate, String professionToDate, boolean professionToDateIsCurrent, String coaNumber) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -72,6 +76,7 @@ public class Profession {
 		this.professionFromDate = professionFromDate;
 		this.professionToDate = professionToDate;
 		this.professionToDateIsCurrent = professionToDateIsCurrent;
+		this.coaNumber = coaNumber;
 	}
 
 	/**
@@ -199,5 +204,18 @@ public class Profession {
 	public void setProfessionToDateIsCurrent(boolean professionToDateIsCurrent) {
 		this.professionToDateIsCurrent = professionToDateIsCurrent;
 	}
-	
+
+	/**
+	 * @return the coaNumber
+	 */
+	public String getCoaNumber() {
+		return coaNumber;
+	}
+
+	/**
+	 * @param coaNumber the coaNumber to set
+	 */
+	public void setCoaNumber(String coaNumber) {
+		this.coaNumber = coaNumber;
+	}
 }
