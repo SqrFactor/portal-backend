@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.competition.CompetitionResult;
@@ -56,6 +57,22 @@ public class CompetitionResultController {
 	@RequestMapping(value = "/competitionresult/compid/{competitionId}", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<List<CompetitionResult>> getCompetitionResultByCompetitionId(@PathVariable long competitionId) {
 		List<CompetitionResult> competitionResults = competitionResultService.findAllByCompetitionId(competitionId);
+		
+		if (competitionResults.isEmpty()) {
+			return new ResponseEntity<List<CompetitionResult>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<CompetitionResult>>(competitionResults, HttpStatus.OK);
+	}
+	
+	/**
+	 * Get CompetitionSubmission by competitionId and compTeamCode
+	 * 
+	 * @param competitionId
+	 * @return
+	 */
+	@RequestMapping(value = "/competitionresult/team", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<List<CompetitionResult>> getCompetitionResultByCompIdAndTeamCode(@RequestParam("compId") long compId, @RequestParam("compTeamCode") String compTeamCode) {
+		List<CompetitionResult> competitionResults = competitionResultService.findAllByCompIdAndTeamCode(compId, compTeamCode);
 		
 		if (competitionResults.isEmpty()) {
 			return new ResponseEntity<List<CompetitionResult>>(HttpStatus.NOT_FOUND);

@@ -62,4 +62,7 @@ public class CompetitionResultServiceImpl implements CompetitionResultService{
 		return competitionResultDao.findAllByCompetitionId(competitionId);
 	}
 
+	public List<CompetitionResult> findAllByCompIdAndTeamCode(long compId, String compTeamCode){
+		return competitionResultDao.findAllByCompIdAndTeamCode(compId, compTeamCode);
+	}
 }

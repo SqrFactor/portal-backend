@@ -22,5 +22,7 @@ public interface CompetitionResultService {
 	void deleteCompetitionResultById(long competitionResultId);
 	
 	public List<CompetitionResult> findAllByCompetitionId(long competitionId);
+	
+	public List<CompetitionResult> findAllByCompIdAndTeamCode(long compId, String compTeamCode);
 
 }
