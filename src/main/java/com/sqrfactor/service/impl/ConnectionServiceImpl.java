@@ -61,8 +61,8 @@ public class ConnectionServiceImpl implements ConnectionService {
 	}
 
 	@Override
-	public List<Connection> findConnectionsByDestinationId(long destinationId) {
-		return connectionDao.findConnectionsByDestinationId(destinationId);
+	public List<Connection> findConnectionsByDestinationId(long destinationId, int first, int max) {
+		return connectionDao.findConnectionsByDestinationId(destinationId, first, max);
 	}
 	
 	@Override

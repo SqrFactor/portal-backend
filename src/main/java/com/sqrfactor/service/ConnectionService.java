@@ -23,7 +23,7 @@ public interface ConnectionService {
 
 	List<Connection> findAllConnections();
 	
-	List<Connection> findConnectionsByDestinationId(long destinationId);
+	List<Connection> findConnectionsByDestinationId(long destinationId, int first, int max);
 
 	List<Connection> findConnectionsBySourceId(long sourceId);
 	

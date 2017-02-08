@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sqrfactor.model.College;
@@ -114,10 +115,12 @@ public class EnrichedConnectionController {
 	 */
 	@RequestMapping(value = "/connection/enriched/destinationid/{destinationId}", method = RequestMethod.GET)
 	public ResponseEntity<List<EnrichedConnectionWithRecent>> getConnectionsByDestinationId(
-			@PathVariable("destinationId") long destinationId) {
+			@PathVariable("destinationId") long destinationId,
+			@RequestParam(value = "first", required = false) int first,
+			@RequestParam(value = "max", required = false) int max) {
 		List<EnrichedConnectionWithRecent> enrichedConnectionsWithRecent = new ArrayList<EnrichedConnectionWithRecent>();
 
-		List<Connection> connections = connectionService.findConnectionsByDestinationId(destinationId);
+		List<Connection> connections = connectionService.findConnectionsByDestinationId(destinationId, first, max);
 		if (connections.isEmpty()) {
 			return new ResponseEntity<List<EnrichedConnectionWithRecent>>(HttpStatus.NOT_FOUND);
 		}
