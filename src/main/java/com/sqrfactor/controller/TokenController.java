@@ -3,6 +3,7 @@
  */
 package com.sqrfactor.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -475,6 +476,35 @@ public class TokenController {
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
+	/**
+	 * Verify invitation code
+	 * 
+	 * @param inviteCode
+	 * @return
+	 */
+	@RequestMapping(value = "/invitationj/verify", method = RequestMethod.GET, headers = "Accept=application/json")
+	public ResponseEntity<Map<String, Boolean>> verifyInvitationCodej(@RequestParam("invitationCode") String invitationCode) {
+		
+		//Exception for sqrfactor email
+		if(invitationCode.equals("create@sqrfactor.in") || invitationCode.equals("SQRDEC127") || invitationCode.equals("ARCHSQR")){
+			return new ResponseEntity<Map<String, Boolean>>(Collections.singletonMap("success", true), HttpStatus.OK);
+		}
+		
+		User user = userService.findByEmailId(invitationCode);
+		if(user == null){
+			return new ResponseEntity<Map<String, Boolean>>(Collections.singletonMap("success", false),HttpStatus.OK);
+		}
+		
+		List<Invitation> invitations = invitationService.findByInvitedByUserId(user.getUserId());
+		
+		if(invitations.size() < 2){
+			return new ResponseEntity<Map<String, Boolean>>(Collections.singletonMap("success", true),HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<Map<String, Boolean>>(Collections.singletonMap("success", false), HttpStatus.OK);
+	}
+
+	
 	
 	/**
 	 * Save Invitation
