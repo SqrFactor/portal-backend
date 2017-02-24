@@ -486,7 +486,8 @@ public class TokenController {
 	public ResponseEntity<Map<String, Boolean>> verifyInvitationCodej(@RequestParam("invitationCode") String invitationCode) {
 		
 		//Exception for sqrfactor email
-		if(invitationCode.equals("create@sqrfactor.in") || invitationCode.equals("SQRDEC127") || invitationCode.equals("ARCHSQR")){
+		if(invitationCode.equals("create@sqrfactor.in") || invitationCode.equals("SQRDEC127") || invitationCode.equals("ARCHSQR") 
+				|| invitationCode.equals("ARCHMBL") || invitationCode.equals("archmbl")){
 			return new ResponseEntity<Map<String, Boolean>>(Collections.singletonMap("success", true), HttpStatus.OK);
 		}
 		
