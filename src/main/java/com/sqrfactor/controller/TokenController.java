@@ -110,6 +110,39 @@ public class TokenController {
 	}
 
 	/**
+	 * Authenticate login
+	 * 
+	 * @param login
+	 */
+	@RequestMapping(value = "/login/iphone/authenticate", method = RequestMethod.POST)
+	public ResponseEntity<LoginIphoneResponse> authenticateIphoneLogin(@RequestBody Map<String, String> loginMap) {
+		if (!loginMap.containsKey("username") || !loginMap.containsKey("password")) {
+			return new ResponseEntity<LoginIphoneResponse>(HttpStatus.BAD_REQUEST);
+		}
+
+		String username = loginMap.get("username");
+		String password = loginMap.get("password");
+
+		if (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password)) {
+			return new ResponseEntity<LoginIphoneResponse>(HttpStatus.BAD_REQUEST);
+		}
+
+		Login login = loginService.findByUsername(username);
+
+		if (login != null && login.getUserPassword().equals(password)) {
+			String token = AuthUtils.createToken(login.getUserName(), login.getUserId()); 
+			LoginIphoneResponse response = new LoginIphoneResponse(login.getUserId(), login.getUserName(), token, "Success");
+			
+			return new ResponseEntity<LoginIphoneResponse>(response, HttpStatus.OK);
+		} else {
+			LoginIphoneResponse response = new LoginIphoneResponse(0, null, null, "Invalid Credentials");
+			return new ResponseEntity<LoginIphoneResponse>(response, HttpStatus.OK);
+		}
+
+	}
+	
+	
+	/**
 	 * Authenticate Social login
 	 * 
 	 * @param login
@@ -425,7 +458,22 @@ public class TokenController {
         	this.token = token;
         }
     }
-	
+
+	@SuppressWarnings("unused")
+    private class LoginIphoneResponse {
+		public long userId;
+		public String userName;
+		public String token;
+		public String message;
+
+        public LoginIphoneResponse(final long userId, final String userName, final String token, String message) {
+            this.userId = userId;
+            this.userName = userName;
+        	this.token = token;
+        	this.message = message;
+        }
+    }
+
 	/**
 	 * 
 	 * @param user
