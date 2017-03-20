@@ -103,9 +103,10 @@ public class TokenController {
 			LoginResponse response = new LoginResponse(login.getUserId(), login.getUserName(), token);
 			
 			return new ResponseEntity<LoginResponse>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<LoginResponse>(HttpStatus.UNAUTHORIZED);
 		}
 
-		return new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
 	}
 
 	/**
