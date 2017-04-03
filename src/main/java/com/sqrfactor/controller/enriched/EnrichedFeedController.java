@@ -168,8 +168,8 @@ public class EnrichedFeedController {
 	 */
 	@RequestMapping(value = "/enrichedfeed/public", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<List<SpecialEnrichedFeed>> getFeedById(
-			@RequestParam(value = "first", required = false) int first,
-			@RequestParam(value = "max", required = false) int max) {
+			@RequestParam(value = "first", required = false) Integer first,
+			@RequestParam(value = "max", required = false) Integer max) {
 		List<SpecialEnrichedFeed> specialEnrichedFeeds = new ArrayList<>();
 
 		List<EnrichedFeed> enrichedFeeds = new ArrayList<EnrichedFeed>();

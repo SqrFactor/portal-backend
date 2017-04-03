@@ -4,6 +4,7 @@
 package com.sqrfactor.controller.enriched;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -179,7 +180,7 @@ public class EnrichedMessageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/message/enriched/usermessage/{userId}", method = RequestMethod.GET, headers = "Accept=application/json")
-	public ResponseEntity<List<EnrichedUserMessage>> getUserMessagesByUserId(@PathVariable("userId") long userId) {
+	public ResponseEntity<List<EnrichedUserMessage>> getUserMessagesByUserId(@PathVariable("userId") long userId, @RequestParam(value = "recentOnly", required = false, defaultValue = "false") boolean recentOnly) {
 		
 		//TODO refactor
 		List<EnrichedUserMessage> enrichedUserMessages = new ArrayList<>();
@@ -250,6 +251,23 @@ public class EnrichedMessageController {
 			
 			String userName = getName(user.getUserId());
 			String profilePicPath = getProfilePic(user.getUserId());
+			
+			if(recentOnly){
+				entry.getValue().sort(new Comparator<EnrichedMessage>() {
+				 
+				public int compare(EnrichedMessage o1, EnrichedMessage o2) {
+					if(o1.getCreatedAt().getTime() > o2.getCreatedAt().getTime()){
+						return 1;
+					}else if(o1.getCreatedAt().getTime() < o2.getCreatedAt().getTime()){
+						return -1;
+					}
+					return 0;
+				}
+				});
+				List<EnrichedMessage> tempList = new ArrayList<>();
+				tempList.add(entry.getValue().get(0));
+				entry.setValue(tempList);
+			}
 			
 			EnrichedUserMessage enrichedUserMessage = new EnrichedUserMessage(user.getUserId(), userName, profilePicPath, entry.getValue());
 			enrichedUserMessages.add(enrichedUserMessage);
