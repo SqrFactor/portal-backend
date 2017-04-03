@@ -147,7 +147,7 @@ public class EnrichedFeedController {
 
 		// Check if first max can return results
 		if (specialEnrichedFeeds.size() <= first) {
-			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.OK);
 		} else if (first == 0 && max == 0) {
 			return new ResponseEntity<List<SpecialEnrichedFeed>>(specialEnrichedFeeds, HttpStatus.OK);
 		}
@@ -168,8 +168,8 @@ public class EnrichedFeedController {
 	 */
 	@RequestMapping(value = "/enrichedfeed/public", method = RequestMethod.GET, headers = "Accept=application/json")
 	public ResponseEntity<List<SpecialEnrichedFeed>> getFeedById(
-			@RequestParam(value = "first", required = false) Integer first,
-			@RequestParam(value = "max", required = false) Integer max) {
+			@RequestParam(value = "first", required = false, defaultValue = "0") int first,
+			@RequestParam(value = "max", required = false, defaultValue = "0") int max) {
 		List<SpecialEnrichedFeed> specialEnrichedFeeds = new ArrayList<>();
 
 		List<EnrichedFeed> enrichedFeeds = new ArrayList<EnrichedFeed>();
@@ -223,7 +223,7 @@ public class EnrichedFeedController {
 
 		// Check if first max can return results
 		if (specialEnrichedFeeds.size() <= first) {
-			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.OK);
 		} else if (first == 0 && max == 0) {
 			return new ResponseEntity<List<SpecialEnrichedFeed>>(specialEnrichedFeeds, HttpStatus.OK);
 		}
@@ -278,7 +278,7 @@ public class EnrichedFeedController {
 			enrichedFeeds.add(enrichedFeed);
 		}
 		if (enrichedFeeds.isEmpty()) {
-			return new ResponseEntity<List<EnrichedFeed>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<EnrichedFeed>>(HttpStatus.OK);
 		}
 
 		return new ResponseEntity<List<EnrichedFeed>>(enrichedFeeds, HttpStatus.OK);
@@ -307,7 +307,7 @@ public class EnrichedFeedController {
 		}
 
 		if (enrichedFeeds.isEmpty()) {
-			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.OK);
 		}
 
 		// ADD CHILD REF
@@ -404,7 +404,7 @@ public class EnrichedFeedController {
 
 		// Check if first max can return results
 		if (specialEnrichedFeeds.size() <= first) {
-			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<SpecialEnrichedFeed>>(HttpStatus.OK);
 		} else if (first == 0 && max == 0) {
 			return new ResponseEntity<List<SpecialEnrichedFeed>>(specialEnrichedFeeds, HttpStatus.OK);
 		}

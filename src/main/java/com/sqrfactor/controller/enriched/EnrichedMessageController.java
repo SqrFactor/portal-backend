@@ -252,13 +252,14 @@ public class EnrichedMessageController {
 			String userName = getName(user.getUserId());
 			String profilePicPath = getProfilePic(user.getUserId());
 			
+			//Changes for getting only the most recent message
 			if(recentOnly){
 				entry.getValue().sort(new Comparator<EnrichedMessage>() {
 				 
 				public int compare(EnrichedMessage o1, EnrichedMessage o2) {
-					if(o1.getCreatedAt().getTime() > o2.getCreatedAt().getTime()){
+					if(o1.getCreatedAt().getTime() < o2.getCreatedAt().getTime()){
 						return 1;
-					}else if(o1.getCreatedAt().getTime() < o2.getCreatedAt().getTime()){
+					}else if(o1.getCreatedAt().getTime() > o2.getCreatedAt().getTime()){
 						return -1;
 					}
 					return 0;
