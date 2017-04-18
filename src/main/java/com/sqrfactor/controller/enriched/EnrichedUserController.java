@@ -89,11 +89,27 @@ public class EnrichedUserController {
 		educations.sort(new Comparator<Education>() {
 			@Override
 			public int compare(Education o1, Education o2) {
-				if(Integer.parseInt(o1.getEducationToDate()) > Integer.parseInt(o2.getEducationToDate())){
-					return -1;
-				} else if(Integer.parseInt(o1.getEducationToDate()) < Integer.parseInt(o2.getEducationToDate())){
-					return 1;
-				}else{
+				try {
+					Long o1EducationToDate = Long.parseLong(o1.getEducationToDate());
+					Long o2EducationToDate = Long.parseLong(o2.getEducationToDate());
+
+					Date now = new Date();
+
+					if (o1.getEducationToDate() == null) {
+						o1EducationToDate = now.getTime();
+					}
+					if (o2.getEducationToDate() == null) {
+						o1EducationToDate = now.getTime();
+					}
+
+					if (o1EducationToDate > o2EducationToDate) {
+						return -1;
+					} else if (o1EducationToDate < o2EducationToDate) {
+						return 1;
+					} else {
+						return 0;
+					}
+				} catch (Exception e) {
 					return 0;
 				}
 			}
